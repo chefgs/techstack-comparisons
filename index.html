@@ -387,11 +387,14 @@
             <li>Not a full framework — needs bundler, router, state management</li>
             <li>Virtual DOM overhead in extreme cases</li>
             <li>JSX learning curve</li>
+            <li>⚠️ Pulls in 800–1,200+ transitive npm packages — huge attack surface</li>
+            <li>⚠️ <code>dangerouslySetInnerHTML</code> misuse leads directly to XSS</li>
+            <li>⚠️ Version churn — frequent major version releases (v16 → v18 → v19) with breaking changes requiring ongoing migration effort</li>
           </ul>
           <div class="tag-row">
             <span class="tag yellow">Component Library</span>
             <span class="tag green">Huge Ecosystem</span>
-            <span class="tag">SPA</span>
+            <span class="tag red">High Dep Risk</span>
           </div>
         </div>
 
@@ -410,6 +413,8 @@
           <ul>
             <li>Smaller enterprise adoption vs React</li>
             <li>Two API styles can confuse newcomers</li>
+            <li>⚠️ <code>v-html</code> directive bypasses auto-escaping — XSS risk if used with user data</li>
+            <li>⚠️ npm dependency chain still sizeable — ~600–900 transitive packages typical</li>
           </ul>
           <div class="tag-row">
             <span class="tag green">Easy to Learn</span>
@@ -434,6 +439,8 @@
             <li>High boilerplate &amp; steep learning curve</li>
             <li>Heavier bundle size</li>
             <li>Overkill for small apps</li>
+            <li>⚠️ <code>bypassSecurityTrustHtml</code> / <code>bypassSecurityTrustUrl</code> — easy to misuse and open XSS</li>
+            <li>⚠️ Still relies on npm — enterprise apps commonly exceed 1,000 transitive packages</li>
           </ul>
           <div class="tag-row">
             <span class="tag red">Enterprise</span>
@@ -458,6 +465,8 @@
             <li>Smaller ecosystem than React/Vue</li>
             <li>Less talent availability</li>
             <li>SvelteKit still maturing</li>
+            <li>⚠️ <code>{@html}</code> directive bypasses escaping — XSS risk with untrusted content</li>
+            <li>⚠️ Smaller ecosystem means less community security scrutiny on packages</li>
           </ul>
           <div class="tag-row">
             <span class="tag green">No Virtual DOM</span>
@@ -480,6 +489,7 @@
           <ul>
             <li>Small community &amp; ecosystem</li>
             <li>Reactivity model differs from React</li>
+            <li>⚠️ Niche ecosystem — less security auditing of available packages</li>
           </ul>
           <div class="tag-row">
             <span class="tag green">Fine-grained Reactivity</span>
@@ -527,10 +537,18 @@
             <li>API Routes / Route Handlers</li>
             <li>Excellent TypeScript support</li>
           </ul>
+          <h4>Trade-offs &amp; Risks</h4>
+          <ul>
+            <li>⚠️ Strong Vercel vendor lock-in for advanced features</li>
+            <li>⚠️ Inherits React's full npm dependency tree — 900–1,200+ transitive packages</li>
+            <li>⚠️ Server Actions introduce server-side vulnerabilities if not validated (CVE-2024-34351)</li>
+            <li>⚠️ App Router complexity increases attack surface for misconfigured cache/auth</li>
+          </ul>
           <div class="tag-row">
             <span class="tag green">SSR + SSG</span>
             <span class="tag">Edge Ready</span>
             <span class="tag blue">Full-stack</span>
+            <span class="tag red">High Dep Risk</span>
           </div>
         </div>
 
@@ -545,9 +563,16 @@
             <li>Layers system for modular apps</li>
             <li>Nitro server engine</li>
           </ul>
+          <h4>Trade-offs &amp; Risks</h4>
+          <ul>
+            <li>⚠️ Auto-imports can obscure the dependency graph — harder to audit</li>
+            <li>⚠️ npm dependency chain — ~700–1,000 transitive packages typical</li>
+            <li>⚠️ Server-side rendering adds node.js exposure to injection if inputs aren't sanitized</li>
+          </ul>
           <div class="tag-row">
             <span class="tag green">SSR + SSG</span>
             <span class="tag yellow">Vue Ecosystem</span>
+            <span class="tag red">Medium-High Dep Risk</span>
           </div>
         </div>
 
@@ -561,6 +586,12 @@
             <li>Adapters for Vercel, Cloudflare, Node, and more</li>
             <li>Progressive enhancement built-in</li>
             <li>Load functions for data fetching</li>
+          </ul>
+          <h4>Trade-offs &amp; Risks</h4>
+          <ul>
+            <li>⚠️ Still npm-based — runtime dependency risk at build time</li>
+            <li>⚠️ Smaller community → fewer eyes on security issues</li>
+            <li>⚠️ Ships less client JS than React/Vue, reducing XSS attack surface — but adding framework islands reintroduces that risk</li>
           </ul>
           <div class="tag-row">
             <span class="tag green">Minimal JS</span>
@@ -579,6 +610,12 @@
             <li>Works without JavaScript (progressive enhancement)</li>
             <li>Edge-first architecture</li>
           </ul>
+          <h4>Trade-offs &amp; Risks</h4>
+          <ul>
+            <li>⚠️ React-based — inherits npm dependency risk</li>
+            <li>⚠️ Merging with React Router adds migration uncertainty</li>
+            <li>⚠️ Loader functions must validate and sanitize inputs to prevent injection</li>
+          </ul>
           <div class="tag-row">
             <span class="tag blue">Web Standards</span>
             <span class="tag green">Progressive</span>
@@ -595,6 +632,12 @@
             <li>Supports React, Vue, Svelte, Solid simultaneously</li>
             <li>Best for content sites, blogs, docs, marketing</li>
             <li>View Transitions API built-in</li>
+          </ul>
+          <h4>Trade-offs &amp; Risks</h4>
+          <ul>
+            <li>⚠️ Adding framework islands (React/Vue) brings their full npm dependency trees and XSS risks</li>
+            <li>⚠️ Build-time dependencies still subject to supply-chain risk despite zero runtime JS default</li>
+            <li>⚠️ Zero JS default limits rich interactivity — islands pattern required for dynamic components</li>
           </ul>
           <div class="tag-row">
             <span class="tag green">Zero JS Default</span>
@@ -950,15 +993,15 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>React</td><td>Component library</td><td>Medium</td><td>~40KB (core)</td><td>CSR / SSR (Next)</td><td>Large SPAs, dashboards</td><td><span class="tag yellow">Medium (ecosystem)</span></td></tr>
-            <tr><td>Vue.js</td><td>Progressive framework</td><td>Easy</td><td>~35KB</td><td>CSR / SSR (Nuxt)</td><td>Medium apps, Laravel integration</td><td><span class="tag green">Low–Medium</span></td></tr>
-            <tr><td>Angular</td><td>Full framework</td><td>Hard</td><td>~130KB+</td><td>CSR / SSR</td><td>Enterprise apps</td><td><span class="tag green">Low (Google backed)</span></td></tr>
-            <tr><td>Svelte</td><td>Compiler</td><td>Easy–Medium</td><td>~5KB</td><td>CSR / SSR (Kit)</td><td>Perf-critical apps</td><td><span class="tag green">Very Low</span></td></tr>
-            <tr><td>Next.js</td><td>Meta-framework</td><td>Medium</td><td>Varies</td><td>SSR, SSG, ISR, Edge</td><td>Production React apps</td><td><span class="tag yellow">Medium</span></td></tr>
-            <tr><td>Nuxt.js</td><td>Meta-framework</td><td>Medium</td><td>Varies</td><td>SSR, SSG</td><td>Production Vue apps</td><td><span class="tag yellow">Low–Medium</span></td></tr>
-            <tr><td>Astro</td><td>SSG + Islands</td><td>Easy</td><td>~0KB JS default</td><td>SSG, SSR optional</td><td>Content sites, docs</td><td><span class="tag green">Very Low</span></td></tr>
-            <tr><td>HTMX</td><td>HTML extension</td><td>Easy</td><td>~14KB</td><td>Server-driven HTML</td><td>Server-first with interactivity</td><td><span class="tag green">Minimal</span></td></tr>
-            <tr><td>Alpine.js</td><td>Minimal reactive</td><td>Easy</td><td>~15KB</td><td>CSR on server HTML</td><td>Sprinkles on server pages</td><td><span class="tag green">Minimal</span></td></tr>
+            <tr><td>React</td><td>Component library</td><td>Medium</td><td>~40KB (core)</td><td>CSR / SSR (Next)</td><td>Large SPAs, dashboards</td><td><span class="tag red">High (800–1,200+ transitive deps)</span></td></tr>
+            <tr><td>Vue.js</td><td>Progressive framework</td><td>Easy</td><td>~35KB</td><td>CSR / SSR (Nuxt)</td><td>Medium apps, Laravel integration</td><td><span class="tag yellow">Medium (600–900 transitive deps)</span></td></tr>
+            <tr><td>Angular</td><td>Full framework</td><td>Hard</td><td>~130KB+</td><td>CSR / SSR</td><td>Enterprise apps</td><td><span class="tag yellow">Medium-High (npm ecosystem)</span></td></tr>
+            <tr><td>Svelte</td><td>Compiler</td><td>Easy–Medium</td><td>~5KB</td><td>CSR / SSR (Kit)</td><td>Perf-critical apps</td><td><span class="tag green">Low (build-time only, minimal runtime)</span></td></tr>
+            <tr><td>Next.js</td><td>Meta-framework</td><td>Medium</td><td>Varies</td><td>SSR, SSG, ISR, Edge</td><td>Production React apps</td><td><span class="tag red">High (inherits React tree + Vercel deps)</span></td></tr>
+            <tr><td>Nuxt.js</td><td>Meta-framework</td><td>Medium</td><td>Varies</td><td>SSR, SSG</td><td>Production Vue apps</td><td><span class="tag yellow">Medium-High (Vue + Nitro deps)</span></td></tr>
+            <tr><td>Astro</td><td>SSG + Islands</td><td>Easy</td><td>~0KB JS default</td><td>SSG, SSR optional</td><td>Content sites, docs</td><td><span class="tag green">Very Low (build-time, no client deps)</span></td></tr>
+            <tr><td>HTMX</td><td>HTML extension</td><td>Easy</td><td>~14KB</td><td>Server-driven HTML</td><td>Server-first with interactivity</td><td><span class="tag green">Minimal (single file, no npm)</span></td></tr>
+            <tr><td>Alpine.js</td><td>Minimal reactive</td><td>Easy</td><td>~15KB</td><td>CSR on server HTML</td><td>Sprinkles on server pages</td><td><span class="tag green">Minimal (single file, no npm)</span></td></tr>
             <tr><td>Laravel/Blade</td><td>PHP MVC</td><td>Medium</td><td>N/A (server)</td><td>SSR</td><td>PHP web apps</td><td><span class="tag yellow">Composer-managed</span></td></tr>
             <tr><td>Streamlit</td><td>Python web app</td><td>Very Easy</td><td>N/A</td><td>SSR (Python)</td><td>Data / ML demos</td><td><span class="tag yellow">Pip-managed</span></td></tr>
             <tr><td>Tailwind CSS</td><td>CSS utility</td><td>Easy</td><td>~5–20KB purged</td><td>Any</td><td>Any project</td><td><span class="tag green">Very Low</span></td></tr>
@@ -1555,6 +1598,23 @@
       <div class="tag-row"><span class="tag yellow">npm audit</span><span class="tag">Renovate</span></div>
     </div>
 
+    <div class="card sec-card" style="border-left: 3px solid var(--clr-red);">
+      <div class="card-icon">🚨</div>
+      <h3>JS Ecosystem — Elevated Risk Profile</h3>
+      <p style="font-size:.85rem;color:var(--clr-muted);margin-bottom:.5rem;">npm is the world's largest package registry (&gt;2.5 million packages) — and its scale is also its greatest risk.</p>
+      <ul>
+        <li>⚠️ A typical React/Next.js app installs <strong>800–1,200+ transitive packages</strong> — each an independent attack vector</li>
+        <li>⚠️ <strong>postinstall hooks</strong> run arbitrary code at <code>npm install</code> time — without user confirmation</li>
+        <li>⚠️ <strong>Prototype pollution</strong> in widely-used packages (lodash CVE-2020-8203, jQuery, etc.) can lead to RCE</li>
+        <li>⚠️ <strong>Supply-chain attacks on npm</strong>: event-stream (2018), ua-parser-js (2021), node-ipc (2022), colors.js (2022)</li>
+        <li>⚠️ <strong>Dependency confusion</strong> attacks: malicious public packages shadow private internal package names</li>
+        <li>⚠️ <strong>Typosquatting</strong>: packages like <code>crossenv</code> (vs <code>cross-env</code>) were downloaded millions of times before removal</li>
+        <li>⚠️ <strong>Abandoned maintainer accounts</strong> can be taken over and used to push malicious versions</li>
+        <li>⚠️ <code>npm audit</code> typically reports <strong>dozens of vulnerabilities</strong> in a fresh scaffold; many are false positives, but critical ones need triage</li>
+      </ul>
+      <div class="tag-row"><span class="tag red">High Transitive Risk</span><span class="tag yellow">Prototype Pollution</span><span class="tag red">Supply Chain</span></div>
+    </div>
+
     <div class="card sec-card">
       <div class="card-icon">🧪</div>
       <h3>SAST &amp; DAST Tools</h3>
@@ -1596,7 +1656,7 @@
         </tr>
         <tr>
           <td>Node.js / npm</td><td><code>npm / pnpm / yarn</code></td><td>✅ package-lock</td><td><code>npm audit</code></td>
-          <td><span class="tag yellow">Medium–High</span></td><td><span class="tag red">postinstall hooks</span></td><td><span class="tag yellow">Medium</span></td>
+          <td><span class="tag yellow">Medium–High</span></td><td><span class="tag red">postinstall hooks</span></td><td><span class="tag red">High</span></td>
         </tr>
         <tr>
           <td>Python / pip</td><td><code>pip / uv / poetry</code></td><td>⚠️ requirements.txt</td><td><code>pip-audit</code></td>
@@ -1651,8 +1711,8 @@
   <div class="callout callout-warn" style="margin-top:1rem;">
     <div class="callout-icon">⚠️</div>
     <div class="callout-body">
-      <strong>Reducing Dependency Risk</strong>
-      <p>The fewer dependencies you have, the smaller your attack surface. <strong>Go</strong> and <strong>Rust</strong> have smaller ecosystems — which is actually a security advantage. In <strong>Node.js</strong>, a typical app pulls in 1,000+ transitive packages. Prefer pnpm + lockfile + <code>npm audit</code> + Socket.dev scanning in CI.</p>
+      <strong>JS/npm Dependency Risk Is Real — and Often Underestimated</strong>
+      <p>The fewer dependencies you have, the smaller your attack surface. <strong>Go</strong> and <strong>Rust</strong> have smaller ecosystems — which is actually a security advantage. In <strong>Node.js</strong>, a typical app pulls in 1,000+ transitive packages. Confirmed real-world supply chain attacks against npm include <strong>event-stream</strong> (cryptocurrency theft, 2018), <strong>ua-parser-js</strong> (crypto miner + password stealer, 2021), <strong>node-ipc</strong> (deliberate wiper malware, 2022), and <strong>colors.js</strong> (deliberate corruption, 2022). Prefer pnpm + lockfile + <code>npm audit</code> + Socket.dev scanning in CI. Evaluate each new dependency critically — ask: "do I really need this package?"</p>
     </div>
   </div>
   <div class="callout callout-bad" style="margin-top:1rem;">

@@ -585,13 +585,27 @@
     <ul>
       <li><strong>Cargo (Rust)</strong> — Lowest risk. Packages are identified by crate name + author. <code>cargo-audit</code> scans for CVEs. Build scripts (<code>build.rs</code>) can execute code, which is the main vector to monitor.</li>
       <li><strong>Go modules</strong> — Very low risk. Module identity includes the full domain path (e.g., <code>github.com/org/repo</code>), making impersonation harder. <code>go.sum</code> checksum verification provides integrity. No arbitrary code execution on module download.</li>
-      <li><strong>npm (Node.js)</strong> — Medium-high risk. <code>postinstall</code> scripts can execute arbitrary code at install time. The ecosystem has ~2 million packages, making vetting difficult. Transitive dependency depth is commonly 1,000+ packages for a typical app.</li>
+      <li><strong>npm (Node.js) — HIGH RISK:</strong> <code>postinstall</code> scripts execute arbitrary code at install time without user confirmation. The ecosystem exceeds 2.5 million packages. Transitive dependency depth is commonly 1,000+ packages for a typical React app. Prototype pollution vulnerabilities (lodash CVE-2020-8203, jQuery CVE-2019-11358) have affected millions of apps. Confirmed real-world attacks: event-stream (crypto theft, 2018), ua-parser-js (miner + stealer, 2021), node-ipc (deliberate wiper, 2022), colors.js (deliberate corruption, 2022). Dependency confusion and typosquatting attacks are regularly discovered on npm.</li>
       <li><strong>pip (Python)</strong> — Highest risk of these four. <code>setup.py</code> executes arbitrary code at install time. PyPI's namespace is flat (one global namespace), making typosquatting easy. The <code>pip-audit</code> tool helps, but the fundamental namespace and install-time execution risks require architectural responses.</li>
     </ul>
 
     <div class="callout callout-warn">
       <div class="callout-icon">⚠️</div>
       <div><p><strong>npm transitive dependencies:</strong> A React app created with <code>create-react-app</code> or Vite will pull in approximately 800–1,200 transitive npm packages on install. Each of these is a separate attack surface. Minimize dependencies where possible and audit regularly.</p></div>
+    </div>
+
+    <div class="callout callout-bad">
+      <div class="callout-icon">🚨</div>
+      <div>
+        <p><strong>JS-Specific Vulnerability Classes to Know:</strong></p>
+        <ul>
+          <li><strong>Prototype pollution</strong> — an attacker manipulates <code>Object.prototype</code> via unsanitized input to <code>merge</code>, <code>clone</code>, or similar utilities. Can lead to Remote Code Execution (RCE) in Node.js server contexts. Affected lodash, jQuery, minimist, and others.</li>
+          <li><strong>ReDoS (RegEx Denial of Service)</strong> — catastrophic backtracking in regular expressions used in npm packages (e.g., <code>ua-parser</code>, <code>moment.js</code>) can freeze a Node.js server for seconds.</li>
+          <li><strong>dangerouslySetInnerHTML / v-html / {@html}</strong> — React, Vue, and Svelte all provide raw HTML injection escapes. Misuse with user-controlled data leads directly to stored XSS.</li>
+          <li><strong>Server-Side Request Forgery (SSRF) in SSR frameworks</strong> — Next.js Server Actions, Nuxt server routes, and Remix loaders that fetch URLs based on user input without allowlist validation are vulnerable to SSRF.</li>
+          <li><strong>eval() and Function() constructors</strong> — common in older npm packages for dynamic behaviour; creates RCE vectors if user input reaches them.</li>
+        </ul>
+      </div>
     </div>
 
     <h2>The Defence Stack: Seven Layers</h2>
