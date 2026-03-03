@@ -1,0 +1,88 @@
+# ============================================================
+# GitHub Pages Deployment — TechStack Comparisons
+#
+# Deploys the static site to GitHub Pages on every push to
+# the default branch (main / master).
+#
+# Required one-time repo setup:
+#   Settings → Pages → Source → "GitHub Actions"
+# ============================================================
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  # Allow manual re-deployment from the Actions tab
+  workflow_dispatch:
+
+# Grant the GITHUB_TOKEN the minimum permissions needed for Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment runs at a time; cancel in-progress on new push
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # ----------------------------------------------------------
+  # Job 1: Build (validate HTML + collect artifacts)
+  # ----------------------------------------------------------
+  build:
+    name: Build Site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate HTML structure
+        run: |
+          echo "=== Checking required files exist ==="
+          test -f index.html   && echo "✅ index.html found"   || (echo "❌ index.html missing" && exit 1)
+          test -f css/styles.css && echo "✅ css/styles.css found" || (echo "❌ css/styles.css missing" && exit 1)
+          test -f js/main.js   && echo "✅ js/main.js found"   || (echo "❌ js/main.js missing" && exit 1)
+          echo "=== All required files present ==="
+
+      - name: Check for broken internal asset references
+        run: |
+          echo "=== Checking asset references in index.html ==="
+          # Verify every local href/src referenced in HTML actually exists
+          grep -oP '(?<=href="|src=")[^"]+' index.html | grep -v '^http' | grep -v '^#' | while read -r ref; do
+            if [ -f "$ref" ]; then
+              echo "✅  $ref"
+            else
+              echo "❌  $ref (not found)"
+              exit 1
+            fi
+          done
+          echo "=== Asset reference check passed ==="
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # Upload the entire repo root as the site
+          path: .
+
+  # ----------------------------------------------------------
+  # Job 2: Deploy to GitHub Pages
+  # ----------------------------------------------------------
+  deploy:
+    name: Deploy to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
