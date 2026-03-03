@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enterprise Tech Stack Documentation — TechStack Comparisons</title>
+  <meta name="description" content="In-depth enterprise documentation covering backend languages (Go, Python, Rust), UI frameworks, security hardening, architecture patterns, and decision frameworks for production systems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ---- Docs-specific styles ---- */
+    .docs-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 2rem;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .docs-layout { grid-template-columns: 1fr; }
+      .docs-sidebar { display: none; }
+    }
+    .docs-sidebar {
+      position: sticky;
+      top: 80px;
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .docs-sidebar h3 {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--clr-muted);
+      margin-bottom: .75rem;
+    }
+    .docs-sidebar nav a {
+      display: block;
+      padding: .35rem .6rem;
+      border-radius: 6px;
+      color: var(--clr-muted);
+      font-size: .9rem;
+      transition: background var(--transition), color var(--transition);
+      margin-bottom: .1rem;
+    }
+    .docs-sidebar nav a:hover,
+    .docs-sidebar nav a.active {
+      background: rgba(108,99,255,.15);
+      color: var(--clr-accent);
+      text-decoration: none;
+    }
+    .docs-sidebar nav a.section-link {
+      font-weight: 600;
+      color: var(--clr-text);
+      margin-top: .75rem;
+    }
+    .docs-content h2 {
+      border-bottom: 1px solid var(--clr-border);
+      padding-bottom: .75rem;
+      margin: 2.5rem 0 1.25rem;
+      scroll-margin-top: 90px;
+    }
+    .docs-content h2:first-child { margin-top: 0; }
+    .docs-content h3 { margin: 1.75rem 0 .75rem; scroll-margin-top: 90px; }
+    .docs-content h4 { margin: 1.25rem 0 .5rem; }
+    .docs-content p { margin-top: .5rem; }
+    .docs-content ul, .docs-content ol { margin: .5rem 0 1rem 1.5rem; }
+    .docs-content li { margin: .35rem 0; color: var(--clr-muted); }
+    .docs-content pre {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .docs-content pre code {
+      background: none;
+      padding: 0;
+      font-size: .85rem;
+      color: var(--clr-accent2);
+    }
+    .docs-content .note {
+      background: rgba(108,99,255,.1);
+      border-left: 3px solid var(--clr-accent);
+      padding: .85rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1rem 0;
+    }
+    .docs-content .note p { color: var(--clr-text); margin: 0; }
+    .docs-content .warn {
+      background: rgba(255,209,102,.08);
+      border-left: 3px solid var(--clr-accent4);
+      padding: .85rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1rem 0;
+    }
+    .docs-content .warn p { color: var(--clr-text); margin: 0; }
+    .docs-content .danger {
+      background: rgba(255,107,107,.08);
+      border-left: 3px solid var(--clr-accent3);
+      padding: .85rem 1rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1rem 0;
+    }
+    .docs-content .danger p { color: var(--clr-text); margin: 0; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0 1.5rem;
+    }
+    .comparison-cell {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1rem;
+    }
+    .comparison-cell h4 { margin: 0 0 .5rem; font-size: .95rem; }
+    .badge-section { display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0; }
+    .decision-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: .9rem; }
+    .decision-table th, .decision-table td { padding: .6rem .9rem; border: 1px solid var(--clr-border); text-align: left; }
+    .decision-table th { background: var(--clr-surface); font-weight: 600; }
+    .decision-table td { color: var(--clr-muted); }
+    .decision-table td strong { color: var(--clr-text); }
+    .step-list { counter-reset: step; list-style: none; padding: 0; margin: 1rem 0; }
+    .step-list li {
+      counter-increment: step;
+      display: flex;
+      gap: .75rem;
+      margin-bottom: .85rem;
+      align-items: flex-start;
+    }
+    .step-list li::before {
+      content: counter(step);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--clr-accent);
+      color: #fff;
+      font-size: .8rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .toc-card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .toc-card h3 { margin: 0 0 .75rem; }
+    .toc-card ol { margin: 0 0 0 1.25rem; }
+    .toc-card li { margin: .3rem 0; }
+    .toc-card a { color: var(--clr-accent); }
+  </style>
+</head>
+<body>
+
+<!-- ================================================
+     HEADER / NAV
+     ================================================ -->
+<header id="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span>TechStack Comparisons</span>
+    </div>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav id="main-nav" role="navigation">
+      <a href="index.html" class="nav-btn">🏠 Home</a>
+      <a href="index.html#backend" class="nav-btn">🔧 Backend</a>
+      <a href="index.html#ui" class="nav-btn">🎨 UI Frameworks</a>
+      <a href="index.html#security" class="nav-btn">🔒 Security</a>
+      <a href="docs.html" class="nav-btn active">📖 Docs</a>
+      <a href="blog.html" class="nav-btn">✍️ Blog</a>
+    </nav>
+  </div>
+</header>
+
+<div style="background:linear-gradient(135deg,rgba(108,99,255,.15),rgba(0,212,170,.08));border-bottom:1px solid var(--clr-border);padding:2.5rem 1.5rem 2rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="section-label">Reference Documentation</div>
+    <h1 style="margin:.4rem 0 .75rem;">Enterprise Tech Stack<br /><span style="background:linear-gradient(90deg,#6c63ff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Documentation</span></h1>
+    <p style="max-width:680px;font-size:1.05rem;">In-depth technical reference for engineering leaders and senior developers building production-grade systems. Covers backend selection, UI architecture, security hardening, and enterprise decision frameworks.</p>
+  </div>
+</div>
+
+<div class="docs-layout">
+
+  <!-- Sidebar -->
+  <aside class="docs-sidebar">
+    <h3>On This Page</h3>
+    <nav>
+      <a href="#overview" class="section-link">Overview</a>
+      <a href="#backend-guide">Backend Deep Dive</a>
+      <a href="#go-enterprise">→ Go at Enterprise Scale</a>
+      <a href="#python-enterprise">→ Python in Production</a>
+      <a href="#rust-enterprise">→ Rust for Critical Systems</a>
+      <a href="#backend-decision">→ Decision Framework</a>
+
+      <a href="#ui-guide" class="section-link">UI Architecture</a>
+      <a href="#rendering-strategies">→ Rendering Strategies</a>
+      <a href="#state-management">→ State Management</a>
+      <a href="#enterprise-ui-selection">→ Enterprise Selection Guide</a>
+
+      <a href="#security-guide" class="section-link">Security Hardening</a>
+      <a href="#secure-backend">→ Secure Backend Patterns</a>
+      <a href="#secure-frontend">→ Secure Frontend Patterns</a>
+      <a href="#supply-chain">→ Supply Chain Security</a>
+      <a href="#compliance">→ Compliance &amp; Auditing</a>
+
+      <a href="#architecture-guide" class="section-link">Architecture Patterns</a>
+      <a href="#microservices">→ Microservices</a>
+      <a href="#monolith-vs-micro">→ Monolith vs Microservices</a>
+      <a href="#event-driven">→ Event-Driven</a>
+      <a href="#edge-architecture">→ Edge &amp; CDN Architecture</a>
+
+      <a href="#devops-guide" class="section-link">DevOps &amp; Tooling</a>
+      <a href="#ci-cd">→ CI/CD Pipelines</a>
+      <a href="#containers">→ Containerization</a>
+      <a href="#observability">→ Observability</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="docs-content">
+
+    <!-- TOC for mobile -->
+    <div class="toc-card" style="display:none;" id="mobile-toc">
+      <h3>📋 Table of Contents</h3>
+      <ol>
+        <li><a href="#overview">Overview &amp; Goals</a></li>
+        <li><a href="#backend-guide">Backend Technology Deep Dive</a></li>
+        <li><a href="#ui-guide">UI Architecture Guide</a></li>
+        <li><a href="#security-guide">Security Hardening</a></li>
+        <li><a href="#architecture-guide">Architecture Patterns</a></li>
+        <li><a href="#devops-guide">DevOps &amp; Tooling</a></li>
+      </ol>
+    </div>
+
+    <!-- =================== OVERVIEW =================== -->
+    <h2 id="overview">📌 Overview &amp; Goals</h2>
+    <p>
+      This documentation provides engineering leaders and senior developers with the decision frameworks, trade-off analyses, and implementation guidance needed to select, design, and operate enterprise-grade technology stacks. It is organized around the four pillars of enterprise software delivery:
+    </p>
+    <ul>
+      <li><strong>Backend reliability and performance</strong> — choosing the right language and runtime for your workload characteristics</li>
+      <li><strong>UI architecture</strong> — selecting rendering strategies, state management, and component models that scale with your team</li>
+      <li><strong>Security hardening</strong> — threat modelling, dependency safety, and supply-chain risk management</li>
+      <li><strong>Operational excellence</strong> — containerization, CI/CD, observability, and deployment architecture</li>
+    </ul>
+    <div class="note">
+      <p>📖 <strong>Companion resource:</strong> This documentation expands on the interactive comparisons found on the <a href="index.html">main TechStack Comparisons site</a>. Refer there for quick at-a-glance scoring tables and framework cards.</p>
+    </div>
+
+    <!-- =================== BACKEND =================== -->
+    <h2 id="backend-guide">🔧 Backend Technology Deep Dive</h2>
+    <p>
+      Enterprise backends must satisfy stringent requirements around throughput, reliability, maintainability, and total cost of ownership. The three primary languages evaluated here — <strong>Go</strong>, <strong>Python</strong>, and <strong>Rust</strong> — each occupy distinct niches in modern backend engineering.
+    </p>
+
+    <h3 id="go-enterprise">Go at Enterprise Scale</h3>
+    <p>
+      Go was designed at Google to solve the problems of large-scale distributed systems: fast compilation, simple concurrency, and minimal operational overhead. Today it powers the majority of cloud-native infrastructure (Kubernetes, Docker, Terraform, Prometheus, Grafana, CockroachDB) and is the de-facto standard for platform engineering teams.
+    </p>
+
+    <h4>When Go is the right choice</h4>
+    <ul>
+      <li>You are building <strong>HTTP microservices</strong> with high request-per-second requirements (&gt;10K RPS per instance)</li>
+      <li>Your services will be containerized — Go's tiny static binaries (5–15 MB) are ideal</li>
+      <li>Your team needs <strong>fast onboarding</strong> — Go's minimal syntax and strict style via <code>gofmt</code> reduce code review friction</li>
+      <li>You need a service mesh layer, proxy, or network daemon — Go's networking primitives and goroutines excel here</li>
+      <li>You want <strong>predictable tail latencies</strong> — Go's GC pauses are well-understood and tunable</li>
+    </ul>
+
+    <h4>Enterprise framework selection (Go)</h4>
+    <div class="comparison-grid">
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-go)">Gin</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">High-performance HTTP router. Most popular Go web framework. Minimal overhead. Ideal for JSON APIs.</p>
+        <div class="badge-section">
+          <span class="tag green">Fast</span>
+          <span class="tag">~60K RPS</span>
+        </div>
+      </div>
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-go)">Echo</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">Clean middleware model, built-in data binding, validator. Good for larger codebases needing structure.</p>
+        <div class="badge-section">
+          <span class="tag blue">Structured</span>
+          <span class="tag">Middleware</span>
+        </div>
+      </div>
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-go)">Chi</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">Idiomatic, lightweight. Uses only Go stdlib <code>net/http</code>. Excellent for teams that want minimal abstraction.</p>
+        <div class="badge-section">
+          <span class="tag green">stdlib</span>
+          <span class="tag">Idiomatic</span>
+        </div>
+      </div>
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-go)">Fiber</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">Built on Fasthttp. Extremely high throughput. Express-like API. Best for extremely latency-sensitive services.</p>
+        <div class="badge-section">
+          <span class="tag green">Highest RPS</span>
+          <span class="tag">Fasthttp</span>
+        </div>
+      </div>
+    </div>
+
+    <h4>Go production checklist</h4>
+    <ol class="step-list">
+      <li>Pin Go version in <code>go.mod</code> and lock with <code>go.sum</code></li>
+      <li>Enable <code>GOGC</code> and <code>GOMEMLIMIT</code> for GC tuning in containers</li>
+      <li>Add <code>govulncheck</code> to your CI pipeline (<code>go install golang.org/x/vuln/cmd/govulncheck@latest</code>)</li>
+      <li>Use <code>staticcheck</code> or <code>golangci-lint</code> for static analysis</li>
+      <li>Expose <code>/metrics</code> (Prometheus) and <code>/healthz</code> endpoints in every service</li>
+      <li>Instrument with OpenTelemetry for distributed tracing</li>
+      <li>Deploy as a <strong>distroless</strong> or <strong>scratch</strong> Docker image to minimize attack surface</li>
+    </ol>
+
+    <h3 id="python-enterprise">Python in Production</h3>
+    <p>
+      Python dominates AI/ML, data engineering, and rapid-iteration backend teams. Its rich ecosystem and readability make it attractive for internal platforms, analytical APIs, and automation pipelines. Enterprise Python deployments require careful attention to runtime performance, dependency management, and type safety.
+    </p>
+
+    <h4>Enterprise Python frameworks</h4>
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Framework</th>
+          <th>Best For</th>
+          <th>Async</th>
+          <th>Type Safety</th>
+          <th>Throughput (est.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>FastAPI</strong></td>
+          <td>REST &amp; GraphQL APIs, microservices</td>
+          <td>✅ Native async</td>
+          <td>Pydantic v2 validation</td>
+          <td>~8–15K RPS (uvicorn)</td>
+        </tr>
+        <tr>
+          <td><strong>Django</strong></td>
+          <td>Full-stack monoliths, admin-heavy systems</td>
+          <td>⚠️ ASGI mode</td>
+          <td>ORM types, mypy</td>
+          <td>~3–5K RPS</td>
+        </tr>
+        <tr>
+          <td><strong>Flask</strong></td>
+          <td>Simple APIs, prototyping</td>
+          <td>⚠️ Via extensions</td>
+          <td>Manual</td>
+          <td>~2–4K RPS</td>
+        </tr>
+        <tr>
+          <td><strong>Litestar</strong></td>
+          <td>High-performance typed APIs</td>
+          <td>✅ Native async</td>
+          <td>First-class</td>
+          <td>~12–18K RPS</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Python performance at scale</h4>
+    <ul>
+      <li>Run multiple <strong>uvicorn/gunicorn workers</strong> behind a load balancer — match worker count to CPU cores</li>
+      <li>Use <strong>async I/O</strong> (asyncio, httpx, asyncpg) to avoid blocking on network calls</li>
+      <li>Offload CPU-bound workloads to <strong>Celery + Redis/RabbitMQ</strong> task queues</li>
+      <li>Cache aggressively with <strong>Redis</strong> (django-cache-machine, fastapi-cache2)</li>
+      <li>Consider <strong>PyPy</strong> for long-running CPU-bound processes (5–10× speedup for pure Python)</li>
+      <li>Profile with <strong>py-spy</strong> or <strong>pyinstrument</strong> before optimizing</li>
+    </ul>
+
+    <div class="warn">
+      <p>⚠️ <strong>Dependency management:</strong> Use <strong>uv</strong> (Astral) or <strong>Poetry</strong> with locked <code>requirements.lock</code> in all production deployments. Avoid bare <code>pip install</code> without pinned versions. Run <code>pip-audit</code> in CI to detect known CVEs.</p>
+    </div>
+
+    <h3 id="rust-enterprise">Rust for Critical Systems</h3>
+    <p>
+      Rust is the language of choice for security-critical, performance-critical, and resource-constrained systems. The NSA and the White House have both formally recommended memory-safe languages like Rust for new systems software. It is now used by Microsoft, Google, Meta, Amazon, and Mozilla in production infrastructure.
+    </p>
+
+    <h4>Enterprise Rust use cases</h4>
+    <ul>
+      <li><strong>Cryptographic libraries</strong> — Rust's compile-time guarantees prevent entire classes of memory bugs that have led to CVEs in C/C++ libraries</li>
+      <li><strong>WebAssembly modules</strong> — Cloudflare Workers, Fastly Compute, and browser plugins</li>
+      <li><strong>High-frequency trading and financial services</strong> — zero GC pauses, predictable latency</li>
+      <li><strong>Embedded and IoT firmware</strong> — no runtime required, direct hardware access</li>
+      <li><strong>High-throughput network services</strong> — Axum/Tokio can exceed 200K RPS on commodity hardware</li>
+      <li><strong>Game engines and simulation</strong> — Bevy game engine, physics simulations</li>
+    </ul>
+
+    <h4>Rust web backend stack (Axum + Tokio)</h4>
+    <pre><code># Cargo.toml dependencies for a production Axum service
+[dependencies]
+axum          = { version = "0.7", features = ["macros"] }
+tokio         = { version = "1",   features = ["full"] }
+serde         = { version = "1",   features = ["derive"] }
+serde_json    = "1"
+sqlx          = { version = "0.7", features = ["postgres", "runtime-tokio-native-tls"] }
+tower-http    = { version = "0.5", features = ["cors", "trace"] }
+tracing       = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }</code></pre>
+
+    <h4>Managing Rust's learning curve in enterprise teams</h4>
+    <ul>
+      <li>Invest in a 2-week structured onboarding: <em>The Rust Book</em> + <em>Rustlings</em> exercises</li>
+      <li>Start with <strong>isolated services</strong> before migrating core systems</li>
+      <li>Use <code>clippy</code> in CI with <code>-D warnings</code> to enforce idiomatic code</li>
+      <li>Adopt <code>cargo deny</code> for license and vulnerability policy enforcement</li>
+      <li>Consider <strong>Rust + Python FFI</strong> (via PyO3) for incrementally migrating performance-critical Python code</li>
+    </ul>
+
+    <h3 id="backend-decision">Backend Decision Framework</h3>
+    <p>Use this decision matrix when evaluating backend language choices for new services or platform migrations:</p>
+
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Requirement</th>
+          <th>Go ✅</th>
+          <th>Python ✅</th>
+          <th>Rust ✅</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Need highest RPS / lowest latency</td>
+          <td>Secondary choice</td>
+          <td>❌ Not recommended</td>
+          <td><strong>Primary choice</strong></td>
+        </tr>
+        <tr>
+          <td>Building cloud infrastructure / DevOps tooling</td>
+          <td><strong>Primary choice</strong></td>
+          <td>Secondary choice (scripts)</td>
+          <td>Tertiary choice</td>
+        </tr>
+        <tr>
+          <td>AI/ML model serving or data pipelines</td>
+          <td>❌ Poor ecosystem</td>
+          <td><strong>Primary choice</strong></td>
+          <td>Emerging (Candle, Burn)</td>
+        </tr>
+        <tr>
+          <td>Memory-safe systems / crypto / firmware</td>
+          <td>Secondary choice</td>
+          <td>❌ Not suitable</td>
+          <td><strong>Primary choice</strong></td>
+        </tr>
+        <tr>
+          <td>CRUD REST APIs with moderate traffic</td>
+          <td><strong>Primary choice</strong></td>
+          <td>Good choice</td>
+          <td>Over-engineered</td>
+        </tr>
+        <tr>
+          <td>Rapid prototyping / MVP</td>
+          <td>Acceptable</td>
+          <td><strong>Primary choice</strong></td>
+          <td>❌ Too slow</td>
+        </tr>
+        <tr>
+          <td>Team unfamiliar with systems programming</td>
+          <td><strong>Easiest on-ramp</strong></td>
+          <td>Easy</td>
+          <td>❌ Steep curve</td>
+        </tr>
+        <tr>
+          <td>WebAssembly targets</td>
+          <td>Limited</td>
+          <td>Pyodide (limited)</td>
+          <td><strong>Best support</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- =================== UI =================== -->
+    <h2 id="ui-guide">🎨 UI Architecture Guide</h2>
+    <p>
+      Enterprise UI architecture decisions have a long time horizon. A framework chosen today may be the codebase your team maintains for 5–10 years. Evaluate these choices with the following factors in mind: <strong>talent availability</strong>, <strong>long-term vendor support</strong>, <strong>bundle performance</strong>, and <strong>testability</strong>.
+    </p>
+
+    <h3 id="rendering-strategies">Rendering Strategies</h3>
+    <p>The rendering strategy determines where and when HTML is generated. This has direct implications for performance, SEO, and operational complexity:</p>
+
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Strategy</th>
+          <th>Where HTML is Generated</th>
+          <th>Best For</th>
+          <th>Trade-off</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>CSR</strong> (Client-Side Rendering)</td>
+          <td>Browser (JavaScript)</td>
+          <td>Interactive SPAs, authenticated dashboards</td>
+          <td>Slow initial load, poor SEO without SSR</td>
+        </tr>
+        <tr>
+          <td><strong>SSR</strong> (Server-Side Rendering)</td>
+          <td>Server on every request</td>
+          <td>Dynamic pages with fresh data, SEO-critical apps</td>
+          <td>Server load per request, higher TTFB possible</td>
+        </tr>
+        <tr>
+          <td><strong>SSG</strong> (Static Site Generation)</td>
+          <td>Server at build time</td>
+          <td>Blogs, docs, marketing sites, e-commerce catalogs</td>
+          <td>Stale data between builds</td>
+        </tr>
+        <tr>
+          <td><strong>ISR</strong> (Incremental Static Regeneration)</td>
+          <td>Server, cached + revalidated</td>
+          <td>High-traffic pages needing freshness (Next.js)</td>
+          <td>Complex cache invalidation</td>
+        </tr>
+        <tr>
+          <td><strong>Edge SSR</strong></td>
+          <td>CDN edge node, globally distributed</td>
+          <td>Global low-latency apps, personalization at edge</td>
+          <td>Limited runtime APIs at edge</td>
+        </tr>
+        <tr>
+          <td><strong>Islands Architecture</strong></td>
+          <td>Server (HTML) + Client (interactive islands)</td>
+          <td>Content sites needing selective interactivity (Astro)</td>
+          <td>Complexity for highly interactive apps</td>
+        </tr>
+        <tr>
+          <td><strong>RSC</strong> (React Server Components)</td>
+          <td>Server (no client bundle for server components)</td>
+          <td>Next.js 13+ apps with complex data access patterns</td>
+          <td>Mental model shift; still maturing</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="state-management">State Management at Scale</h3>
+    <p>State management is the most common source of complexity in large frontend codebases. Choose the minimum viable state management tool for your needs:</p>
+
+    <h4>State categories</h4>
+    <ul>
+      <li><strong>Server state</strong> — data fetched from APIs (use <strong>React Query / TanStack Query</strong> or <strong>SWR</strong> — do not put in global store)</li>
+      <li><strong>UI state</strong> — modals, toggles, form state (use local React state or <strong>Jotai / Zustand</strong> atoms)</li>
+      <li><strong>Global app state</strong> — authentication, user preferences, feature flags (use <strong>Zustand</strong> or <strong>Redux Toolkit</strong> for large apps)</li>
+      <li><strong>URL state</strong> — filters, pagination, search (use <strong>nuqs</strong> or router query params — survives page refresh)</li>
+    </ul>
+
+    <h4>State management decision guide</h4>
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Scenario</th>
+          <th>Recommended Tool</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Data fetching, caching, background sync</td>
+          <td><strong>TanStack Query (React Query)</strong></td>
+        </tr>
+        <tr>
+          <td>Simple global state (&lt;5 atoms)</td>
+          <td><strong>Zustand</strong> or <strong>Jotai</strong></td>
+        </tr>
+        <tr>
+          <td>Large enterprise app with complex state</td>
+          <td><strong>Redux Toolkit</strong> + RTK Query</td>
+        </tr>
+        <tr>
+          <td>Angular enterprise app</td>
+          <td><strong>NgRx</strong> (Redux pattern for Angular)</td>
+        </tr>
+        <tr>
+          <td>Vue app</td>
+          <td><strong>Pinia</strong> (official Vue state manager)</td>
+        </tr>
+        <tr>
+          <td>Svelte app</td>
+          <td>Built-in <strong>Svelte stores</strong></td>
+        </tr>
+        <tr>
+          <td>Form state management</td>
+          <td><strong>React Hook Form</strong> + Zod (validation)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="enterprise-ui-selection">Enterprise UI Framework Selection Guide</h3>
+    <p>The following guidance is tailored for teams making long-term framework commitments:</p>
+
+    <h4>Angular — the enterprise-grade full framework</h4>
+    <p>Angular is the correct choice when your organization values <strong>conventions over configuration</strong>, has large teams, and needs strong structural enforcement. It ships with everything: DI, routing, forms, HTTP client, and internationalization. TypeScript is mandatory, which significantly reduces runtime errors.</p>
+    <ul>
+      <li>Use Angular with <strong>NgRx</strong> for complex reactive state management</li>
+      <li>Adopt <strong>Angular Material</strong> or <strong>PrimeNG</strong> for enterprise-grade UI components</li>
+      <li>Enable <strong>strict mode</strong> in <code>tsconfig.json</code> from project start</li>
+      <li>Use <strong>Nx monorepo tooling</strong> for multi-team, multi-app codebases</li>
+    </ul>
+
+    <h4>React + Next.js — the dominant production stack</h4>
+    <p>The React ecosystem offers the most extensive component library ecosystem (shadcn/ui, Radix, MUI, Ant Design). Next.js adds SSR, ISR, Edge support, and the App Router (React Server Components). This is the safest hiring market choice.</p>
+    <ul>
+      <li>Use <strong>Next.js App Router</strong> with React Server Components for new projects (2024+)</li>
+      <li>Adopt <strong>shadcn/ui</strong> + <strong>Tailwind CSS</strong> for a consistent design system</li>
+      <li>Use <strong>Zod</strong> for runtime schema validation on both client and server</li>
+      <li>Implement <strong>tRPC</strong> for end-to-end type-safe API calls between Next.js frontend and backend</li>
+    </ul>
+
+    <h4>Astro — for content-heavy enterprise sites</h4>
+    <p>Enterprise documentation sites, marketing sites, and content platforms should seriously evaluate Astro. It ships zero JavaScript by default and allows mixing React, Vue, and Svelte components in the same project via Islands Architecture. The result is dramatically better Core Web Vitals scores.</p>
+
+    <!-- =================== SECURITY =================== -->
+    <h2 id="security-guide">🔒 Security Hardening</h2>
+    <p>
+      Enterprise security is not a feature to add at the end — it is a design constraint that shapes every architectural decision. This section covers threat modelling, secure coding patterns, and supply-chain risk management.
+    </p>
+
+    <h3 id="secure-backend">Secure Backend Patterns</h3>
+
+    <h4>Authentication and Authorization</h4>
+    <ul>
+      <li><strong>Authentication</strong> establishes identity. Always use a battle-tested library (Passport.js, Auth.js, Lucia, Supabase Auth, or your cloud provider's identity service)</li>
+      <li><strong>Authorization</strong> controls access. Implement <strong>RBAC</strong> (Role-Based Access Control) or <strong>ABAC</strong> (Attribute-Based) at the data layer, not just the route layer</li>
+      <li>Store session tokens in <strong>HttpOnly, Secure, SameSite=Strict cookies</strong> — never in localStorage</li>
+      <li>Implement <strong>token rotation</strong> for refresh tokens (detect token theft via refresh token reuse detection)</li>
+      <li>Enforce <strong>MFA</strong> for all privileged accounts using TOTP (FIDO2 / Passkeys preferred)</li>
+    </ul>
+
+    <h4>Database security</h4>
+    <ul>
+      <li>Always use <strong>parameterized queries</strong> or an ORM — never string interpolation in SQL</li>
+      <li>Principle of least privilege: application database user should have only <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code> — never <code>DROP</code> or <code>ALTER</code></li>
+      <li>Encrypt sensitive columns at rest (Postgres pgcrypto, AWS RDS encryption)</li>
+      <li>Hash passwords with <strong>Argon2id</strong> (preferred) or bcrypt with cost factor ≥ 12</li>
+      <li>Enable <strong>audit logging</strong> for all data access in regulated industries (HIPAA, PCI DSS, SOC 2)</li>
+    </ul>
+
+    <h4>API security</h4>
+    <ul>
+      <li>Implement <strong>rate limiting</strong> on all public endpoints (token bucket algorithm, per-IP and per-user)</li>
+      <li>Validate all input with a schema library (Pydantic, Zod, Serde) — <em>never trust client data</em></li>
+      <li>Use <strong>CORS</strong> correctly — allowlist specific origins, never use wildcard <code>*</code> in production</li>
+      <li>Set security headers: <code>Strict-Transport-Security</code>, <code>X-Frame-Options</code>, <code>X-Content-Type-Options</code>, <code>Content-Security-Policy</code></li>
+      <li>Implement <strong>API versioning</strong> from day one (path-based: <code>/v1/</code>, or header-based)</li>
+    </ul>
+
+    <pre><code># Example: Security headers for Go (Gin middleware)
+func SecurityHeaders() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        c.Header("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+        c.Header("X-Content-Type-Options", "nosniff")
+        c.Header("X-Frame-Options", "DENY")
+        c.Header("Content-Security-Policy",
+            "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'")
+        c.Header("Referrer-Policy", "strict-origin-when-cross-origin")
+        c.Header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        c.Next()
+    }
+}</code></pre>
+
+    <h3 id="secure-frontend">Secure Frontend Patterns</h3>
+
+    <h4>XSS Prevention</h4>
+    <ul>
+      <li>React, Vue, Angular, and Svelte all auto-escape HTML output — this is your first line of defence</li>
+      <li>Never use <code>dangerouslySetInnerHTML</code> (React) or <code>v-html</code> (Vue) with untrusted user content</li>
+      <li>If you must render user HTML, sanitize it first with <strong>DOMPurify</strong>: <code>DOMPurify.sanitize(userHtml)</code></li>
+      <li>Implement a strict <strong>Content Security Policy</strong> that disables inline scripts</li>
+    </ul>
+
+    <h4>Content Security Policy example</h4>
+    <pre><code>Content-Security-Policy:
+  default-src 'self';
+  script-src 'self' 'nonce-{RANDOM_NONCE}';
+  style-src 'self' https://fonts.googleapis.com;
+  font-src 'self' https://fonts.gstatic.com;
+  img-src 'self' data: https:;
+  connect-src 'self' https://api.yourapp.com;
+  frame-ancestors 'none';
+  upgrade-insecure-requests;</code></pre>
+
+    <h4>Dependency and bundle security</h4>
+    <ul>
+      <li>Run <code>npm audit --audit-level=high</code> in CI — fail the build on high/critical vulnerabilities</li>
+      <li>Use <strong>Dependabot</strong> or <strong>Renovate Bot</strong> for automated dependency updates (with auto-merge for patch bumps)</li>
+      <li>Evaluate new npm packages with <strong>Socket.dev</strong> or <strong>Snyk</strong> before adding them</li>
+      <li>Prefer packages with <strong>low transitive dependency counts</strong> — a package that pulls in 200 transitive deps is 200 separate attack vectors</li>
+    </ul>
+
+    <h3 id="supply-chain">Supply Chain Security</h3>
+    <p>Modern software supply chain attacks (SolarWinds, XZ Utils, event-stream) exploit the trust we place in third-party packages. Defending against this class of attack requires a layered approach:</p>
+
+    <ol class="step-list">
+      <li><strong>Lock all dependency versions</strong> — never use ranges (<code>^</code>, <code>~</code>) without lockfiles committed to version control</li>
+      <li><strong>Verify checksums</strong> — Go modules use <code>go.sum</code>, Cargo uses <code>Cargo.lock</code>, npm uses <code>package-lock.json</code></li>
+      <li><strong>Scan in CI</strong> — run <code>govulncheck</code>, <code>cargo audit</code>, or <code>npm audit</code> on every pull request</li>
+      <li><strong>Monitor for new CVEs</strong> — subscribe to GitHub Security Advisories for your key dependencies</li>
+      <li><strong>Review postinstall hooks</strong> — scrutinize any npm package with <code>postinstall</code> scripts before adopting</li>
+      <li><strong>Use SBOM</strong> — generate a Software Bill of Materials (cyclonedx, SPDX) for regulated industries</li>
+      <li><strong>Signed commits and releases</strong> — use GPG-signed commits and verify release artifact signatures (SLSA framework)</li>
+    </ol>
+
+    <div class="danger">
+      <p>🚨 <strong>High-risk pattern to avoid:</strong> Installing packages directly in production environments with <code>pip install</code> or <code>npm install</code> without a lockfile. Always build a deterministic artifact in CI and deploy that artifact.</p>
+    </div>
+
+    <h3 id="compliance">Compliance &amp; Auditing</h3>
+    <p>Enterprise systems in regulated industries must meet specific compliance frameworks. Here is how each tech stack aligns:</p>
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Compliance Framework</th>
+          <th>Key Requirements</th>
+          <th>Stack Considerations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>SOC 2 Type II</strong></td>
+          <td>Audit logging, encryption at rest/transit, access controls</td>
+          <td>All stacks — use structured logging (Go: zap, Python: structlog)</td>
+        </tr>
+        <tr>
+          <td><strong>HIPAA</strong></td>
+          <td>PHI encryption, audit trails, minimum necessary access</td>
+          <td>Prefer Go or Rust for PHI services; avoid Python's pickle/eval patterns</td>
+        </tr>
+        <tr>
+          <td><strong>PCI DSS</strong></td>
+          <td>Cardholder data protection, network segmentation, SAST/DAST</td>
+          <td>Integrate CodeQL / Semgrep in CI; container scanning with Trivy</td>
+        </tr>
+        <tr>
+          <td><strong>GDPR</strong></td>
+          <td>Data minimization, right to erasure, data residency</td>
+          <td>Architecture concern — store PII in separate encrypted datastores</td>
+        </tr>
+        <tr>
+          <td><strong>FedRAMP</strong></td>
+          <td>FIPS 140-2 crypto, least privilege, continuous monitoring</td>
+          <td>Go's <code>crypto/tls</code> supports FIPS-compliant cipher suites; Rust is FIPS-approachable</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- =================== ARCHITECTURE =================== -->
+    <h2 id="architecture-guide">🏛️ Architecture Patterns</h2>
+
+    <h3 id="microservices">Microservices Design</h3>
+    <p>
+      Microservices are appropriate when your organization has reached a scale where <strong>independent deployment</strong> of components and <strong>team autonomy</strong> are more valuable than the simplicity of a monolith. Conway's Law applies: your architecture will mirror your team structure.
+    </p>
+
+    <h4>Service communication patterns</h4>
+    <ul>
+      <li><strong>Synchronous REST/gRPC</strong> — use for request/response where the caller needs an immediate result. Go and Rust excel here. Use gRPC for internal service-to-service calls (binary, typed, efficient).</li>
+      <li><strong>Asynchronous messaging</strong> — use Kafka, RabbitMQ, or NATS for event-driven workflows where services should be decoupled from each other's availability</li>
+      <li><strong>Service mesh</strong> — Istio or Linkerd for mTLS, traffic management, and observability across services at scale</li>
+    </ul>
+
+    <h4>Go-native microservice tooling</h4>
+    <ul>
+      <li><strong>gRPC</strong> — <code>google.golang.org/grpc</code> for typed inter-service RPC</li>
+      <li><strong>Connect-Go</strong> — modern gRPC-compatible RPC framework (recommended over raw gRPC in 2024)</li>
+      <li><strong>NATS</strong> — lightweight pub/sub messaging written in Go, used by Kubernetes ecosystem</li>
+    </ul>
+
+    <h3 id="monolith-vs-micro">Monolith vs Microservices Decision</h3>
+    <div class="note">
+      <p>📌 <strong>Default recommendation:</strong> Start with a <strong>well-structured modular monolith</strong>. Extract services only when you have clear bounded contexts, team ownership boundaries, and independent deployment requirements. Premature microservices are the most common source of enterprise architecture failure.</p>
+    </div>
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Choose Monolith</th>
+          <th>Choose Microservices</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Team size</td>
+          <td>&lt;15 engineers</td>
+          <td>Multiple teams with separate ownership</td>
+        </tr>
+        <tr>
+          <td>System maturity</td>
+          <td>MVP / early product</td>
+          <td>Established domain with clear bounded contexts</td>
+        </tr>
+        <tr>
+          <td>Deployment frequency</td>
+          <td>Weekly releases acceptable</td>
+          <td>Need independent daily deployments per service</td>
+        </tr>
+        <tr>
+          <td>Scaling requirement</td>
+          <td>Uniform load across features</td>
+          <td>Specific components need 10x more scale than others</td>
+        </tr>
+        <tr>
+          <td>Operational maturity</td>
+          <td>Small/mid-size ops team</td>
+          <td>Platform team managing K8s, service mesh, observability</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 id="event-driven">Event-Driven Architecture</h3>
+    <p>Event-driven systems improve resilience and decoupling but introduce eventual consistency trade-offs. Evaluate whether your use case requires strong consistency before adopting this pattern.</p>
+
+    <h4>Technology choices</h4>
+    <ul>
+      <li><strong>Apache Kafka</strong> — durable event streaming at massive scale (financial services, telemetry pipelines). Use with Go (<code>confluent-kafka-go</code>) or Python (<code>confluent-kafka-python</code>)</li>
+      <li><strong>NATS JetStream</strong> — lower operational complexity than Kafka, strong Go ecosystem, suitable for most microservice event buses</li>
+      <li><strong>AWS SNS/SQS / GCP Pub/Sub</strong> — managed services with lower ops overhead, vendor lock-in trade-off</li>
+      <li><strong>RabbitMQ</strong> — reliable message queue for task distribution, good for Python (Celery) and Go workloads</li>
+    </ul>
+
+    <h3 id="edge-architecture">Edge &amp; CDN Architecture</h3>
+    <p>Edge computing executes logic at CDN nodes close to users, dramatically reducing latency for global applications. The trade-off is a constrained runtime environment.</p>
+
+    <h4>Edge runtimes and their constraints</h4>
+    <table class="decision-table">
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Language Support</th>
+          <th>Cold Start</th>
+          <th>Execution Limit</th>
+          <th>Key Use Cases</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Cloudflare Workers</strong></td>
+          <td>JS, WASM (Rust)</td>
+          <td>&lt;1ms</td>
+          <td>30s CPU time</td>
+          <td>Auth, A/B testing, edge API, WASM compute</td>
+        </tr>
+        <tr>
+          <td><strong>Vercel Edge Functions</strong></td>
+          <td>JS/TS (Next.js middleware)</td>
+          <td>&lt;1ms</td>
+          <td>25s wall time</td>
+          <td>Personalization, redirects, i18n routing</td>
+        </tr>
+        <tr>
+          <td><strong>Fastly Compute</strong></td>
+          <td>Rust, JS, Go (WASM)</td>
+          <td>&lt;1ms</td>
+          <td>Flexible</td>
+          <td>Complex routing, request transformation</td>
+        </tr>
+        <tr>
+          <td><strong>AWS Lambda@Edge</strong></td>
+          <td>Node.js, Python</td>
+          <td>50–500ms</td>
+          <td>30s</td>
+          <td>Header manipulation, URL rewriting</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- =================== DEVOPS =================== -->
+    <h2 id="devops-guide">⚙️ DevOps &amp; Tooling</h2>
+
+    <h3 id="ci-cd">CI/CD Pipelines</h3>
+    <p>A mature CI/CD pipeline for enterprise services should validate code quality, security, and deployment readiness on every pull request. Below is a reference pipeline structure:</p>
+
+    <h4>Stage 1 — Fast feedback (must complete in &lt;5 minutes)</h4>
+    <ul>
+      <li>Lint (golangci-lint, ESLint, ruff for Python)</li>
+      <li>Unit tests with coverage gates (&gt;80%)</li>
+      <li>Type checking (mypy, tsc, cargo check)</li>
+    </ul>
+
+    <h4>Stage 2 — Security (runs in parallel with Stage 1)</h4>
+    <ul>
+      <li>Dependency vulnerability scan (govulncheck, npm audit, cargo audit, pip-audit)</li>
+      <li>SAST scan (CodeQL, Semgrep)</li>
+      <li>Secret scanning (GitLeaks, truffleHog)</li>
+    </ul>
+
+    <h4>Stage 3 — Integration (after PR merge to main)</h4>
+    <ul>
+      <li>Integration tests against real database/services</li>
+      <li>Container image build + Trivy scan</li>
+      <li>E2E tests (Playwright, Cypress)</li>
+      <li>Performance regression tests (k6, Grafana load testing)</li>
+    </ul>
+
+    <h4>Stage 4 — Deploy</h4>
+    <ul>
+      <li>Push image to registry (GHCR, ECR, Artifact Registry)</li>
+      <li>Deploy to staging with canary/blue-green strategy</li>
+      <li>Smoke tests against staging</li>
+      <li>Promote to production on success</li>
+    </ul>
+
+    <h3 id="containers">Containerization Best Practices</h3>
+
+    <h4>Minimal Docker images by language</h4>
+    <pre><code># Go — scratch image (smallest possible)
+FROM golang:1.22-alpine AS builder
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux go build -o /server ./cmd/server
+
+FROM scratch
+COPY --from=builder /server /server
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+USER 65534  # nobody
+ENTRYPOINT ["/server"]
+
+# Result: ~8 MB image, zero attack surface</code></pre>
+
+    <pre><code># Python — slim image with uv
+FROM python:3.12-slim
+WORKDIR /app
+RUN pip install uv
+COPY pyproject.toml uv.lock ./
+RUN uv sync --frozen --no-dev
+COPY src/ ./src/
+USER 1001
+CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8080"]
+
+# Result: ~120 MB image</code></pre>
+
+    <h3 id="observability">Observability Stack</h3>
+    <p>Production systems require observability across three pillars: <strong>metrics</strong>, <strong>logs</strong>, and <strong>traces</strong>. The modern open-source observability stack:</p>
+
+    <ul>
+      <li><strong>Metrics</strong> — Prometheus for scraping + Grafana for dashboards. All Go/Python/Rust services should expose <code>/metrics</code> in Prometheus format</li>
+      <li><strong>Logs</strong> — structured JSON logging (Go: <code>slog</code> / zap, Python: structlog, Rust: tracing). Ship to Loki (Grafana stack) or Elasticsearch</li>
+      <li><strong>Traces</strong> — OpenTelemetry SDK in every service. Backend: Jaeger, Tempo, or Honeycomb. Essential for diagnosing latency in distributed systems</li>
+      <li><strong>Alerting</strong> — Prometheus Alertmanager + PagerDuty/OpsGenie integration for on-call workflows</li>
+    </ul>
+
+    <div class="note">
+      <p>📌 <strong>OpenTelemetry first:</strong> Instrument with the OpenTelemetry SDK (vendor-neutral) rather than a vendor-specific SDK. This prevents lock-in and allows you to route telemetry to any backend without code changes.</p>
+    </div>
+
+    <h4>SLO and SLA framework</h4>
+    <ul>
+      <li>Define <strong>SLIs</strong> (Service Level Indicators) for each critical user journey: availability, latency (p50/p95/p99), error rate</li>
+      <li>Set <strong>SLOs</strong> (Service Level Objectives): e.g., "99.9% of requests complete in &lt;200ms over 30-day rolling window"</li>
+      <li>Calculate <strong>error budgets</strong> — the fraction of time the SLO can be violated before reliability work takes priority over features</li>
+      <li>Use <strong>Sloth</strong> or <strong>Pyrra</strong> to generate Prometheus SLO recording rules and alerts automatically</li>
+    </ul>
+
+    <div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--clr-border);">
+      <p style="color:var(--clr-muted);font-size:.9rem;">
+        📖 This documentation is maintained as part of the <a href="https://github.com/chefgs/techstack-comparisons">TechStack Comparisons</a> open-source project.
+        See the <a href="blog.html">Blog</a> for narrative deep-dives and decision stories.
+      </p>
+    </div>
+
+  </main>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>
+    <strong>TechStack Comparisons</strong> — open source reference guide ·
+    <a href="https://github.com/chefgs/techstack-comparisons" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="index.html">Home</a> ·
+    <a href="blog.html">Blog</a>
+  </p>
+  <p style="margin-top:.4rem;">Content is for educational purposes. Benchmarks are approximate and may vary by workload.</p>
+</footer>
+
+<button id="back-top" aria-label="Back to top">↑</button>
+
+<script>
+(function () {
+  'use strict';
+  // Mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  navToggle && navToggle.addEventListener('click', () => {
+    const nav = document.getElementById('main-nav');
+    const isOpen = nav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // Back to top
+  const backTop = document.getElementById('back-top');
+  window.addEventListener('scroll', () => {
+    backTop.classList.toggle('visible', window.scrollY > 300);
+  });
+  backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Sidebar active link on scroll
+  const headings = document.querySelectorAll('.docs-content h2[id], .docs-content h3[id]');
+  const sideLinks = document.querySelectorAll('.docs-sidebar nav a[href^="#"]');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        sideLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.docs-sidebar nav a[href="#${entry.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-10% 0px -85% 0px' });
+  headings.forEach(h => observer.observe(h));
+
+  // Show mobile TOC on narrow screens
+  const mobileToc = document.getElementById('mobile-toc');
+  if (mobileToc && window.innerWidth < 900) mobileToc.style.display = 'block';
+})();
+</script>
+</body>
+</html>

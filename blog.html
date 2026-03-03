@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enterprise Tech Stack Blog — TechStack Comparisons</title>
+  <meta name="description" content="Engineering blog covering enterprise tech stack selection, architecture decisions, security practices, and real-world trade-offs for Go, Python, Rust, and modern UI frameworks." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ---- Blog-specific styles ---- */
+    .blog-hero {
+      background: linear-gradient(135deg, rgba(108,99,255,.15), rgba(0,212,170,.08));
+      border-bottom: 1px solid var(--clr-border);
+      padding: 2.5rem 1.5rem 2rem;
+    }
+    .blog-hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .blog-layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .blog-layout { grid-template-columns: 1fr; }
+      .blog-sidebar { order: -1; }
+    }
+    /* Featured article */
+    .post-featured {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 2rem 2rem 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .post-featured::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--clr-accent), var(--clr-accent2));
+    }
+    .post-featured-label {
+      font-size: .75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--clr-accent);
+      margin-bottom: .6rem;
+    }
+    .post-featured h2 { margin-bottom: .75rem; }
+    .post-featured h2 a { color: var(--clr-text); text-decoration: none; transition: color var(--transition); }
+    .post-featured h2 a:hover { color: var(--clr-accent); }
+    .post-meta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: .85rem; }
+    .post-meta span { font-size: .8rem; color: var(--clr-muted); }
+    .post-meta .tag { font-size: .75rem; }
+    .post-excerpt { color: var(--clr-muted); line-height: 1.7; margin-bottom: 1.25rem; }
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      color: var(--clr-accent);
+      font-weight: 600;
+      font-size: .9rem;
+      text-decoration: none;
+      transition: gap var(--transition);
+    }
+    .read-more:hover { gap: .7rem; text-decoration: none; }
+
+    /* Post list */
+    .post-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .post-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color var(--transition), transform var(--transition);
+    }
+    .post-card:hover { border-color: var(--clr-accent); transform: translateY(-2px); }
+    .post-card h3 { margin-bottom: .4rem; font-size: 1.15rem; }
+    .post-card h3 a { color: var(--clr-text); text-decoration: none; transition: color var(--transition); }
+    .post-card h3 a:hover { color: var(--clr-accent); }
+
+    /* Sidebar */
+    .blog-sidebar { position: sticky; top: 80px; display: flex; flex-direction: column; gap: 1.25rem; }
+    .sidebar-widget {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+    .sidebar-widget h3 {
+      font-size: .8rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--clr-muted);
+      margin-bottom: 1rem;
+    }
+    .sidebar-widget ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar-widget li { margin: .5rem 0; }
+    .sidebar-widget li a { color: var(--clr-muted); font-size: .9rem; transition: color var(--transition); }
+    .sidebar-widget li a:hover { color: var(--clr-accent); text-decoration: none; }
+
+    /* Article content */
+    .article-layout {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+    .article-header { margin-bottom: 2rem; }
+    .article-header h1 { margin: .5rem 0 1rem; }
+    .article-body h2 {
+      margin: 2.5rem 0 1rem;
+      padding-bottom: .6rem;
+      border-bottom: 1px solid var(--clr-border);
+      scroll-margin-top: 80px;
+    }
+    .article-body h3 { margin: 2rem 0 .75rem; }
+    .article-body h4 { margin: 1.5rem 0 .5rem; }
+    .article-body p { color: var(--clr-muted); line-height: 1.8; margin: .75rem 0; }
+    .article-body ul, .article-body ol { margin: .75rem 0 1rem 1.5rem; }
+    .article-body li { margin: .4rem 0; color: var(--clr-muted); line-height: 1.6; }
+    .article-body pre {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .article-body pre code { background: none; padding: 0; font-size: .85rem; color: var(--clr-accent2); }
+    .article-body .callout {
+      display: flex;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+    .article-body .callout-info { background: rgba(108,99,255,.1); border-left: 3px solid var(--clr-accent); }
+    .article-body .callout-warn { background: rgba(255,209,102,.08); border-left: 3px solid var(--clr-accent4); }
+    .article-body .callout-good { background: rgba(0,212,170,.08); border-left: 3px solid var(--clr-accent2); }
+    .article-body .callout-bad  { background: rgba(255,107,107,.08); border-left: 3px solid var(--clr-accent3); }
+    .article-body .callout p { margin: 0; color: var(--clr-text); }
+    .article-body strong { color: var(--clr-text); }
+    .article-nav {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 2rem;
+      border-top: 1px solid var(--clr-border);
+      margin-top: 3rem;
+    }
+    .article-nav a { color: var(--clr-accent); font-size: .9rem; }
+  </style>
+</head>
+<body>
+
+<!-- ================================================
+     HEADER / NAV
+     ================================================ -->
+<header id="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span>TechStack Comparisons</span>
+    </div>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+    <nav id="main-nav" role="navigation">
+      <a href="index.html" class="nav-btn">🏠 Home</a>
+      <a href="index.html#backend" class="nav-btn">🔧 Backend</a>
+      <a href="index.html#ui" class="nav-btn">🎨 UI Frameworks</a>
+      <a href="index.html#security" class="nav-btn">🔒 Security</a>
+      <a href="docs.html" class="nav-btn">📖 Docs</a>
+      <a href="blog.html" class="nav-btn active">✍️ Blog</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ================================================
+     BLOG HERO
+     ================================================ -->
+<div class="blog-hero">
+  <div class="blog-hero-inner">
+    <div class="section-label">Engineering Blog</div>
+    <h1 style="margin:.4rem 0 .75rem;">Enterprise Tech Stack<br /><span style="background:linear-gradient(90deg,#6c63ff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Insights</span></h1>
+    <p style="max-width:620px;font-size:1.05rem;">In-depth articles on backend selection, UI architecture, security trade-offs, and real-world engineering decisions for production systems.</p>
+  </div>
+</div>
+
+<!-- ================================================
+     BLOG INDEX VIEW
+     ================================================ -->
+<div class="blog-layout" id="blog-index">
+  <div>
+
+    <!-- Featured Post -->
+    <div class="post-featured">
+      <div class="post-featured-label">⭐ Featured Article</div>
+      <div class="post-meta">
+        <span class="tag red">Enterprise Architecture</span>
+        <span class="tag blue">Backend</span>
+        <span>📅 March 2025</span>
+        <span>⏱ 12 min read</span>
+      </div>
+      <h2><a href="#" onclick="showArticle('art-backend-selection'); return false;">Choosing Your Enterprise Backend Language: Go, Python, or Rust?</a></h2>
+      <p class="post-excerpt">
+        Selecting a backend language is one of the highest-leverage engineering decisions your organization will make. Get it right and you gain a compounding performance and developer-productivity advantage. Get it wrong and you'll spend years fighting your tooling. This article walks through the decision framework we recommend for enterprise teams, grounded in production trade-offs rather than benchmark theatre.
+      </p>
+      <a href="#" onclick="showArticle('art-backend-selection'); return false;" class="read-more">Read full article →</a>
+    </div>
+
+    <!-- Post List -->
+    <div class="post-list">
+
+      <div class="post-card">
+        <div class="post-meta">
+          <span class="tag green">UI Architecture</span>
+          <span class="tag">Frontend</span>
+          <span>📅 February 2025</span>
+          <span>⏱ 9 min read</span>
+        </div>
+        <h3><a href="#" onclick="showArticle('art-ui-architecture'); return false;">Enterprise Frontend Architecture: React, Angular, or Astro?</a></h3>
+        <p class="post-excerpt">A deep-dive into rendering strategies, state management patterns, and team-scaling trade-offs for large frontend codebases.</p>
+        <a href="#" onclick="showArticle('art-ui-architecture'); return false;" class="read-more">Read more →</a>
+      </div>
+
+      <div class="post-card">
+        <div class="post-meta">
+          <span class="tag yellow">Security</span>
+          <span class="tag red">Supply Chain</span>
+          <span>📅 January 2025</span>
+          <span>⏱ 10 min read</span>
+        </div>
+        <h3><a href="#" onclick="showArticle('art-security'); return false;">Securing Your Tech Stack: Supply Chain Risks and Hardening Strategies</a></h3>
+        <p class="post-excerpt">From XZ Utils to event-stream: how modern supply chain attacks work, and the layered defences every enterprise engineering team should implement today.</p>
+        <a href="#" onclick="showArticle('art-security'); return false;" class="read-more">Read more →</a>
+      </div>
+
+      <div class="post-card">
+        <div class="post-meta">
+          <span class="tag blue">Performance</span>
+          <span class="tag">Benchmarks</span>
+          <span>📅 December 2024</span>
+          <span>⏱ 8 min read</span>
+        </div>
+        <h3><a href="#" onclick="showArticle('art-performance'); return false;">Backend Performance at Scale: Benchmarks, Bottlenecks, and Practical Optimizations</a></h3>
+        <p class="post-excerpt">Go can handle 90K+ RPS out of the box; Rust can push past 200K. But raw throughput is rarely the bottleneck in enterprise systems. Here's where performance actually matters — and where it doesn't.</p>
+        <a href="#" onclick="showArticle('art-performance'); return false;" class="read-more">Read more →</a>
+      </div>
+
+      <div class="post-card">
+        <div class="post-meta">
+          <span class="tag green">DevOps</span>
+          <span class="tag blue">CI/CD</span>
+          <span>📅 November 2024</span>
+          <span>⏱ 7 min read</span>
+        </div>
+        <h3><a href="#" onclick="showArticle('art-devops'); return false;">CI/CD for Multi-Language Enterprise Monorepos</a></h3>
+        <p class="post-excerpt">Managing CI pipelines for teams running Go services, Python data pipelines, and React frontends in the same repository — without making every build take 20 minutes.</p>
+        <a href="#" onclick="showArticle('art-devops'); return false;" class="read-more">Read more →</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="blog-sidebar">
+    <div class="sidebar-widget">
+      <h3>📂 Topics</h3>
+      <ul>
+        <li><a href="#">🔧 Backend (4)</a></li>
+        <li><a href="#">🎨 UI Frameworks (3)</a></li>
+        <li><a href="#">🔒 Security (2)</a></li>
+        <li><a href="#">⚙️ DevOps &amp; CI/CD (2)</a></li>
+        <li><a href="#">🏛️ Architecture (3)</a></li>
+        <li><a href="#">⚡ Performance (2)</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-widget">
+      <h3>🔗 Quick Links</h3>
+      <ul>
+        <li><a href="index.html">🏠 Comparison Site</a></li>
+        <li><a href="docs.html">📖 Documentation</a></li>
+        <li><a href="index.html#backend">🔧 Backend Guide</a></li>
+        <li><a href="index.html#security">🔒 Security Guide</a></li>
+        <li><a href="https://github.com/chefgs/techstack-comparisons" target="_blank" rel="noopener">⭐ GitHub Repo</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-widget">
+      <h3>🗂 All Articles</h3>
+      <ul>
+        <li><a href="#" onclick="showArticle('art-backend-selection'); return false;">Go vs Python vs Rust for Enterprise</a></li>
+        <li><a href="#" onclick="showArticle('art-ui-architecture'); return false;">Enterprise Frontend Architecture</a></li>
+        <li><a href="#" onclick="showArticle('art-security'); return false;">Supply Chain Security</a></li>
+        <li><a href="#" onclick="showArticle('art-performance'); return false;">Backend Performance at Scale</a></li>
+        <li><a href="#" onclick="showArticle('art-devops'); return false;">CI/CD for Monorepos</a></li>
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<!-- ================================================
+     ARTICLE: BACKEND SELECTION
+     ================================================ -->
+<div class="article-layout" id="art-backend-selection" style="display:none;">
+  <a href="#" onclick="showIndex(); return false;" style="color:var(--clr-muted);font-size:.9rem;display:inline-block;margin-bottom:1.5rem;">← Back to Blog</a>
+  <div class="article-header">
+    <div class="post-meta">
+      <span class="tag red">Enterprise Architecture</span>
+      <span class="tag blue">Backend</span>
+      <span>📅 March 2025</span>
+      <span>⏱ 12 min read</span>
+    </div>
+    <h1>Choosing Your Enterprise Backend Language: Go, Python, or Rust?</h1>
+    <p style="font-size:1.05rem;color:var(--clr-muted);">Selecting a backend language is one of the highest-leverage engineering decisions your organization will make. This article provides a rigorous decision framework grounded in production trade-offs.</p>
+  </div>
+  <div class="article-body">
+
+    <p>Every few years, the industry goes through another cycle of "which language should we use?" articles, most of which devolve into benchmark theatre — hand-picked microbenchmarks designed to flatter the author's preferred language. This article takes a different approach: we compare <strong>Go</strong>, <strong>Python</strong>, and <strong>Rust</strong> across the dimensions that actually determine success or failure in enterprise engineering environments.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">📌</div>
+      <div><p><strong>TL;DR:</strong> Use <strong>Python</strong> for AI/ML, rapid prototyping, and data pipelines. Use <strong>Go</strong> for cloud services, APIs, and infrastructure tooling. Use <strong>Rust</strong> for cryptographic libraries, firmware, WebAssembly, and latency-critical systems where GC pauses are unacceptable. When in doubt, Go is the safe enterprise default.</p></div>
+    </div>
+
+    <h2>The Four Questions That Matter</h2>
+
+    <p>Before choosing a language, answer these four questions for each proposed service:</p>
+    <ol>
+      <li><strong>What is the performance requirement?</strong> — Throughput (RPS), latency (p99), and memory footprint under load</li>
+      <li><strong>What is the team's current expertise?</strong> — Training costs are real. A language switch can cost 6–18 months of productivity loss</li>
+      <li><strong>What is the dependency ecosystem requirement?</strong> — Does the domain (AI/ML, web, embedded) have mature libraries?</li>
+      <li><strong>What is the hiring market like?</strong> — You need to be able to grow your team</li>
+    </ol>
+
+    <h2>Go: The Enterprise Default for Cloud Services</h2>
+
+    <p>Go was designed at Google to solve exactly the problems enterprise engineering teams face: large codebases, diverse teams, and the need for fast, reliable deployment. Its philosophy is captured in Rob Pike's quote: <em>"Simplicity is the prerequisite for reliability."</em></p>
+
+    <p>What makes Go the right choice for most cloud services:</p>
+    <ul>
+      <li><strong>Compilation speed.</strong> A 100,000-line Go codebase compiles in under 10 seconds. This directly impacts developer iteration speed and CI pipeline times.</li>
+      <li><strong>Tiny containers.</strong> A Go service compiles to a static binary of 5–15 MB. Compare this to a Python service requiring a 200–400 MB Docker image with an interpreter and dependencies.</li>
+      <li><strong>Goroutines and channels.</strong> Go's concurrency model handles tens of thousands of concurrent connections without the complexity of async/await callback hell. This is why Docker, Kubernetes, and Terraform are all written in Go.</li>
+      <li><strong>Single way to do things.</strong> Go's opinionated formatting (<code>gofmt</code>) and limited feature set mean that Go code written by different engineers looks the same. This reduces code review friction and onboarding time.</li>
+    </ul>
+
+    <h3>Where Go falls short</h3>
+    <p>Go's simplicity is also its limitation. The verbose error handling pattern (<code>if err != nil { return err }</code>) is a common complaint — a typical Go function will have multiple error check branches. Go also has a smaller ecosystem than Python or JavaScript for specialized domains like ML, data science, and scientific computing.</p>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠️</div>
+      <div><p><strong>Don't use Go for:</strong> ML model training or inference (Python's PyTorch/TensorFlow ecosystem is unmatched), complex analytical pipelines (Pandas/NumPy/Polars), or one-off automation scripts where Python's 10× development speed advantage is more valuable than runtime performance.</p></div>
+    </div>
+
+    <h2>Python: The AI/ML Standard and Rapid Iteration Champion</h2>
+
+    <p>Python's dominance in AI/ML is not accidental. PyTorch, TensorFlow, scikit-learn, Hugging Face Transformers, LangChain — the entire modern AI stack runs on Python. If your organization is building AI-enabled products, Python is not optional.</p>
+
+    <p>Beyond AI, Python's productivity advantage for prototyping is real. A FastAPI endpoint can be written in 10 lines of Python that would require 40–60 lines in Go. For internal tools, analytics dashboards, and data pipelines, this velocity advantage often outweighs performance concerns.</p>
+
+    <h3>Scaling Python in production</h3>
+    <p>Python gets a bad reputation for production scalability, often unfairly. Instagram runs Django at scale, Dropbox runs Python at enormous scale, and FastAPI services with uvicorn can serve 8–15K RPS per instance. The key is architectural discipline:</p>
+
+    <ul>
+      <li>Run multiple async workers (uvicorn + gunicorn) behind a load balancer</li>
+      <li>Never do CPU-bound work in the web process — delegate to task queues (Celery, Dramatiq)</li>
+      <li>Cache aggressively (Redis, Memcached) to avoid repeated computation</li>
+      <li>Use <strong>async</strong> throughout your I/O stack (asyncpg, httpx, aioredis)</li>
+    </ul>
+
+    <h3>Python's enterprise risks</h3>
+    <p>The two most significant enterprise risks with Python are dependency management and dynamic typing. Both are solvable:</p>
+
+    <ul>
+      <li><strong>Dependency management:</strong> Mandate <code>uv</code> or <code>poetry</code> with locked dependency files. Run <code>pip-audit</code> in CI. Enforce Docker image pinning.</li>
+      <li><strong>Dynamic typing:</strong> Adopt mypy in strict mode from project start. Use Pydantic v2 for runtime validation at API boundaries. Treat type errors as build failures in CI.</li>
+    </ul>
+
+    <h2>Rust: The Security-First Systems Language</h2>
+
+    <p>Rust's ownership model eliminates entire classes of vulnerabilities that have plagued C and C++ for decades: buffer overflows, use-after-free, null pointer dereferences, and data races. This is why the NSA, the White House, CISA, and major technology companies are actively recommending migration to memory-safe languages like Rust for new systems software.</p>
+
+    <p>Rust is not a general-purpose web backend language for most teams. Its learning curve (the borrow checker) and slower development velocity (compared to Go or Python) mean it is over-engineered for typical CRUD applications. But for the right problems, it is the best tool available:</p>
+
+    <ul>
+      <li><strong>Cryptographic libraries</strong> — the Rust ecosystem (ring, RustCrypto) has become the gold standard for implementing cryptographic primitives safely</li>
+      <li><strong>WebAssembly</strong> — Rust compiles to compact, efficient WASM and is the dominant language for Cloudflare Workers and browser plugin runtimes (Figma uses Rust WASM)</li>
+      <li><strong>High-frequency trading and financial services</strong> — zero GC pauses, predictable sub-millisecond latency</li>
+      <li><strong>CLI tools and developer tooling</strong> — fast, single-binary tools with no runtime dependency (Ripgrep, Bat, Zoxide are all Rust)</li>
+    </ul>
+
+    <h3>Rust at enterprise scale: the adoption path</h3>
+    <p>The most successful enterprise Rust adoptions start small and expand incrementally. Recommended approach:</p>
+
+    <ol>
+      <li>Start with <strong>new CLI tooling</strong> — fast iteration, low blast radius</li>
+      <li>Move to <strong>isolated WASM modules</strong> called from existing JS/Python code</li>
+      <li>Introduce Rust for <strong>high-performance service components</strong> using PyO3 (Rust + Python FFI)</li>
+      <li>Eventually, new high-throughput services are written in Rust natively</li>
+    </ol>
+
+    <h2>The Polyglot Enterprise Stack</h2>
+
+    <p>The strongest enterprise backends are typically polyglot. This is not a failure of consistency — it is intelligent tool selection. A common pattern at scale:</p>
+
+    <ul>
+      <li><strong>Go</strong> — core API services, DevOps tooling, microservices mesh layer</li>
+      <li><strong>Python</strong> — ML model serving (FastAPI), data pipelines (Airflow, dbt), analytics APIs</li>
+      <li><strong>Rust</strong> — cryptographic library, WASM plugin runtime, high-frequency pricing engine</li>
+      <li><strong>Node.js / TypeScript</strong> — BFF (Backend for Frontend) layer, API gateway, real-time features</li>
+    </ul>
+
+    <p>The key is enforcing <strong>API contracts</strong> (gRPC or OpenAPI) between services, using <strong>shared infrastructure</strong> (Kubernetes, Prometheus, Jaeger, Kafka), and maintaining <strong>consistent CI/CD practices</strong> across all services regardless of language.</p>
+
+    <div class="callout callout-good">
+      <div class="callout-icon">✅</div>
+      <div><p><strong>Final recommendation:</strong> If you can only choose one language for your enterprise backend team, choose <strong>Go</strong>. Its combination of performance, simplicity, strong concurrency, and cloud-native tooling support makes it the lowest-risk, highest-reward choice for the widest range of backend workloads. Introduce Python and Rust as specialized tools for specific problem domains as the organization matures.</p></div>
+    </div>
+
+    <div class="article-nav">
+      <span></span>
+      <a href="#" onclick="showArticle('art-ui-architecture'); return false;">Next: Enterprise Frontend Architecture →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================
+     ARTICLE: UI ARCHITECTURE
+     ================================================ -->
+<div class="article-layout" id="art-ui-architecture" style="display:none;">
+  <a href="#" onclick="showIndex(); return false;" style="color:var(--clr-muted);font-size:.9rem;display:inline-block;margin-bottom:1.5rem;">← Back to Blog</a>
+  <div class="article-header">
+    <div class="post-meta">
+      <span class="tag green">UI Architecture</span>
+      <span class="tag">Frontend</span>
+      <span>📅 February 2025</span>
+      <span>⏱ 9 min read</span>
+    </div>
+    <h1>Enterprise Frontend Architecture: React, Angular, or Astro?</h1>
+    <p style="font-size:1.05rem;color:var(--clr-muted);">A deep-dive into rendering strategies, state management patterns, and team-scaling trade-offs for large frontend codebases.</p>
+  </div>
+  <div class="article-body">
+
+    <p>Frontend architecture decisions have an exceptionally long tail. The framework your team picks today is likely the codebase you'll be maintaining in 2030. Unlike backend services, which can be rewritten incrementally, large frontend applications accumulate significant migration costs. Choose carefully.</p>
+
+    <h2>The Enterprise Framework Trifecta</h2>
+
+    <p>Three frameworks dominate enterprise frontend development: <strong>Angular</strong> (Google), <strong>React</strong> (Meta), and <strong>Vue</strong> (community). Each occupies a distinct position in the market:</p>
+
+    <h3>Angular: Conventions-first enterprise framework</h3>
+    <p>Angular is the closest thing to a <em>batteries-included enterprise framework</em> in the JavaScript ecosystem. It ships with a CLI, DI container, HTTP client, routing, forms, i18n, and testing utilities out of the box. TypeScript is mandatory. The Angular team maintains strict long-term support policies (LTS for 18 months per major version).</p>
+
+    <p><strong>Angular is the right choice when:</strong></p>
+    <ul>
+      <li>Your team has 10+ frontend engineers who benefit from opinionated conventions</li>
+      <li>You need a framework that enforces structure and prevents architectural drift over time</li>
+      <li>Long-lived codebase longevity (5+ years) is more important than initial development speed</li>
+      <li>You are building complex forms-heavy enterprise applications (ERP, CRM, insurance portals)</li>
+    </ul>
+
+    <p><strong>Angular's trade-offs:</strong> Higher boilerplate, steeper initial learning curve, and heavier bundle sizes (~130KB+ for even small applications) compared to React or Svelte. Angular's signals-based reactivity (introduced in Angular 17) addresses historical performance concerns.</p>
+
+    <h3>React + Next.js: The production standard</h3>
+    <p>React's component model has become the industry standard because it represents a good balance of expressiveness and simplicity, backed by the largest ecosystem of UI components, state management solutions, and developer tooling available anywhere.</p>
+
+    <p>For production React applications in 2024–2025, the baseline recommendation is <strong>Next.js with the App Router</strong>, which provides:</p>
+    <ul>
+      <li>React Server Components — render components on the server, ship zero client-side JS for them</li>
+      <li>Multiple rendering strategies in the same application (SSG, SSR, ISR, Edge)</li>
+      <li>Built-in image optimization, font loading, and API routes</li>
+      <li>Vercel's deployment platform (or self-hosted on any Node.js server)</li>
+    </ul>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">💡</div>
+      <div><p>The React + Next.js + Tailwind + shadcn/ui + Prisma combination has become the dominant SaaS starter stack in 2024–2025. It provides excellent developer experience, a rich component ecosystem, and reasonable performance out of the box.</p></div>
+    </div>
+
+    <h3>Astro: For content-heavy enterprise sites</h3>
+    <p>Enterprise documentation sites, marketing sites, product landing pages, and knowledge bases are almost always better served by <strong>Astro</strong> than by React or Angular. Astro ships zero JavaScript by default, which produces dramatically better Core Web Vitals scores and lower hosting costs. When interactivity is needed, Astro's Islands Architecture hydrates only the specific components that need JavaScript, leaving the rest as static HTML.</p>
+
+    <h2>Rendering Strategy Drives Everything</h2>
+
+    <p>The most consequential architectural decision in a frontend application is where HTML is generated. This determines SEO, perceived performance, server costs, and caching strategy. The wrong choice here cannot be refactored cheaply.</p>
+
+    <p><strong>For authenticated enterprise dashboards:</strong> Client-Side Rendering (CSR) is often fine — users don't care about SEO, the data is personalized, and you can use a full SPA architecture with React/Angular. The first paint delay is acceptable for enterprise internal tools.</p>
+
+    <p><strong>For public-facing pages:</strong> Use SSG (for static content) or SSR (for dynamic content). Never ship a CSR-only experience to public users — crawlers and users on slow connections will both suffer.</p>
+
+    <p><strong>For large-scale content platforms:</strong> ISR (Incremental Static Regeneration) in Next.js allows you to serve statically generated pages while re-generating stale ones in the background. This is the best of both worlds for catalog pages, blog posts, and product listings.</p>
+
+    <h2>State Management: The Most Over-Engineered Problem in Frontend</h2>
+
+    <p>The most common frontend architecture mistake is reaching for Redux or MobX to solve a problem that is actually a server-state management problem, not a global state management problem. The modern answer is:</p>
+
+    <ul>
+      <li><strong>TanStack Query (React Query)</strong> for all server state — fetching, caching, background refetching, pagination, and mutations</li>
+      <li><strong>Zustand</strong> for simple global UI state (user preferences, auth status, notification queues)</li>
+      <li><strong>React Hook Form + Zod</strong> for all form state and validation</li>
+      <li><strong>URL search params</strong> (nuqs library) for filter/search state that should survive page refresh</li>
+    </ul>
+
+    <p>This four-tool combination handles 95% of frontend state management needs without the overhead of Redux.</p>
+
+    <h2>Design Systems at Enterprise Scale</h2>
+
+    <p>Enterprise organizations with multiple teams building multiple products need a <strong>shared design system</strong> to maintain visual consistency and prevent duplicated component work. The recommended approach:</p>
+
+    <ol>
+      <li>Adopt an <strong>unstyled headless component library</strong> (Radix UI, Headless UI, React Aria) as the accessibility and interaction foundation</li>
+      <li>Layer your design tokens (colors, spacing, typography) on top using CSS custom properties</li>
+      <li>Publish the combined result as an internal npm package (or use shadcn/ui and copy the components into your codebase)</li>
+      <li>Use <strong>Storybook</strong> for component documentation and visual regression testing</li>
+      <li>Define contribution guidelines — when to build a new component vs reuse an existing one</li>
+    </ol>
+
+    <div class="callout callout-good">
+      <div class="callout-icon">✅</div>
+      <div><p><strong>Recommended enterprise frontend stacks:</strong><br/>
+        • <strong>New SaaS product:</strong> Next.js App Router + shadcn/ui + Tailwind + TanStack Query<br/>
+        • <strong>Large enterprise app:</strong> Angular + NgRx + Angular Material + Nx monorepo<br/>
+        • <strong>Content/marketing site:</strong> Astro + Tailwind (zero JS shipped)<br/>
+        • <strong>Internal dashboard:</strong> React + Vite + TanStack Table + Recharts or Tremor
+      </p></div>
+    </div>
+
+    <div class="article-nav">
+      <a href="#" onclick="showArticle('art-backend-selection'); return false;">← Go, Python, Rust Enterprise Guide</a>
+      <a href="#" onclick="showArticle('art-security'); return false;">Next: Supply Chain Security →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================
+     ARTICLE: SECURITY
+     ================================================ -->
+<div class="article-layout" id="art-security" style="display:none;">
+  <a href="#" onclick="showIndex(); return false;" style="color:var(--clr-muted);font-size:.9rem;display:inline-block;margin-bottom:1.5rem;">← Back to Blog</a>
+  <div class="article-header">
+    <div class="post-meta">
+      <span class="tag yellow">Security</span>
+      <span class="tag red">Supply Chain</span>
+      <span>📅 January 2025</span>
+      <span>⏱ 10 min read</span>
+    </div>
+    <h1>Securing Your Tech Stack: Supply Chain Risks and Hardening Strategies</h1>
+    <p style="font-size:1.05rem;color:var(--clr-muted);">How modern supply chain attacks work and the layered defences every enterprise engineering team should implement today.</p>
+  </div>
+  <div class="article-body">
+
+    <p>On March 29, 2024, a Microsoft engineer named Andres Freund noticed something unusual while profiling SSH connection times on a Debian machine. His 500ms slowdown turned out to be a backdoor in <strong>XZ Utils</strong> — a compression utility present in virtually every Linux distribution — planted by a sophisticated nation-state actor through a multi-year social engineering campaign. The attacker had spent two years building trust as a legitimate open-source contributor before inserting malicious code.</p>
+
+    <p>This was not an anomaly. Event-stream (2018), ua-parser-js (2021), node-ipc (2022), and dozens of smaller incidents demonstrate that the open-source supply chain is a primary attack vector against enterprise software. Understanding and mitigating this risk is now a core engineering responsibility.</p>
+
+    <h2>How Supply Chain Attacks Work</h2>
+
+    <p>Supply chain attacks exploit the trust relationship between developers and the packages they depend on. The main vectors:</p>
+
+    <h3>1. Compromised maintainer accounts</h3>
+    <p>An attacker gains control of a legitimate maintainer's account (via credential theft, phishing, or purchasing inactive accounts) and publishes a malicious version. PyPI and npm are both high-risk ecosystems for this attack because publishing is trivial.</p>
+
+    <h3>2. Dependency confusion / namespace attacks</h3>
+    <p>An attacker publishes a package to a public registry with the same name as a private internal package. Package managers that check public registries before private ones will install the malicious version. This attack vector was demonstrated at scale by Alex Birsan in 2021, compromising Microsoft, Apple, Shopify, and others.</p>
+
+    <h3>3. Typosquatting</h3>
+    <p>Packages named <code>requets</code>, <code>colourama</code>, or <code>cryptograhy</code> that look like legitimate packages when mistyped. Python's PyPI has historically had a higher incidence of typosquatting packages than npm, Cargo, or Go modules.</p>
+
+    <h3>4. Social engineering of maintainers</h3>
+    <p>The XZ Utils attack is the most sophisticated example: a fictional person ("Jia Tan") spent two years contributing high-quality code to a legitimate project, building trust, eventually getting commit access, and then inserting a backdoor. This attack is difficult to defend against at the code level — it requires community vigilance and code review processes.</p>
+
+    <h2>Ecosystem Risk Profiles</h2>
+
+    <p>Not all package ecosystems carry the same risk. Here is a frank assessment:</p>
+
+    <ul>
+      <li><strong>Cargo (Rust)</strong> — Lowest risk. Packages are identified by crate name + author. <code>cargo-audit</code> scans for CVEs. Build scripts (<code>build.rs</code>) can execute code, which is the main vector to monitor.</li>
+      <li><strong>Go modules</strong> — Very low risk. Module identity includes the full domain path (e.g., <code>github.com/org/repo</code>), making impersonation harder. <code>go.sum</code> checksum verification provides integrity. No arbitrary code execution on module download.</li>
+      <li><strong>npm (Node.js)</strong> — Medium-high risk. <code>postinstall</code> scripts can execute arbitrary code at install time. The ecosystem has ~2 million packages, making vetting difficult. Transitive dependency depth is commonly 1,000+ packages for a typical app.</li>
+      <li><strong>pip (Python)</strong> — Highest risk of these four. <code>setup.py</code> executes arbitrary code at install time. PyPI's namespace is flat (one global namespace), making typosquatting easy. The <code>pip-audit</code> tool helps, but the fundamental namespace and install-time execution risks require architectural responses.</li>
+    </ul>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠️</div>
+      <div><p><strong>npm transitive dependencies:</strong> A React app created with <code>create-react-app</code> or Vite will pull in approximately 800–1,200 transitive npm packages on install. Each of these is a separate attack surface. Minimize dependencies where possible and audit regularly.</p></div>
+    </div>
+
+    <h2>The Defence Stack: Seven Layers</h2>
+
+    <h3>Layer 1: Lock all dependency versions</h3>
+    <p>Commit your lockfiles (<code>package-lock.json</code>, <code>Cargo.lock</code>, <code>go.sum</code>, <code>uv.lock</code>) to version control. Never use version ranges without lockfiles. Use <code>npm ci</code> (clean install) rather than <code>npm install</code> in CI to enforce reproducible builds.</p>
+
+    <h3>Layer 2: Vulnerability scanning in CI</h3>
+    <p>Run vulnerability scans on every pull request and block merges on high/critical findings:</p>
+    <ul>
+      <li>Rust: <code>cargo audit</code></li>
+      <li>Go: <code>govulncheck ./...</code></li>
+      <li>Node.js: <code>npm audit --audit-level=high</code></li>
+      <li>Python: <code>pip-audit</code></li>
+      <li>Multi-ecosystem: <strong>Snyk</strong> or <strong>Dependabot</strong></li>
+    </ul>
+
+    <h3>Layer 3: Automated dependency updates</h3>
+    <p>Use <strong>Dependabot</strong> or <strong>Renovate Bot</strong> to automatically create PRs for dependency updates. Configure auto-merge for patch-level updates that pass CI. This ensures you pick up security patches promptly without manual effort.</p>
+
+    <h3>Layer 4: Container image scanning</h3>
+    <p>All production container images should be scanned for OS-level vulnerabilities using <strong>Trivy</strong>, <strong>Grype</strong>, or <strong>Snyk Container</strong>. Fail deployments when critical CVEs are present in the base image. Use minimal base images (distroless, scratch) to reduce the OS package attack surface.</p>
+
+    <h3>Layer 5: Supply chain integrity (SLSA)</h3>
+    <p>The <strong>SLSA</strong> (Supply chain Levels for Software Artifacts) framework provides a certification system for build provenance. At minimum, publish signed SBOMs (Software Bill of Materials) in CycloneDX or SPDX format for all release artifacts. This is increasingly required for regulated industries and government contracts.</p>
+
+    <h3>Layer 6: Evaluating new dependencies</h3>
+    <p>Before adding a new package, evaluate it with:</p>
+    <ul>
+      <li><strong>Socket.dev</strong> — scans for malware, install scripts, suspicious patterns, and maintainer history</li>
+      <li><strong>OSS Scorecard</strong> — Google's open-source project health scorecard (CI/CD practices, dependency pinning, code review policies)</li>
+      <li>Manual check: Does the package have a meaningful test suite? Active maintainers? Recent commits?</li>
+    </ul>
+
+    <h3>Layer 7: Network egress controls</h3>
+    <p>Production containers should not have unrestricted internet access. A compromised package that attempts to exfiltrate data or connect to a command-and-control server will fail silently if network egress is restricted to known good endpoints.</p>
+
+    <div class="callout callout-good">
+      <div class="callout-icon">✅</div>
+      <div><p><strong>Minimum viable supply chain security:</strong> At minimum, every enterprise team should have (1) lockfiles committed, (2) automated vulnerability scanning in CI, and (3) Dependabot or Renovate enabled. These three measures address the majority of supply chain risk with minimal operational overhead.</p></div>
+    </div>
+
+    <div class="article-nav">
+      <a href="#" onclick="showArticle('art-ui-architecture'); return false;">← Enterprise Frontend Architecture</a>
+      <a href="#" onclick="showArticle('art-performance'); return false;">Next: Backend Performance at Scale →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================
+     ARTICLE: PERFORMANCE
+     ================================================ -->
+<div class="article-layout" id="art-performance" style="display:none;">
+  <a href="#" onclick="showIndex(); return false;" style="color:var(--clr-muted);font-size:.9rem;display:inline-block;margin-bottom:1.5rem;">← Back to Blog</a>
+  <div class="article-header">
+    <div class="post-meta">
+      <span class="tag blue">Performance</span>
+      <span class="tag">Benchmarks</span>
+      <span>📅 December 2024</span>
+      <span>⏱ 8 min read</span>
+    </div>
+    <h1>Backend Performance at Scale: Benchmarks, Bottlenecks, and Practical Optimizations</h1>
+    <p style="font-size:1.05rem;color:var(--clr-muted);">Go can handle 90K+ RPS out of the box; Rust can push past 200K. But raw throughput is rarely the bottleneck in enterprise systems.</p>
+  </div>
+  <div class="article-body">
+
+    <p>Every few months, a new benchmark article circulates showing that Language X can handle N million requests per second on a 32-core machine, vastly outperforming Language Y. These benchmarks are real — and largely irrelevant to enterprise engineering decisions. Here's why, and what actually matters.</p>
+
+    <h2>The Benchmark Illusion</h2>
+
+    <p>Language benchmarks typically measure the performance of a "hello world" HTTP server — a service that returns a fixed string with no I/O, no database calls, and no business logic. The results are largely determined by the overhead of the HTTP framework and the garbage collector.</p>
+
+    <p>In real enterprise services, the performance characteristics are dominated by:</p>
+    <ul>
+      <li><strong>Database query latency</strong> (typically 1–100ms per query)</li>
+      <li><strong>External API call latency</strong> (typically 10–500ms)</li>
+      <li><strong>Serialization/deserialization overhead</strong> (JSON parsing, protobuf encoding)</li>
+      <li><strong>Authentication and authorization checks</strong></li>
+    </ul>
+
+    <p>A service that does one database query and one external API call will be 10–100× slower than the HTTP framework's raw throughput ceiling — regardless of language. A Python service with async I/O that makes efficient database calls will often outperform a naively written Go service that blocks on synchronous calls.</p>
+
+    <h2>Real-World Throughput Expectations</h2>
+
+    <p>Based on production observations across enterprise services (not synthetic benchmarks):</p>
+
+    <ul>
+      <li><strong>Go (Gin/Echo) with PostgreSQL:</strong> 5,000–25,000 RPS at p99 &lt;50ms on a single 4-core instance</li>
+      <li><strong>Python (FastAPI + asyncpg):</strong> 2,000–10,000 RPS at p99 &lt;100ms on a single 4-core instance</li>
+      <li><strong>Rust (Axum + sqlx):</strong> 8,000–40,000 RPS at p99 &lt;30ms on a single 4-core instance</li>
+      <li><strong>Node.js (Express + pg):</strong> 3,000–15,000 RPS at p99 &lt;80ms on a single 4-core instance</li>
+    </ul>
+
+    <p>These numbers vary enormously by query complexity, caching, and connection pooling. A properly indexed PostgreSQL query with connection pooling (pgBouncer) will be 10× faster than an unoptimized query with a new connection per request.</p>
+
+    <h2>Where Performance Actually Matters</h2>
+
+    <p>Performance optimization should be driven by measurement, not assumption. The areas where language performance matters most in enterprise systems:</p>
+
+    <h3>CPU-bound computation</h3>
+    <p>If your service does significant in-process computation (cryptography, compression, image processing, complex business logic without I/O waits), language choice matters significantly. Rust will be 10–50× faster than Python for CPU-bound tasks. Go will be 5–15× faster than Python.</p>
+
+    <p><strong>Solution:</strong> Offload CPU-bound Python workloads to Rust or Go via FFI (PyO3, CGo), or move them to worker processes that can scale independently.</p>
+
+    <h3>Tail latency (p99, p999)</h3>
+    <p>Go's garbage collector occasionally introduces latency spikes of 1–10ms. Rust has no GC and delivers consistent sub-millisecond latencies. For financial systems, real-time gaming, or high-frequency trading where p99 latency matters as much as p50, Rust's deterministic performance is a genuine advantage.</p>
+
+    <h3>Memory efficiency at scale</h3>
+    <p>When running hundreds of microservice instances, memory efficiency compounds. A Go service might use 30MB of RAM at idle; a Python service might use 150MB. At 100 instances, that's a difference of 12GB of RAM. At $0.10/GB-hour, this is $1,050/month in pure memory cost — often more relevant than raw performance numbers.</p>
+
+    <h2>Practical Optimization Checklist</h2>
+
+    <p>Before scaling horizontally (adding more instances), exhaust these vertical optimizations:</p>
+
+    <h3>Database tier</h3>
+    <ul>
+      <li>Enable <strong>query logging</strong> and identify slow queries (EXPLAIN ANALYZE in PostgreSQL)</li>
+      <li>Add appropriate indexes — most enterprise performance problems are missing index problems</li>
+      <li>Use a <strong>connection pool</strong> (PgBouncer for PostgreSQL, RDS Proxy for AWS)</li>
+      <li>Cache read-heavy data in Redis with appropriate TTLs</li>
+      <li>Use <strong>pagination</strong> on all list endpoints — never return unbounded query results</li>
+    </ul>
+
+    <h3>Application tier</h3>
+    <ul>
+      <li>Profile before optimizing: Go (<code>pprof</code>), Python (<code>py-spy</code>), Rust (<code>flamegraph</code>)</li>
+      <li>Parallelize independent I/O operations (fan-out pattern)</li>
+      <li>Use <strong>HTTP/2</strong> for service-to-service calls to reduce connection overhead</li>
+      <li>Add response caching with <code>Cache-Control</code> headers for idempotent endpoints</li>
+    </ul>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">📌</div>
+      <div><p><strong>The 80/20 rule of backend performance:</strong> 80% of enterprise backend performance problems are solved by proper database indexing and connection pooling. The remaining 20% may require language-level optimizations, caching strategies, or architecture changes. Always profile and measure before changing your language or framework.</p></div>
+    </div>
+
+    <div class="article-nav">
+      <a href="#" onclick="showArticle('art-security'); return false;">← Supply Chain Security</a>
+      <a href="#" onclick="showArticle('art-devops'); return false;">Next: CI/CD for Monorepos →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================
+     ARTICLE: DEVOPS
+     ================================================ -->
+<div class="article-layout" id="art-devops" style="display:none;">
+  <a href="#" onclick="showIndex(); return false;" style="color:var(--clr-muted);font-size:.9rem;display:inline-block;margin-bottom:1.5rem;">← Back to Blog</a>
+  <div class="article-header">
+    <div class="post-meta">
+      <span class="tag green">DevOps</span>
+      <span class="tag blue">CI/CD</span>
+      <span>📅 November 2024</span>
+      <span>⏱ 7 min read</span>
+    </div>
+    <h1>CI/CD for Multi-Language Enterprise Monorepos</h1>
+    <p style="font-size:1.05rem;color:var(--clr-muted);">Managing CI pipelines for teams running Go services, Python data pipelines, and React frontends in the same repository — without making every build take 20 minutes.</p>
+  </div>
+  <div class="article-body">
+
+    <p>As enterprise engineering teams mature, they frequently consolidate multiple services into a monorepo to improve code sharing, atomic cross-service changes, and developer experience. The common failure mode: a monorepo where every PR triggers a full build and test of every service, resulting in 30-minute CI pipelines that developers learn to ignore.</p>
+
+    <h2>The Monorepo CI Problem</h2>
+
+    <p>The root cause of slow monorepo CI is the absence of <strong>affected change detection</strong>. Without it, every commit triggers every job regardless of which files changed. A CSS change in the marketing frontend should not trigger a rebuild of the Go payment service.</p>
+
+    <p>The solution has two components:</p>
+    <ol>
+      <li><strong>Change detection</strong> — determine which projects were affected by the current commit</li>
+      <li><strong>Build caching</strong> — cache build and test outputs so unchanged projects are skipped entirely</li>
+    </ol>
+
+    <h2>Tooling Options</h2>
+
+    <h3>Nx (recommended for JS/TS-heavy monorepos)</h3>
+    <p><strong>Nx</strong> is the most mature monorepo build system for JavaScript/TypeScript projects and supports plugins for Go, Python, and other languages. It provides:</p>
+    <ul>
+      <li>Dependency graph computation — knows which projects depend on which other projects</li>
+      <li>Affected detection — <code>nx affected --target=test</code> runs tests only for changed projects and their dependents</li>
+      <li>Distributed task execution — spreads CI jobs across multiple agents</li>
+      <li>Remote caching (Nx Cloud or self-hosted) — cache test results across developer machines and CI</li>
+    </ul>
+
+    <h3>Turborepo (lighter alternative)</h3>
+    <p><strong>Turborepo</strong> (by Vercel) is a simpler alternative to Nx with lower configuration overhead. Better for monorepos that are primarily JavaScript with a few non-JS services.</p>
+
+    <h3>Bazel (for truly polyglot monorepos)</h3>
+    <p><strong>Bazel</strong> (Google's build system) supports Go, Python, Rust, JavaScript, Java, and every other language with official or community rules. It provides hermetic builds (fully reproducible, no environment leakage) and remote caching. The trade-off is significant configuration complexity — Bazel is typically justified only for large organizations (50+ engineers, 10+ services, strict compliance requirements).</p>
+
+    <h2>Practical GitHub Actions Pattern</h2>
+
+    <p>For most enterprise teams, a GitHub Actions workflow with path-based filtering provides 80% of the benefit at 20% of the complexity:</p>
+
+    <pre><code># .github/workflows/ci.yml
+name: CI
+on:
+  pull_request:
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      go-services: ${{ steps.filter.outputs.go }}
+      python-services: ${{ steps.filter.outputs.python }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            go:
+              - 'services/**/*.go'
+              - 'services/**/go.mod'
+            python:
+              - 'pipelines/**/*.py'
+              - 'pipelines/**/pyproject.toml'
+            frontend:
+              - 'frontend/**'
+
+  go-ci:
+    needs: changes
+    if: needs.changes.outputs.go-services == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+      - run: go test ./services/...
+      - run: govulncheck ./services/...
+
+  python-ci:
+    needs: changes
+    if: needs.changes.outputs.python-services == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install uv && uv sync
+      - run: uv run pytest pipelines/
+      - run: pip-audit
+
+  frontend-ci:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build && npm run test && npm audit --audit-level=high</code></pre>
+
+    <p>With this pattern, a Python-only change triggers only the Python CI job, reducing a 20-minute full CI run to a 3-minute targeted run.</p>
+
+    <h2>Deployment Strategy</h2>
+
+    <p>Enterprise CI/CD pipelines should enforce a <strong>progressive delivery</strong> pattern to reduce deployment risk:</p>
+
+    <ul>
+      <li><strong>PR merge to main</strong> → automated deploy to staging with smoke tests</li>
+      <li><strong>Staging smoke test pass</strong> → canary deploy to production (10% traffic)</li>
+      <li><strong>Canary metrics healthy</strong> (error rate, latency SLO) for 30 minutes → full production rollout</li>
+      <li><strong>Canary metrics degraded</strong> → automatic rollback to previous version</li>
+    </ul>
+
+    <p>Tools that enable this: <strong>Argo Rollouts</strong> (Kubernetes), <strong>Flagger</strong> (Kubernetes), <strong>AWS CodeDeploy</strong>, or deployment platform features in <strong>Vercel</strong> and <strong>Railway</strong>.</p>
+
+    <div class="callout callout-good">
+      <div class="callout-icon">✅</div>
+      <div><p><strong>Key takeaway:</strong> Invest in change detection and build caching early in your monorepo's life. The compounding benefit as the codebase grows is enormous. A developer who can get CI feedback in 3 minutes rather than 20 minutes will iterate 5–6× faster — and will not be tempted to skip tests.</p></div>
+    </div>
+
+    <div class="article-nav">
+      <a href="#" onclick="showArticle('art-performance'); return false;">← Backend Performance at Scale</a>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <p>
+    <strong>TechStack Comparisons</strong> — open source reference guide ·
+    <a href="https://github.com/chefgs/techstack-comparisons" target="_blank" rel="noopener">GitHub</a> ·
+    <a href="index.html">Home</a> ·
+    <a href="docs.html">Documentation</a>
+  </p>
+  <p style="margin-top:.4rem;">Content is for educational purposes. Benchmarks are approximate and may vary by workload.</p>
+</footer>
+
+<button id="back-top" aria-label="Back to top">↑</button>
+
+<script>
+(function () {
+  'use strict';
+
+  function hideAll() {
+    document.getElementById('blog-index').style.display = 'none';
+    ['art-backend-selection','art-ui-architecture','art-security','art-performance','art-devops'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+  }
+
+  window.showIndex = function() {
+    hideAll();
+    document.getElementById('blog-index').style.display = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    history.replaceState(null, '', 'blog.html');
+  };
+
+  window.showArticle = function(id) {
+    hideAll();
+    var el = document.getElementById(id);
+    if (el) {
+      el.style.display = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      history.replaceState(null, '', 'blog.html#' + id);
+    }
+  };
+
+  // Handle deep links on load
+  var hash = location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    showArticle(hash);
+  }
+
+  // Mobile nav toggle
+  var navToggle = document.getElementById('nav-toggle');
+  navToggle && navToggle.addEventListener('click', function() {
+    var nav = document.getElementById('main-nav');
+    var isOpen = nav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  // Back to top
+  var backTop = document.getElementById('back-top');
+  window.addEventListener('scroll', function() {
+    backTop.classList.toggle('visible', window.scrollY > 300);
+  });
+  backTop.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>
