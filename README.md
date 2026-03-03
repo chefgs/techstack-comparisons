@@ -1,6 +1,6 @@
 # ⚡ TechStack Comparisons
 
-> A comprehensive, user-friendly reference website comparing backend technologies and UI frameworks — with real-world use-case recommendations, advanced UI/UX patterns, and security guidance.
+> A comprehensive, user-friendly reference website comparing backend technologies and UI frameworks — with real-world use-case recommendations, advanced UI/UX patterns, security guidance, enterprise documentation, and an engineering blog.
 
 [![Deploy to GitHub Pages](https://github.com/chefgs/techstack-comparisons/actions/workflows/deploy.yml/badge.svg)](https://github.com/chefgs/techstack-comparisons/actions/workflows/deploy.yml)
 
@@ -12,6 +12,14 @@
 
 ## 📚 What's Inside
 
+| Page | Description |
+|---|---|
+| 🏠 **[Home (index.html)](index.html)** | Interactive comparison of backend languages and UI frameworks with scoring tables, benchmark charts, and use-case guides |
+| 📖 **[Documentation (docs.html)](docs.html)** | In-depth enterprise reference documentation: backend decision frameworks, UI architecture, security hardening, architecture patterns, and DevOps tooling |
+| ✍️ **[Blog (blog.html)](blog.html)** | Engineering blog with narrative deep-dives: choosing a backend language, enterprise frontend architecture, supply chain security, performance at scale, and CI/CD for monorepos |
+
+### Home — Interactive Comparison Sections
+
 | Section | Topics Covered |
 |---|---|
 | 🔧 **Backend** | Go vs Python vs Rust — performance benchmarks, concurrency models, security profiles, and use-case recommendations |
@@ -19,13 +27,35 @@
 | ✨ **Advanced UI/UX** | Performance (code splitting, caching, virtual lists), animations (Framer Motion, GSAP, View Transitions), real-time (WebSockets, SSE), accessibility (WCAG 2.2, ARIA), design systems, architecture patterns (Islands, RSC, PWA, Edge) |
 | 🔒 **Security** | Memory safety scores, dependency ecosystem risk, XSS/CSRF prevention, SAST/DAST tooling, supply-chain security checklist |
 
+### Documentation — Enterprise Reference
+
+| Section | Topics Covered |
+|---|---|
+| 🔧 **Backend Deep Dive** | Go/Python/Rust enterprise use cases, framework selection, production checklists, decision matrix |
+| 🎨 **UI Architecture** | Rendering strategies (SSR/SSG/ISR/Edge/Islands/RSC), state management guide, enterprise framework selection |
+| 🔒 **Security Hardening** | Secure backend/frontend patterns, supply chain security (7-layer defence), compliance frameworks (SOC 2, HIPAA, PCI DSS, FedRAMP) |
+| 🏛️ **Architecture Patterns** | Microservices, monolith vs microservices decision guide, event-driven architecture, edge computing |
+| ⚙️ **DevOps & Tooling** | CI/CD pipeline stages, Docker best practices, observability stack (metrics, logs, traces), SLO framework |
+
+### Blog — Enterprise Engineering Articles
+
+| Article | Summary |
+|---|---|
+| **Choosing Your Enterprise Backend Language** | Go vs Python vs Rust decision framework grounded in production trade-offs |
+| **Enterprise Frontend Architecture** | React, Angular, Astro — rendering strategies, state management, design systems |
+| **Supply Chain Security** | XZ Utils attack anatomy, ecosystem risk profiles, 7-layer defence stack |
+| **Backend Performance at Scale** | Why benchmarks mislead, real-world RPS figures, practical optimization checklist |
+| **CI/CD for Multi-Language Monorepos** | Change detection, build caching, GitHub Actions patterns, progressive delivery |
+
 ---
 
 ## 🗂️ Repository Structure
 
 ```
 techstack-comparisons/
-├── index.html                  # Single-page app — all content lives here
+├── index.html                  # Single-page app — interactive tech stack comparisons
+├── docs.html                   # Enterprise technical documentation
+├── blog.html                   # Engineering blog with enterprise deep-dives
 ├── css/
 │   └── styles.css              # Dark-themed, responsive stylesheet (CSS variables, animations)
 ├── js/
@@ -128,6 +158,19 @@ This repo is designed to grow — pull requests adding new tech stack comparison
 3. Add corresponding styles in `css/styles.css` if needed
 4. Open a Pull Request — the CI workflow will validate your changes automatically
 
+### Adding documentation
+
+1. Edit `docs.html` — add new sections or expand existing topics
+2. Follow the existing section structure (h2 for major sections, h3 for subsections)
+3. Use the established CSS classes (`.note`, `.warn`, `.danger`, `.decision-table`, `.step-list`)
+
+### Adding blog posts
+
+1. Edit `blog.html` — add a new article `<div>` following the existing article template
+2. Add a card for it in the blog index (`#blog-index`) post list
+3. Add a sidebar link in the "All Articles" widget
+4. Wire up the `showArticle` / `showIndex` navigation in the article's nav footer
+
 ### Suggested future additions
 
 - [ ] Bun vs Node.js vs Deno runtime comparison
@@ -136,9 +179,12 @@ This repo is designed to grow — pull requests adding new tech stack comparison
 - [ ] Cloud provider comparison (AWS vs GCP vs Azure)
 - [ ] Mobile frameworks (React Native vs Flutter vs Expo)
 - [ ] Testing framework comparisons
+- [ ] Blog: Choosing a database for enterprise applications
+- [ ] Docs: Kubernetes deployment patterns for polyglot microservices
 
 ---
 
 ## 📄 License
 
 MIT — free to use, modify, and share.
+
