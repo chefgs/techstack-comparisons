@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechStack Comparisons — Go · Python · Rust · UI Frameworks</title>
+  <meta name="description" content="Comprehensive comparisons of backend technologies (Go, Python, Rust) and UI frameworks (React, Vue, Angular, Svelte, HTMX, Laravel, and more) with security and use-case guidance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- ================================================
+     HEADER / NAV
+     ================================================ -->
+<header id="site-header">
+  <div class="header-inner">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <span>TechStack Comparisons</span>
+    </div>
+
+    <button id="nav-toggle" aria-label="Toggle navigation">☰</button>
+
+    <nav id="main-nav" role="navigation">
+      <button class="nav-btn active" data-target="home">🏠 Home</button>
+      <button class="nav-btn" data-target="backend">🔧 Backend</button>
+      <button class="nav-btn" data-target="ui">🎨 UI Frameworks</button>
+      <button class="nav-btn" data-target="uiux">✨ UI/UX Capabilities</button>
+      <button class="nav-btn" data-target="security">🔒 Security</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ================================================
+     HERO
+     ================================================ -->
+<section id="hero">
+  <div class="hero-inner">
+    <h1>Tech Stack<br /><span style="background:linear-gradient(90deg,#6c63ff,#00d4aa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Comparisons</span></h1>
+    <p class="hero-sub">
+      Side-by-side comparisons of backend languages and UI frameworks — with real-world use-case recommendations, advanced UI/UX patterns, and security guidance.
+    </p>
+    <div class="badge-row">
+      <span class="badge badge-go">Go</span>
+      <span class="badge badge-python">Python</span>
+      <span class="badge badge-rust">Rust</span>
+      <span class="badge badge-js">React</span>
+      <span class="badge badge-js">Vue</span>
+      <span class="badge badge-js">Angular</span>
+      <span class="badge badge-js">Svelte</span>
+      <span class="badge badge-ui">HTMX</span>
+      <span class="badge badge-ui">Laravel</span>
+      <span class="badge badge-sec">Security Guide</span>
+    </div>
+    <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;">
+      <button class="nav-btn active" data-target="backend" style="padding:.6rem 1.4rem;font-size:1rem;">🔧 Explore Backend →</button>
+      <button class="nav-btn" data-target="ui" style="padding:.6rem 1.4rem;font-size:1rem;">🎨 Explore UI →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     SECTION: BACKEND
+     ================================================ -->
+<section id="backend" class="section">
+  <div class="section-header">
+    <div class="section-label">Backend Technologies</div>
+    <h2>Go vs Python vs Rust</h2>
+    <p>A comprehensive comparison of three modern backend languages — their strengths, trade-offs, and the projects where each one shines.</p>
+  </div>
+
+  <!-- Language Cards -->
+  <div class="card-grid card-grid-3" style="margin-bottom:2.5rem;">
+
+    <!-- Go -->
+    <div class="card go-card">
+      <div class="card-icon">🐹</div>
+      <h3 style="color:var(--clr-go)">Go (Golang)</h3>
+      <p>Designed at Google for simplicity and scalability. Compiled, statically typed, with built-in concurrency.</p>
+      <h4>Strengths</h4>
+      <ul>
+        <li>Extremely fast compile times</li>
+        <li>Built-in goroutines &amp; channels for concurrency</li>
+        <li>Small, single-binary deployments (great for containers)</li>
+        <li>Strong standard library — HTTP, JSON, crypto out of the box</li>
+        <li>Low memory footprint at scale</li>
+        <li>Simple, readable syntax — easy for teams to adopt</li>
+      </ul>
+      <h4>Weaknesses</h4>
+      <ul>
+        <li>Verbose error handling (<code>if err != nil</code>)</li>
+        <li>No generics until Go 1.18 (still maturing)</li>
+        <li>Smaller ML/data ecosystem than Python</li>
+        <li>Less expressive than Rust for systems-level safety</li>
+      </ul>
+      <div class="tag-row" style="margin-top:.75rem;">
+        <span class="tag blue">Concurrency</span>
+        <span class="tag green">Cloud-Native</span>
+        <span class="tag blue">Microservices</span>
+        <span class="tag">CLI Tools</span>
+      </div>
+    </div>
+
+    <!-- Python -->
+    <div class="card python-card">
+      <div class="card-icon">🐍</div>
+      <h3 style="color:var(--clr-python)">Python</h3>
+      <p>The world's most popular language for backend, scripting, data science, and AI/ML workflows.</p>
+      <h4>Strengths</h4>
+      <ul>
+        <li>Massive ecosystem — PyPI hosts 500k+ packages</li>
+        <li>Fastest prototyping speed</li>
+        <li>Dominant for ML/AI (PyTorch, TensorFlow, scikit-learn)</li>
+        <li>Django/FastAPI/Flask for web backends</li>
+        <li>Readable, beginner-friendly syntax</li>
+        <li>Excellent tooling for data pipelines &amp; automation</li>
+      </ul>
+      <h4>Weaknesses</h4>
+      <ul>
+        <li>GIL limits true CPU-bound parallelism</li>
+        <li>Slower runtime vs Go/Rust (often 5–20×)</li>
+        <li>Dependency hell — <code>requirements.txt</code> drift</li>
+        <li>High memory usage in large-scale services</li>
+        <li>Dynamic typing leads to runtime errors</li>
+      </ul>
+      <div class="tag-row" style="margin-top:.75rem;">
+        <span class="tag yellow">AI / ML</span>
+        <span class="tag yellow">Data Science</span>
+        <span class="tag green">Scripting</span>
+        <span class="tag">Automation</span>
+      </div>
+    </div>
+
+    <!-- Rust -->
+    <div class="card rust-card">
+      <div class="card-icon">🦀</div>
+      <h3 style="color:var(--clr-rust)">Rust</h3>
+      <p>Systems programming language with memory safety guarantees, blazing-fast performance, and zero-cost abstractions.</p>
+      <h4>Strengths</h4>
+      <ul>
+        <li>Memory safety without garbage collection</li>
+        <li>C/C++-comparable performance</li>
+        <li>Thread-safety enforced at compile time (fearless concurrency)</li>
+        <li>Excellent for WebAssembly (WASM) targets</li>
+        <li>Growing web backend ecosystem (Axum, Actix-web)</li>
+        <li>Cargo: best-in-class package manager &amp; build system</li>
+      </ul>
+      <h4>Weaknesses</h4>
+      <ul>
+        <li>Steep learning curve — borrow checker</li>
+        <li>Long compile times for large projects</li>
+        <li>Smaller ecosystem &amp; community vs Go/Python</li>
+        <li>Slower development velocity for typical CRUD apps</li>
+      </ul>
+      <div class="tag-row" style="margin-top:.75rem;">
+        <span class="tag red">Systems</span>
+        <span class="tag red">WASM</span>
+        <span class="tag green">Security</span>
+        <span class="tag">Embedded</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Comparison Table -->
+  <h3 style="margin-bottom:1rem;">📊 Feature Comparison Matrix</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Criterion</th>
+          <th style="color:var(--clr-go)">🐹 Go</th>
+          <th style="color:var(--clr-python)">🐍 Python</th>
+          <th style="color:var(--clr-rust)">🦀 Rust</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Runtime Performance</td><td><span class="tag blue">Very Fast</span></td><td><span class="tag yellow">Moderate</span></td><td><span class="tag green">Fastest</span></td></tr>
+        <tr><td>Startup Time</td><td><span class="tag blue">~1ms</span></td><td><span class="tag yellow">~50–200ms</span></td><td><span class="tag green">~0.5ms</span></td></tr>
+        <tr><td>Memory Safety</td><td><span class="tag yellow">GC managed</span></td><td><span class="tag yellow">GC managed</span></td><td><span class="tag green">Compile-time</span></td></tr>
+        <tr><td>Concurrency Model</td><td><span class="tag blue">Goroutines / CSP</span></td><td><span class="tag yellow">asyncio / threads</span></td><td><span class="tag green">async/await + threads</span></td></tr>
+        <tr><td>Learning Curve</td><td><span class="tag green">Easy–Medium</span></td><td><span class="tag green">Easy</span></td><td><span class="tag red">Hard</span></td></tr>
+        <tr><td>Ecosystem Maturity</td><td><span class="tag blue">Good</span></td><td><span class="tag green">Excellent</span></td><td><span class="tag yellow">Growing</span></td></tr>
+        <tr><td>Docker Image Size</td><td><span class="tag blue">~5–15 MB</span></td><td><span class="tag yellow">~100–400 MB</span></td><td><span class="tag blue">~5–15 MB</span></td></tr>
+        <tr><td>Build to Binary</td><td><span class="tag blue">Single binary</span></td><td><span class="tag yellow">Interpreter needed</span></td><td><span class="tag blue">Single binary</span></td></tr>
+        <tr><td>Type Safety</td><td><span class="tag blue">Static</span></td><td><span class="tag yellow">Dynamic (+ hints)</span></td><td><span class="tag green">Strong static</span></td></tr>
+        <tr><td>Error Handling</td><td><span class="tag yellow">Explicit, verbose</span></td><td><span class="tag yellow">Exceptions</span></td><td><span class="tag green">Result&lt;T,E&gt; types</span></td></tr>
+        <tr><td>WebAssembly Support</td><td><span class="tag yellow">Limited</span></td><td><span class="tag yellow">Pyodide (limited)</span></td><td><span class="tag green">First-class</span></td></tr>
+        <tr><td>AI / ML Ecosystem</td><td><span class="tag yellow">Limited</span></td><td><span class="tag green">Best-in-class</span></td><td><span class="tag yellow">Growing</span></td></tr>
+        <tr><td>Cloud-Native Fit</td><td><span class="tag green">Excellent</span></td><td><span class="tag blue">Good</span></td><td><span class="tag blue">Good</span></td></tr>
+        <tr><td>Dev Velocity (CRUD)</td><td><span class="tag blue">Fast</span></td><td><span class="tag green">Fastest</span></td><td><span class="tag yellow">Slow</span></td></tr>
+        <tr><td>Security Profile</td><td><span class="tag blue">Good</span></td><td><span class="tag yellow">Moderate</span></td><td><span class="tag green">Excellent</span></td></tr>
+        <tr><td>Popular Frameworks</td><td>Gin, Echo, Fiber, Chi</td><td>FastAPI, Django, Flask</td><td>Axum, Actix-web, Rocket</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Use-case Recommendations -->
+  <h3 style="margin:2rem 0 1rem;">🎯 Use-Case Recommendations</h3>
+  <div class="card-grid">
+
+    <div class="card go-card">
+      <div class="card-icon">🐹</div>
+      <h3 style="color:var(--clr-go)">Choose Go when…</h3>
+      <ul>
+        <li>Building <strong>high-throughput microservices</strong> or APIs</li>
+        <li>Writing <strong>cloud-native</strong> tools (Kubernetes, Docker are written in Go)</li>
+        <li>Need <strong>fast horizontal scaling</strong> with low memory cost</li>
+        <li>Building <strong>CLI tools</strong> or DevOps utilities</li>
+        <li>Team wants simple, readable code with fast onboarding</li>
+        <li>Creating <strong>service meshes</strong> or network proxies</li>
+      </ul>
+      <div class="recommend-box" style="margin-top:1rem;">
+        <h4>🏢 Real-world examples</h4>
+        <p>Kubernetes, Docker, Terraform, Prometheus, Grafana, CockroachDB</p>
+      </div>
+    </div>
+
+    <div class="card python-card">
+      <div class="card-icon">🐍</div>
+      <h3 style="color:var(--clr-python)">Choose Python when…</h3>
+      <ul>
+        <li>Building <strong>AI/ML pipelines</strong> or data science platforms</li>
+        <li>Need <strong>rapid prototyping</strong> and iteration speed</li>
+        <li>Creating <strong>REST APIs</strong> where performance isn't critical</li>
+        <li>Writing <strong>automation scripts</strong> and data processing jobs</li>
+        <li>Building <strong>monolithic web apps</strong> with Django</li>
+        <li>Team is small or non-specialist</li>
+      </ul>
+      <div class="recommend-box" style="margin-top:1rem;">
+        <h4>🏢 Real-world examples</h4>
+        <p>Instagram (Django), Dropbox, OpenAI APIs, Netflix analytics, Spotify recommendations</p>
+      </div>
+    </div>
+
+    <div class="card rust-card">
+      <div class="card-icon">🦀</div>
+      <h3 style="color:var(--clr-rust)">Choose Rust when…</h3>
+      <ul>
+        <li>Building <strong>systems software</strong> — OS, drivers, embedded</li>
+        <li>Need <strong>maximum performance</strong> with memory safety</li>
+        <li>Targeting <strong>WebAssembly</strong> for browser/edge compute</li>
+        <li>Writing <strong>cryptographic</strong> or security-critical code</li>
+        <li>Building <strong>game engines</strong> or real-time simulations</li>
+        <li>High-throughput <strong>financial systems</strong> with zero GC pauses</li>
+      </ul>
+      <div class="recommend-box" style="margin-top:1rem;">
+        <h4>🏢 Real-world examples</h4>
+        <p>Cloudflare Workers (WASM), Firefox (Mozilla), Discord (voice server), Figma (WASM plugin runtime)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance benchmarks visual -->
+  <h3 style="margin:2rem 0 1rem;">⚡ Relative Performance Benchmarks</h3>
+  <div class="card" style="border-top:none;">
+    <p style="margin-bottom:1.25rem;">Approximate relative scores across common backend workloads (higher = better). Based on community benchmarks (TechEmpower, Benchmark Game).</p>
+
+    <div class="matrix">
+      <div class="matrix-row">
+        <div class="matrix-label">HTTP Throughput</div>
+        <div class="matrix-bars">
+          <div>
+            <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>92%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:92%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>38%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:38%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>98%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:98%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="matrix-row">
+        <div class="matrix-label">Memory Efficiency</div>
+        <div class="matrix-bars">
+          <div>
+            <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>85%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:85%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>42%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:42%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>97%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:97%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="matrix-row">
+        <div class="matrix-label">Developer Velocity</div>
+        <div class="matrix-bars">
+          <div>
+            <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>78%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:78%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>95%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:95%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>45%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:45%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="matrix-row">
+        <div class="matrix-label">Production Safety</div>
+        <div class="matrix-bars">
+          <div>
+            <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>80%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:80%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>60%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:60%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>96%</span></div>
+            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:96%"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Decision Guide -->
+  <div class="callout callout-info" style="margin-top:2rem;">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <strong>Quick Decision Guide</strong>
+      <p>Shipping an MVP or data-heavy product? Start with <strong>Python</strong>. Building cloud infrastructure, APIs, or DevOps tools? <strong>Go</strong> is the sweet spot. Writing a cryptographic library, game engine, or WebAssembly module? <strong>Rust</strong> is worth the investment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     SECTION: UI FRAMEWORKS
+     ================================================ -->
+<section id="ui" class="section">
+  <div class="section-header">
+    <div class="section-label">UI Development</div>
+    <h2>UI Framework Landscape</h2>
+    <p>Comprehensive comparison of JavaScript frameworks, meta-frameworks, HTML-first approaches, server-rendered solutions, and Python UI tools.</p>
+  </div>
+
+  <!-- Inner tab group -->
+  <div class="inner-tab-group">
+    <div class="inner-tabs">
+      <button class="inner-tab active" data-panel="panel-js">⚡ JS Frameworks</button>
+      <button class="inner-tab" data-panel="panel-meta">🚀 Meta-Frameworks</button>
+      <button class="inner-tab" data-panel="panel-htmlfirst">🌐 HTML-first</button>
+      <button class="inner-tab" data-panel="panel-server">🖥️ Server-Rendered</button>
+      <button class="inner-tab" data-panel="panel-python">🐍 Python UI</button>
+      <button class="inner-tab" data-panel="panel-compare">📊 Comparison</button>
+    </div>
+
+    <!-- JS Frameworks -->
+    <div id="panel-js" class="inner-panel active">
+      <div class="card-grid card-grid-3">
+
+        <div class="card js-card">
+          <div class="card-icon">⚛️</div>
+          <h3>React</h3>
+          <p>Meta's component library. The most widely adopted UI framework in the world.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Large SPAs &amp; enterprise dashboards</li>
+            <li>Apps with rich interactive state</li>
+            <li>Teams with large talent pools</li>
+            <li>Complex component ecosystems (MUI, Radix, shadcn/ui)</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li>Not a full framework — needs bundler, router, state management</li>
+            <li>Virtual DOM overhead in extreme cases</li>
+            <li>JSX learning curve</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag yellow">Component Library</span>
+            <span class="tag green">Huge Ecosystem</span>
+            <span class="tag">SPA</span>
+          </div>
+        </div>
+
+        <div class="card js-card">
+          <div class="card-icon">💚</div>
+          <h3>Vue.js</h3>
+          <p>Progressive framework with Options API and Composition API. Gentle learning curve.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Teams new to JS frameworks</li>
+            <li>Laravel + Vue.js full-stack combos</li>
+            <li>Medium complexity SPAs</li>
+            <li>Projects valuing clean template syntax</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li>Smaller enterprise adoption vs React</li>
+            <li>Two API styles can confuse newcomers</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">Easy to Learn</span>
+            <span class="tag yellow">Full-stack</span>
+            <span class="tag">Progressive</span>
+          </div>
+        </div>
+
+        <div class="card js-card">
+          <div class="card-icon">🅰️</div>
+          <h3>Angular</h3>
+          <p>Google's opinionated full framework. TypeScript-first, batteries included.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Enterprise-grade applications</li>
+            <li>Large teams needing strong conventions</li>
+            <li>Projects requiring built-in DI, routing, forms</li>
+            <li>Long-lived codebases with strict structure</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li>High boilerplate &amp; steep learning curve</li>
+            <li>Heavier bundle size</li>
+            <li>Overkill for small apps</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag red">Enterprise</span>
+            <span class="tag blue">TypeScript</span>
+            <span class="tag">Full Framework</span>
+          </div>
+        </div>
+
+        <div class="card js-card">
+          <div class="card-icon">🔥</div>
+          <h3>Svelte</h3>
+          <p>Compiler-first framework — no virtual DOM, ships minimal JS. Excellent performance.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Performance-critical web apps</li>
+            <li>Projects where bundle size matters</li>
+            <li>Developers who dislike boilerplate</li>
+            <li>Interactive data visualizations</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li>Smaller ecosystem than React/Vue</li>
+            <li>Less talent availability</li>
+            <li>SvelteKit still maturing</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">No Virtual DOM</span>
+            <span class="tag green">Tiny Bundle</span>
+            <span class="tag">Compiler</span>
+          </div>
+        </div>
+
+        <div class="card js-card">
+          <div class="card-icon">💎</div>
+          <h3>Solid.js</h3>
+          <p>Fine-grained reactivity without VDOM. React-like syntax with Svelte-like performance.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>High-performance reactive UIs</li>
+            <li>Developers familiar with React wanting more speed</li>
+            <li>Real-time dashboards &amp; games</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li>Small community &amp; ecosystem</li>
+            <li>Reactivity model differs from React</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">Fine-grained Reactivity</span>
+            <span class="tag yellow">Niche</span>
+          </div>
+        </div>
+
+        <div class="card js-card">
+          <div class="card-icon">🌊</div>
+          <h3>Alpine.js</h3>
+          <p>Lightweight reactive framework. Works with existing HTML — no build step needed.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Adding interactivity to server-rendered HTML</li>
+            <li>Django, Laravel, Rails templates</li>
+            <li>Minimal JS projects</li>
+          </ul>
+          <h4>Trade-offs</h4>
+          <ul>
+            <li>Not suitable for complex SPAs</li>
+            <li>Limited component model</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">No Build Step</span>
+            <span class="tag blue">Server Complement</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Meta-Frameworks -->
+    <div id="panel-meta" class="inner-panel">
+      <div class="card-grid card-grid-3">
+
+        <div class="card accent-card">
+          <div class="card-icon">▲</div>
+          <h3>Next.js</h3>
+          <p>React meta-framework by Vercel. Industry standard for production React apps.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>App Router with React Server Components</li>
+            <li>SSR, SSG, ISR, and Edge rendering</li>
+            <li>Built-in image optimization &amp; font loading</li>
+            <li>API Routes / Route Handlers</li>
+            <li>Excellent TypeScript support</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">SSR + SSG</span>
+            <span class="tag">Edge Ready</span>
+            <span class="tag blue">Full-stack</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🟢</div>
+          <h3>Nuxt.js</h3>
+          <p>Vue.js meta-framework. The Vue equivalent of Next.js.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Universal rendering (SSR, SSG, SPA)</li>
+            <li>Auto-imports for composables &amp; components</li>
+            <li>Layers system for modular apps</li>
+            <li>Nitro server engine</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">SSR + SSG</span>
+            <span class="tag yellow">Vue Ecosystem</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🔷</div>
+          <h3>SvelteKit</h3>
+          <p>Full-stack Svelte framework with file-based routing and adapters.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Zero-JS by default pages possible</li>
+            <li>Adapters for Vercel, Cloudflare, Node, and more</li>
+            <li>Progressive enhancement built-in</li>
+            <li>Load functions for data fetching</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">Minimal JS</span>
+            <span class="tag">Adapters</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🔵</div>
+          <h3>Remix</h3>
+          <p>Full-stack React framework focused on web fundamentals and progressive enhancement.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Nested routes with parallel data loading</li>
+            <li>Form actions using native web APIs</li>
+            <li>Works without JavaScript (progressive enhancement)</li>
+            <li>Edge-first architecture</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag blue">Web Standards</span>
+            <span class="tag green">Progressive</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🌟</div>
+          <h3>Astro</h3>
+          <p>Content-focused framework. Ships zero JS by default, use any UI framework via Islands.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Islands Architecture — partial hydration</li>
+            <li>Supports React, Vue, Svelte, Solid simultaneously</li>
+            <li>Best for content sites, blogs, docs, marketing</li>
+            <li>View Transitions API built-in</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">Zero JS Default</span>
+            <span class="tag">Content Sites</span>
+            <span class="tag blue">Islands</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">⚡</div>
+          <h3>Vite + Vanilla / Lit</h3>
+          <p>Use Vite's lightning-fast build tool with Web Components (Lit) or vanilla JS.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>No framework overhead</li>
+            <li>Web Components are browser-native</li>
+            <li>Lit adds minimal reactivity to web components</li>
+            <li>Great for component libraries</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">Web Standards</span>
+            <span class="tag yellow">Minimal</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HTML-First -->
+    <div id="panel-htmlfirst" class="inner-panel">
+      <div class="card-grid">
+
+        <div class="card ui-card">
+          <div class="card-icon">💧</div>
+          <h3>HTMX</h3>
+          <p>Extends HTML with AJAX, WebSockets, and server-sent events via attributes. No JS framework required.</p>
+          <h4>Core Philosophy</h4>
+          <ul>
+            <li>Hypermedia as the engine of application state (HATEOAS)</li>
+            <li><code>hx-get</code>, <code>hx-post</code>, <code>hx-swap</code> attributes on any element</li>
+            <li>Server returns HTML fragments — not JSON</li>
+            <li>Works with any backend (Go, Python, Rust, PHP…)</li>
+          </ul>
+          <h4>Best For</h4>
+          <ul>
+            <li>Server-rendered apps that need dynamic updates</li>
+            <li>Django / FastAPI / Rails / Go backends</li>
+            <li>Reducing JavaScript complexity</li>
+            <li>Teams that prefer backend-centric development</li>
+          </ul>
+          <h4>Example</h4>
+          <code style="display:block;padding:.75rem;margin-top:.5rem;font-size:.8rem;background:var(--clr-surface);border-radius:8px;line-height:1.6;">&lt;button hx-get="/api/data"<br />  hx-target="#result"<br />  hx-swap="innerHTML"&gt;<br />  Load Data<br />&lt;/button&gt;</code>
+          <div class="tag-row">
+            <span class="tag green">No JS Framework</span>
+            <span class="tag blue">Hypermedia</span>
+            <span class="tag">SSR Friendly</span>
+          </div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">🎯</div>
+          <h3>HTML + CSS (Vanilla)</h3>
+          <p>The baseline. Modern HTML5 &amp; CSS3 are more capable than most developers realize.</p>
+          <h4>Modern CSS Capabilities</h4>
+          <ul>
+            <li>CSS Grid &amp; Flexbox for complex layouts</li>
+            <li>CSS Custom Properties (variables) for theming</li>
+            <li>CSS animations, transitions, @keyframes</li>
+            <li><code>:has()</code>, <code>:is()</code>, <code>:where()</code> powerful selectors</li>
+            <li>CSS Layers (<code>@layer</code>) for specificity management</li>
+            <li>Container Queries for component-level responsiveness</li>
+            <li>CSS Nesting (now native!)</li>
+          </ul>
+          <h4>Best For</h4>
+          <ul>
+            <li>Static sites &amp; landing pages</li>
+            <li>Projects where simplicity &gt; features</li>
+            <li>Performance-critical pages</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">Zero Dependencies</span>
+            <span class="tag blue">Web Standard</span>
+          </div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">🌬️</div>
+          <h3>Tailwind CSS</h3>
+          <p>Utility-first CSS framework. Compose designs directly in markup — no CSS files needed.</p>
+          <h4>Key Advantages</h4>
+          <ul>
+            <li>Design system built in (spacing, colors, typography)</li>
+            <li>JIT compiler produces tiny production bundles</li>
+            <li>Excellent IDE support with IntelliSense</li>
+            <li>Pairs well with any framework or vanilla HTML</li>
+          </ul>
+          <h4>Best For</h4>
+          <ul>
+            <li>Any project type — widely adopted</li>
+            <li>Teams that want consistent design tokens</li>
+            <li>Rapid UI development</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag yellow">Utility-first</span>
+            <span class="tag green">Design System</span>
+          </div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">🌀</div>
+          <h3>Turbo (Hotwire)</h3>
+          <p>Rails' approach to modern web UX without SPAs. Turbo Drive, Frames, and Streams.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Turbo Drive: intercepts link clicks for SPA feel</li>
+            <li>Turbo Frames: partial page updates</li>
+            <li>Turbo Streams: real-time server-pushed updates (WebSocket)</li>
+            <li>Stimulus.js: lightweight JS for sprinkles</li>
+          </ul>
+          <h4>Best For</h4>
+          <ul>
+            <li>Ruby on Rails apps</li>
+            <li>Server-rendered apps wanting reactive UX</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag blue">Rails Ecosystem</span>
+            <span class="tag green">Server-driven</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Server-Rendered -->
+    <div id="panel-server" class="inner-panel">
+      <div class="card-grid">
+
+        <div class="card accent-card">
+          <div class="card-icon">🐘</div>
+          <h3>Laravel / Blade</h3>
+          <p>PHP's premier full-stack framework. Blade templating, Eloquent ORM, and a rich ecosystem.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Blade templates with components &amp; slots</li>
+            <li>Livewire — reactive components without writing JS</li>
+            <li>Inertia.js — use Vue/React as Laravel views</li>
+            <li>Excellent Auth scaffolding (Laravel Breeze / Fortify)</li>
+            <li>Queues, Events, Notifications built-in</li>
+          </ul>
+          <h4>Best For</h4>
+          <ul>
+            <li>Traditional web applications &amp; CMSes</li>
+            <li>E-commerce sites</li>
+            <li>Small-to-medium SaaS products</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag blue">PHP</span>
+            <span class="tag green">Full-Stack</span>
+            <span class="tag">Livewire</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🏗️</div>
+          <h3>Django Templates</h3>
+          <p>Python's batteries-included web framework with a powerful template engine and built-in admin.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Django Template Language (DTL) — safe by default (auto-escaping)</li>
+            <li>Template inheritance with <code>{% extends %}</code></li>
+            <li>django-htmx for modern interactivity</li>
+            <li>Built-in admin panel (often replaces bespoke dashboards)</li>
+          </ul>
+          <h4>Best For</h4>
+          <ul>
+            <li>Content management systems</li>
+            <li>Data-rich admin dashboards</li>
+            <li>Python-native organizations</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag yellow">Python</span>
+            <span class="tag green">Auto-escaped</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🦅</div>
+          <h3>Ruby on Rails / ERB</h3>
+          <p>Convention-over-configuration MVC framework with embedded Ruby templates.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li>Scaffolding generates CRUD in seconds</li>
+            <li>Hotwire (Turbo + Stimulus) for reactive UI</li>
+            <li>ActionCable for WebSockets</li>
+            <li>Sensible defaults &amp; fast iteration</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag red">Ruby</span>
+            <span class="tag green">Convention</span>
+          </div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🎯</div>
+          <h3>Go + Templ / html/template</h3>
+          <p>Server-side HTML rendering in Go with type-safe templates.</p>
+          <h4>Key Features</h4>
+          <ul>
+            <li><code>templ</code> — Go component library with compile-time safety</li>
+            <li>Built-in <code>html/template</code> auto-escapes HTML</li>
+            <li>HTMX pairs perfectly for interactive UX</li>
+            <li>Single binary with embedded templates</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag blue">Go</span>
+            <span class="tag green">Type-safe</span>
+            <span class="tag">Single Binary</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Python UI -->
+    <div id="panel-python" class="inner-panel">
+      <div class="card-grid">
+
+        <div class="card python-card">
+          <div class="card-icon">🎈</div>
+          <h3>Streamlit</h3>
+          <p>Turn Python scripts into interactive web apps in minutes. No HTML/CSS/JS required.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>ML model demos &amp; data apps</li>
+            <li>Internal analytics dashboards</li>
+            <li>Rapid prototyping for data scientists</li>
+            <li>A/B testing tools &amp; experiment tracking</li>
+          </ul>
+          <h4>Limitations</h4>
+          <ul>
+            <li>Full page re-runs on every interaction</li>
+            <li>Limited layout control vs custom HTML</li>
+            <li>Not suitable for complex multi-page apps at scale</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag yellow">Data Apps</span>
+            <span class="tag green">No JS Needed</span>
+            <span class="tag">ML Demos</span>
+          </div>
+        </div>
+
+        <div class="card python-card">
+          <div class="card-icon">📊</div>
+          <h3>Dash (Plotly)</h3>
+          <p>Python framework for analytical web apps and interactive dashboards.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Complex analytical dashboards with Plotly charts</li>
+            <li>Financial data visualization</li>
+            <li>Scientific &amp; engineering tools</li>
+          </ul>
+          <h4>Limitations</h4>
+          <ul>
+            <li>Steeper learning curve than Streamlit</li>
+            <li>Verbose callback model</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag yellow">Analytics</span>
+            <span class="tag blue">Charts</span>
+          </div>
+        </div>
+
+        <div class="card python-card">
+          <div class="card-icon">🔮</div>
+          <h3>Gradio</h3>
+          <p>Build ML demos with a Python API. Share via HuggingFace Spaces.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Quickly demoing ML/AI models</li>
+            <li>Image, audio, text processing demos</li>
+            <li>HuggingFace ecosystem</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">ML Demos</span>
+            <span class="tag yellow">HuggingFace</span>
+          </div>
+        </div>
+
+        <div class="card python-card">
+          <div class="card-icon">⚡</div>
+          <h3>Panel (HoloViz)</h3>
+          <p>High-level app &amp; dashboarding solution for Python data tools.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Scientific dashboards with Bokeh/Matplotlib</li>
+            <li>Jupyter-native interactive apps</li>
+            <li>Complex widget-based UIs</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag yellow">Scientific</span>
+            <span class="tag blue">Jupyter</span>
+          </div>
+        </div>
+
+        <div class="card python-card">
+          <div class="card-icon">🌸</div>
+          <h3>Reflex (Pynecone)</h3>
+          <p>Full-stack web apps in pure Python — compiled to React on the frontend.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Python-only teams building web apps</li>
+            <li>Apps needing complex state management</li>
+            <li>Replacing Flask/Django for internal tools</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag green">Pure Python</span>
+            <span class="tag yellow">React Compiled</span>
+          </div>
+        </div>
+
+        <div class="card python-card">
+          <div class="card-icon">🖼️</div>
+          <h3>NiceGUI</h3>
+          <p>Python UI framework based on Vue.js &amp; Quasar. Runs in browser or desktop.</p>
+          <h4>Best For</h4>
+          <ul>
+            <li>Internal tooling &amp; control panels</li>
+            <li>IoT &amp; hardware dashboards</li>
+            <li>Quick desktop-like apps</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag blue">Vue-based</span>
+            <span class="tag">Desktop + Web</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Comparison Table -->
+    <div id="panel-compare" class="inner-panel">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Framework</th>
+              <th>Type</th>
+              <th>Learning Curve</th>
+              <th>Bundle Size</th>
+              <th>Rendering</th>
+              <th>Best Use Case</th>
+              <th>Dependency Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>React</td><td>Component library</td><td>Medium</td><td>~40KB (core)</td><td>CSR / SSR (Next)</td><td>Large SPAs, dashboards</td><td><span class="tag yellow">Medium (ecosystem)</span></td></tr>
+            <tr><td>Vue.js</td><td>Progressive framework</td><td>Easy</td><td>~35KB</td><td>CSR / SSR (Nuxt)</td><td>Medium apps, Laravel integration</td><td><span class="tag green">Low–Medium</span></td></tr>
+            <tr><td>Angular</td><td>Full framework</td><td>Hard</td><td>~130KB+</td><td>CSR / SSR</td><td>Enterprise apps</td><td><span class="tag green">Low (Google backed)</span></td></tr>
+            <tr><td>Svelte</td><td>Compiler</td><td>Easy–Medium</td><td>~5KB</td><td>CSR / SSR (Kit)</td><td>Perf-critical apps</td><td><span class="tag green">Very Low</span></td></tr>
+            <tr><td>Next.js</td><td>Meta-framework</td><td>Medium</td><td>Varies</td><td>SSR, SSG, ISR, Edge</td><td>Production React apps</td><td><span class="tag yellow">Medium</span></td></tr>
+            <tr><td>Nuxt.js</td><td>Meta-framework</td><td>Medium</td><td>Varies</td><td>SSR, SSG</td><td>Production Vue apps</td><td><span class="tag yellow">Low–Medium</span></td></tr>
+            <tr><td>Astro</td><td>SSG + Islands</td><td>Easy</td><td>~0KB JS default</td><td>SSG, SSR optional</td><td>Content sites, docs</td><td><span class="tag green">Very Low</span></td></tr>
+            <tr><td>HTMX</td><td>HTML extension</td><td>Easy</td><td>~14KB</td><td>Server-driven HTML</td><td>Server-first with interactivity</td><td><span class="tag green">Minimal</span></td></tr>
+            <tr><td>Alpine.js</td><td>Minimal reactive</td><td>Easy</td><td>~15KB</td><td>CSR on server HTML</td><td>Sprinkles on server pages</td><td><span class="tag green">Minimal</span></td></tr>
+            <tr><td>Laravel/Blade</td><td>PHP MVC</td><td>Medium</td><td>N/A (server)</td><td>SSR</td><td>PHP web apps</td><td><span class="tag yellow">Composer-managed</span></td></tr>
+            <tr><td>Streamlit</td><td>Python web app</td><td>Very Easy</td><td>N/A</td><td>SSR (Python)</td><td>Data / ML demos</td><td><span class="tag yellow">Pip-managed</span></td></tr>
+            <tr><td>Tailwind CSS</td><td>CSS utility</td><td>Easy</td><td>~5–20KB purged</td><td>Any</td><td>Any project</td><td><span class="tag green">Very Low</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-good" style="margin-top:1.5rem;">
+        <div class="callout-icon">🏆</div>
+        <div class="callout-body">
+          <strong>Recommended Stack Combinations</strong>
+          <ul style="margin-top:.5rem;">
+            <li><strong>SaaS Product:</strong> Next.js + Tailwind + shadcn/ui + Prisma + PostgreSQL</li>
+            <li><strong>Content / Blog:</strong> Astro + Tailwind (zero JS shipping)</li>
+            <li><strong>ML Dashboard:</strong> FastAPI (Go/Python backend) + HTMX or Streamlit</li>
+            <li><strong>Enterprise App:</strong> Angular + NgRx + Angular Material</li>
+            <li><strong>Server-first PHP:</strong> Laravel + Livewire + Alpine.js</li>
+            <li><strong>Real-time App:</strong> SvelteKit + WebSockets or Remix + Turbo Streams</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     SECTION: ADVANCED UI/UX CAPABILITIES
+     ================================================ -->
+<section id="uiux" class="section">
+  <div class="section-header">
+    <div class="section-label">Advanced UI/UX</div>
+    <h2>Advanced Web App UI/UX Capabilities</h2>
+    <p>A guide to the most impactful advanced UI/UX techniques that distinguish great web applications from average ones.</p>
+  </div>
+
+  <div class="inner-tab-group">
+    <div class="inner-tabs">
+      <button class="inner-tab active" data-panel="uiux-perf">⚡ Performance</button>
+      <button class="inner-tab" data-panel="uiux-motion">🎬 Animation &amp; Motion</button>
+      <button class="inner-tab" data-panel="uiux-realtime">📡 Real-time</button>
+      <button class="inner-tab" data-panel="uiux-a11y">♿ Accessibility</button>
+      <button class="inner-tab" data-panel="uiux-design">🎨 Design Patterns</button>
+      <button class="inner-tab" data-panel="uiux-arch">🏛️ Architecture</button>
+    </div>
+
+    <!-- Performance -->
+    <div id="uiux-perf" class="inner-panel active">
+      <div class="card-grid">
+        <div class="card accent-card">
+          <div class="card-icon">🖼️</div>
+          <h3>Code Splitting &amp; Lazy Loading</h3>
+          <p>Only load what users need, when they need it.</p>
+          <ul>
+            <li>Route-level splitting (Next.js, React.lazy)</li>
+            <li>Component-level dynamic imports</li>
+            <li>Intersection Observer for image lazy loading</li>
+            <li>Prefetching on hover for instant navigation</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Core Web Vitals</span><span class="tag">LCP</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">💾</div>
+          <h3>Caching &amp; Stale-While-Revalidate</h3>
+          <p>Advanced caching strategies for instant perceived performance.</p>
+          <ul>
+            <li>Service Worker cache strategies (Cache-first, Network-first)</li>
+            <li>React Query / SWR for server state caching</li>
+            <li>HTTP Cache-Control headers and ETags</li>
+            <li>ISR (Incremental Static Regeneration) in Next.js</li>
+            <li>CDN edge caching for global low latency</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Offline Support</span><span class="tag blue">Edge</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">📦</div>
+          <h3>Optimistic UI Updates</h3>
+          <p>Update the UI before the server confirms — makes apps feel instant.</p>
+          <ul>
+            <li>React Query optimistic mutations</li>
+            <li>SWR optimistic updates</li>
+            <li>HTMX swap after confirmation with rollback</li>
+            <li>Zustand / Jotai local state for instant feedback</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">UX</span><span class="tag green">Perceived Performance</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🖼️</div>
+          <h3>Image &amp; Media Optimization</h3>
+          <p>Images are the #1 cause of poor LCP scores.</p>
+          <ul>
+            <li>Next.js <code>&lt;Image&gt;</code> with WebP/AVIF conversion</li>
+            <li>Blur-up placeholder (LQIP technique)</li>
+            <li>Responsive <code>srcset</code> and <code>sizes</code></li>
+            <li>Videos: autoplay, muted, lazy, poster frames</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">LCP</span><span class="tag">WebP/AVIF</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🧮</div>
+          <h3>Virtual Lists &amp; Windowing</h3>
+          <p>Render thousands of rows with smooth scrolling.</p>
+          <ul>
+            <li>react-virtual / @tanstack/virtual</li>
+            <li>Windowing renders only visible items</li>
+            <li>Reduces DOM nodes from thousands to ~50</li>
+            <li>Critical for large tables, feeds, and lists</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">Performance</span><span class="tag">Large Data</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🏎️</div>
+          <h3>Web Workers &amp; Offloaded Computation</h3>
+          <p>Move heavy computation off the main thread.</p>
+          <ul>
+            <li>Web Workers for CPU-intensive calculations</li>
+            <li>Comlink for clean worker communication</li>
+            <li>WASM modules for performance-critical code</li>
+            <li>SharedArrayBuffer for zero-copy data transfer</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Non-blocking UI</span><span class="tag red">WASM</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animation & Motion -->
+    <div id="uiux-motion" class="inner-panel">
+      <div class="card-grid">
+
+        <div class="card ui-card">
+          <div class="card-icon">🎬</div>
+          <h3>Framer Motion (React)</h3>
+          <p>Production-ready animation library for React with a declarative API.</p>
+          <ul>
+            <li>Layout animations with <code>layout</code> prop</li>
+            <li>Gesture animations (drag, tap, hover)</li>
+            <li>AnimatePresence for exit animations</li>
+            <li>Scroll-driven animations with <code>useScroll</code></li>
+            <li>Shared layout transitions between routes</li>
+          </ul>
+          <div class="tag-row"><span class="tag yellow">React</span><span class="tag green">Declarative</span></div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">🌀</div>
+          <h3>CSS View Transitions API</h3>
+          <p>Native browser API for smooth page and element transitions — no JS library needed.</p>
+          <ul>
+            <li><code>document.startViewTransition()</code> API</li>
+            <li>Animate between different DOM states natively</li>
+            <li>Astro &amp; SvelteKit have built-in support</li>
+            <li>Morphs elements that share <code>view-transition-name</code></li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Native API</span><span class="tag blue">Zero JS</span></div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">✨</div>
+          <h3>Scroll-driven Animations</h3>
+          <p>Tie animation progress to scroll position — now native in CSS.</p>
+          <ul>
+            <li>CSS <code>animation-timeline: scroll()</code></li>
+            <li>CSS <code>animation-timeline: view()</code> for element visibility</li>
+            <li>Intersection Observer fallback for older browsers</li>
+            <li>GSAP ScrollTrigger for complex sequences</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">CSS Native</span><span class="tag">GSAP</span></div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">📐</div>
+          <h3>Micro-interactions</h3>
+          <p>Small, purposeful animations that give users immediate feedback.</p>
+          <ul>
+            <li>Button press scale transforms (<code>scale: 0.97</code>)</li>
+            <li>Loading spinners &amp; skeleton screens</li>
+            <li>Toast notification slide-ins</li>
+            <li>Form field validation shake / success pulse</li>
+            <li>Reduced motion preference (<code>prefers-reduced-motion</code>)</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">UX</span><span class="tag green">Feedback</span></div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">🎭</div>
+          <h3>Three.js / WebGL / R3F</h3>
+          <p>3D graphics and immersive experiences in the browser.</p>
+          <ul>
+            <li>React Three Fiber (R3F) — Three.js in React</li>
+            <li>3D product configurators &amp; showcases</li>
+            <li>Data visualization in 3D</li>
+            <li>Interactive hero sections &amp; backgrounds</li>
+          </ul>
+          <div class="tag-row"><span class="tag red">3D</span><span class="tag yellow">WebGL</span></div>
+        </div>
+
+        <div class="card ui-card">
+          <div class="card-icon">🎪</div>
+          <h3>GSAP (GreenSock)</h3>
+          <p>The professional-grade animation library powering award-winning websites.</p>
+          <ul>
+            <li>Timeline-based animation sequencing</li>
+            <li>Morphing SVG paths</li>
+            <li>Text scramble &amp; split-text effects</li>
+            <li>Works with any framework or vanilla JS</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Framework Agnostic</span><span class="tag blue">Professional</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real-time -->
+    <div id="uiux-realtime" class="inner-panel">
+      <div class="card-grid">
+
+        <div class="card accent-card">
+          <div class="card-icon">📡</div>
+          <h3>WebSockets</h3>
+          <p>Full-duplex communication for truly real-time applications.</p>
+          <ul>
+            <li>Chat applications, collaborative editing</li>
+            <li>Live dashboards and trading apps</li>
+            <li>Multiplayer games</li>
+            <li>Libraries: Socket.io, native WebSocket API</li>
+            <li>Go: gorilla/websocket, nhooyr.io/websocket</li>
+            <li>Rust: tokio-tungstenite, Axum WebSocket handler</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">Full-Duplex</span><span class="tag green">Real-time</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">📻</div>
+          <h3>Server-Sent Events (SSE)</h3>
+          <p>One-way server push over HTTP. Simpler than WebSockets for many use cases.</p>
+          <ul>
+            <li>Live notifications &amp; activity feeds</li>
+            <li>AI streaming responses (ChatGPT-style)</li>
+            <li>Progress updates for long-running tasks</li>
+            <li>Automatic reconnection built-in</li>
+            <li>HTMX <code>hx-ext="sse"</code> for easy integration</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">SSE</span><span class="tag green">AI Streaming</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">🔄</div>
+          <h3>Optimistic Updates + Sync</h3>
+          <p>Local-first architecture with background sync for offline-capable apps.</p>
+          <ul>
+            <li>IndexedDB for client-side persistence</li>
+            <li>Background Sync API (Service Worker)</li>
+            <li>CRDTs for conflict-free collaborative editing</li>
+            <li>Libraries: Yjs, Automerge for real-time collaboration</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Offline</span><span class="tag blue">Collaboration</span></div>
+        </div>
+
+        <div class="card accent-card">
+          <div class="card-icon">⚡</div>
+          <h3>tRPC + React Query</h3>
+          <p>End-to-end typesafe API calls with automatic caching and synchronization.</p>
+          <ul>
+            <li>No API schema needed — TypeScript inferred end-to-end</li>
+            <li>Subscriptions via WebSockets</li>
+            <li>Automatic cache invalidation on mutation</li>
+            <li>Works with Next.js and SvelteKit</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">TypeScript</span><span class="tag green">Type-safe</span></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Accessibility -->
+    <div id="uiux-a11y" class="inner-panel">
+      <div class="card-grid">
+        <div class="card ui-card">
+          <div class="card-icon">♿</div>
+          <h3>WCAG 2.1 / 2.2 Standards</h3>
+          <p>Web Content Accessibility Guidelines — the baseline for inclusive design.</p>
+          <ul>
+            <li>Level A, AA, AAA conformance</li>
+            <li>4.5:1 contrast ratio minimum (AA)</li>
+            <li>Keyboard navigability for all interactions</li>
+            <li>Focus management in SPAs</li>
+            <li>Screen reader announcements for dynamic content</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">WCAG 2.2</span><span class="tag blue">Inclusive</span></div>
+        </div>
+        <div class="card ui-card">
+          <div class="card-icon">🏷️</div>
+          <h3>ARIA &amp; Semantic HTML</h3>
+          <p>Use the right HTML elements and ARIA attributes to communicate meaning.</p>
+          <ul>
+            <li>Use <code>&lt;button&gt;</code>, not <code>&lt;div onClick&gt;</code></li>
+            <li><code>aria-label</code>, <code>aria-describedby</code>, <code>aria-live</code></li>
+            <li>Landmark roles: <code>main</code>, <code>nav</code>, <code>region</code></li>
+            <li>Dialog / modal focus trapping</li>
+            <li>Headless UI libraries (Radix, Headless UI) for accessible primitives</li>
+          </ul>
+          <div class="tag-row"><span class="tag yellow">ARIA</span><span class="tag green">Semantic</span></div>
+        </div>
+        <div class="card ui-card">
+          <div class="card-icon">⌨️</div>
+          <h3>Keyboard &amp; Focus Management</h3>
+          <ul>
+            <li>Visible focus indicators (<code>:focus-visible</code>)</li>
+            <li>Logical tab order — avoid <code>tabindex &gt; 0</code></li>
+            <li>Skip-to-content links</li>
+            <li>Roving tabindex for composites (menus, grids)</li>
+            <li>Keyboard shortcuts for power users</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">Keyboard</span><span class="tag green">Focus</span></div>
+        </div>
+        <div class="card ui-card">
+          <div class="card-icon">🌗</div>
+          <h3>User Preference Adaptation</h3>
+          <ul>
+            <li><code>prefers-color-scheme</code> — dark/light mode</li>
+            <li><code>prefers-reduced-motion</code> — disable animations</li>
+            <li><code>prefers-contrast</code> — high contrast mode</li>
+            <li><code>forced-colors</code> — Windows High Contrast</li>
+            <li>Font size scaling with <code>rem</code> units</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Dark Mode</span><span class="tag blue">Motion</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design Patterns -->
+    <div id="uiux-design" class="inner-panel">
+      <div class="card-grid">
+        <div class="card accent-card">
+          <div class="card-icon">🎨</div>
+          <h3>Design System &amp; Tokens</h3>
+          <ul>
+            <li>Design tokens as CSS custom properties</li>
+            <li>Semantic tokens: <code>--color-primary</code> not <code>--blue-500</code></li>
+            <li>Component libraries: MUI, Radix, shadcn/ui, Mantine</li>
+            <li>Figma → code token pipelines (Style Dictionary)</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Consistency</span><span class="tag blue">Tokens</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">📱</div>
+          <h3>Responsive &amp; Adaptive Design</h3>
+          <ul>
+            <li>Mobile-first CSS with <code>min-width</code> breakpoints</li>
+            <li>CSS Container Queries for component-level responsiveness</li>
+            <li>Fluid typography with <code>clamp()</code></li>
+            <li>Intrinsic layout — no fixed px breakpoints</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Mobile First</span><span class="tag blue">Container Queries</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">🌓</div>
+          <h3>Dark Mode &amp; Theming</h3>
+          <ul>
+            <li>CSS custom property overrides with <code>[data-theme]</code></li>
+            <li>Automatic media query + manual toggle</li>
+            <li>Smooth theme transitions</li>
+            <li>next-themes, use-theme (Radix) utilities</li>
+          </ul>
+          <div class="tag-row"><span class="tag yellow">Theming</span><span class="tag green">CSS Variables</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">🔲</div>
+          <h3>Command Palette (⌘K)</h3>
+          <ul>
+            <li>Power-user navigation (Notion, Linear, Figma pattern)</li>
+            <li>cmdk library for React</li>
+            <li>Fuzzy search across actions and pages</li>
+            <li>Keyboard shortcut discovery</li>
+          </ul>
+          <div class="tag-row"><span class="tag blue">Power UX</span><span class="tag">cmdk</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">💬</div>
+          <h3>Toast / Notification Systems</h3>
+          <ul>
+            <li>Non-intrusive status feedback</li>
+            <li>Sonner (React), Notyf (vanilla), Svelte-sonner</li>
+            <li>Stacking, dismissal, action buttons</li>
+            <li>ARIA live region announcements</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">UX Feedback</span><span class="tag blue">ARIA</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">🗂️</div>
+          <h3>Data Tables &amp; Grids</h3>
+          <ul>
+            <li>TanStack Table (headless, any framework)</li>
+            <li>AG Grid for complex enterprise grids</li>
+            <li>Virtual scrolling for large datasets</li>
+            <li>Column resizing, pinning, sorting, filtering</li>
+          </ul>
+          <div class="tag-row"><span class="tag yellow">Data</span><span class="tag blue">Enterprise</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <div id="uiux-arch" class="inner-panel">
+      <div class="card-grid">
+        <div class="card accent-card">
+          <div class="card-icon">🏝️</div>
+          <h3>Islands Architecture</h3>
+          <p>Server renders most HTML statically; interactive "islands" hydrate independently.</p>
+          <ul>
+            <li>Used by: Astro, Fresh (Deno), Marko</li>
+            <li>Reduces JavaScript shipped to browser dramatically</li>
+            <li>Islands are isolated — no shared hydration overhead</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Minimal JS</span><span class="tag blue">Astro</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">🖥️</div>
+          <h3>React Server Components (RSC)</h3>
+          <p>Components that render exclusively on the server — no client JS for that component.</p>
+          <ul>
+            <li>Zero bundle impact for server components</li>
+            <li>Direct database/file system access in components</li>
+            <li>Client components still used for interactivity</li>
+            <li>Available in: Next.js 13+, Remix (experimental)</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">No Client Bundle</span><span class="tag blue">Next.js</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">📲</div>
+          <h3>Progressive Web Apps (PWA)</h3>
+          <ul>
+            <li>Service Worker for offline support</li>
+            <li>Web App Manifest for installability</li>
+            <li>Push notifications</li>
+            <li>Background sync</li>
+            <li>Tools: Vite PWA plugin, next-pwa, Workbox</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Offline</span><span class="tag blue">Installable</span></div>
+        </div>
+        <div class="card accent-card">
+          <div class="card-icon">🌍</div>
+          <h3>Edge Computing</h3>
+          <ul>
+            <li>Cloudflare Workers (WASM / JS)</li>
+            <li>Vercel Edge Functions (Next.js middleware)</li>
+            <li>Reduces latency by running code near users globally</li>
+            <li>A/B testing, auth, redirects at the edge</li>
+          </ul>
+          <div class="tag-row"><span class="tag green">Low Latency</span><span class="tag blue">Global</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     SECTION: SECURITY
+     ================================================ -->
+<section id="security" class="section">
+  <div class="section-header">
+    <div class="section-label">Security &amp; Dependencies</div>
+    <h2>Security &amp; Dependency Safety</h2>
+    <p>Which tech stacks give you the strongest security foundation — and how to manage the inevitable supply-chain risks of modern software.</p>
+  </div>
+
+  <!-- Security by language -->
+  <h3 style="margin-bottom:1rem;">🔒 Security Profile by Language</h3>
+  <div class="card-grid card-grid-3" style="margin-bottom:2.5rem;">
+
+    <div class="card rust-card">
+      <div class="card-icon">🦀</div>
+      <h3 style="color:var(--clr-rust)">Rust — Highest Security</h3>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Memory Safety</span><span>98%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:98%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Type Safety</span><span>97%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:97%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Dependency Safety</span><span>85%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:85%"></div></div>
+      </div>
+      <ul style="margin-top:.75rem;">
+        <li>No buffer overflows by design</li>
+        <li>No use-after-free vulnerabilities</li>
+        <li>No null pointer dereferences</li>
+        <li>No data races at compile time</li>
+        <li><code>cargo audit</code> for CVE scanning</li>
+        <li>NSA &amp; White House recommend Rust for memory-safe systems</li>
+      </ul>
+      <div class="tag-row"><span class="tag green">Memory Safe</span><span class="tag green">NSA Approved</span></div>
+    </div>
+
+    <div class="card go-card">
+      <div class="card-icon">🐹</div>
+      <h3 style="color:var(--clr-go)">Go — Strong Security</h3>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Memory Safety</span><span>82%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:82%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Type Safety</span><span>80%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:80%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Dependency Safety</span><span>80%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:80%"></div></div>
+      </div>
+      <ul style="margin-top:.75rem;">
+        <li>Garbage collected — no manual memory management</li>
+        <li>Goroutine safety via channels</li>
+        <li><code>go vet</code> and <code>staticcheck</code> catch common bugs</li>
+        <li><code>govulncheck</code> for vulnerability scanning</li>
+        <li>Go modules with checksum database (<code>sum.golang.org</code>)</li>
+        <li>Built-in <code>crypto</code> package uses best practices</li>
+      </ul>
+      <div class="tag-row"><span class="tag blue">GC Safe</span><span class="tag green">govulncheck</span></div>
+    </div>
+
+    <div class="card python-card">
+      <div class="card-icon">🐍</div>
+      <h3 style="color:var(--clr-python)">Python — Moderate Security</h3>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Memory Safety</span><span>70%</span></div>
+        <div class="score-bar"><div class="score-fill medium" style="width:70%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Type Safety</span><span>52%</span></div>
+        <div class="score-bar"><div class="score-fill medium" style="width:52%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Dependency Safety</span><span>55%</span></div>
+        <div class="score-bar"><div class="score-fill medium" style="width:55%"></div></div>
+      </div>
+      <ul style="margin-top:.75rem;">
+        <li>Dynamic typing — runtime errors at unexpected times</li>
+        <li>Bandit for SAST scanning</li>
+        <li><code>pip-audit</code> and <code>safety</code> for CVE scanning</li>
+        <li>Typosquatting risk on PyPI is higher</li>
+        <li>Dependencies can have <code>setup.py</code> arbitrary code execution</li>
+        <li>Type hints + mypy significantly improve safety</li>
+      </ul>
+      <div class="tag-row"><span class="tag yellow">Typosquatting Risk</span><span class="tag">Bandit</span></div>
+    </div>
+  </div>
+
+  <!-- Frontend Security -->
+  <h3 style="margin-bottom:1rem;">🌐 Frontend &amp; UI Security</h3>
+  <div class="card-grid" style="margin-bottom:2.5rem;">
+
+    <div class="card sec-card">
+      <div class="card-icon">🛡️</div>
+      <h3>XSS Prevention</h3>
+      <ul>
+        <li>React, Vue, Angular auto-escape HTML output</li>
+        <li>Never use <code>dangerouslySetInnerHTML</code> with untrusted data</li>
+        <li>Use <code>DOMPurify</code> if rendering user HTML</li>
+        <li>Content Security Policy (CSP) headers</li>
+        <li>HTMX: server returns HTML — same escaping rules apply</li>
+      </ul>
+      <div class="tag-row"><span class="tag green">Auto-escaped</span><span class="tag blue">CSP</span></div>
+    </div>
+
+    <div class="card sec-card">
+      <div class="card-icon">🔑</div>
+      <h3>Authentication Patterns</h3>
+      <ul>
+        <li>HTTP-only cookies (not localStorage) for tokens</li>
+        <li>SameSite=Strict/Lax to prevent CSRF</li>
+        <li>Libraries: Auth.js (Next), Lucia, Clerk, Supabase Auth</li>
+        <li>OAuth 2.0 / OIDC for social login</li>
+        <li>Passkeys / WebAuthn for passwordless</li>
+      </ul>
+      <div class="tag-row"><span class="tag green">HttpOnly</span><span class="tag blue">Passkeys</span></div>
+    </div>
+
+    <div class="card sec-card">
+      <div class="card-icon">📦</div>
+      <h3>npm Supply Chain</h3>
+      <ul>
+        <li>Lockfile (<code>package-lock.json</code> / <code>pnpm-lock.yaml</code>) always committed</li>
+        <li><code>npm audit</code> and <code>pnpm audit</code> in CI</li>
+        <li>Dependabot / Renovate for automated updates</li>
+        <li>Socket.dev for malware detection in npm packages</li>
+        <li>Prefer packages with few transitive dependencies</li>
+        <li>Audit script injection in <code>postinstall</code> hooks</li>
+      </ul>
+      <div class="tag-row"><span class="tag yellow">npm audit</span><span class="tag">Renovate</span></div>
+    </div>
+
+    <div class="card sec-card">
+      <div class="card-icon">🧪</div>
+      <h3>SAST &amp; DAST Tools</h3>
+      <ul>
+        <li><strong>SAST (Static):</strong> ESLint security plugins, Semgrep, CodeQL</li>
+        <li><strong>DAST (Dynamic):</strong> OWASP ZAP, Burp Suite</li>
+        <li>Snyk for unified scanning (code + deps + containers)</li>
+        <li>GitHub Actions integration for automated scanning</li>
+        <li>Trivy for container vulnerability scanning</li>
+      </ul>
+      <div class="tag-row"><span class="tag green">SAST</span><span class="tag blue">DAST</span><span class="tag red">Snyk</span></div>
+    </div>
+
+  </div>
+
+  <!-- Dependency Safety Comparison -->
+  <h3 style="margin-bottom:1rem;">📦 Dependency Ecosystem Safety</h3>
+  <div class="table-wrap" style="margin-bottom:2rem;">
+    <table>
+      <thead>
+        <tr>
+          <th>Ecosystem</th>
+          <th>Package Manager</th>
+          <th>Lock File</th>
+          <th>Audit Tool</th>
+          <th>Typosquatting Risk</th>
+          <th>Arbitrary Code on Install</th>
+          <th>Overall Risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Rust / Cargo</td><td><code>cargo</code></td><td>✅ Cargo.lock</td><td><code>cargo audit</code></td>
+          <td><span class="tag green">Low</span></td><td><span class="tag yellow">Build scripts</span></td><td><span class="tag green">Low</span></td>
+        </tr>
+        <tr>
+          <td>Go Modules</td><td><code>go mod</code></td><td>✅ go.sum</td><td><code>govulncheck</code></td>
+          <td><span class="tag green">Low</span></td><td><span class="tag green">No</span></td><td><span class="tag green">Low</span></td>
+        </tr>
+        <tr>
+          <td>Node.js / npm</td><td><code>npm / pnpm / yarn</code></td><td>✅ package-lock</td><td><code>npm audit</code></td>
+          <td><span class="tag yellow">Medium–High</span></td><td><span class="tag red">postinstall hooks</span></td><td><span class="tag yellow">Medium</span></td>
+        </tr>
+        <tr>
+          <td>Python / pip</td><td><code>pip / uv / poetry</code></td><td>⚠️ requirements.txt</td><td><code>pip-audit</code></td>
+          <td><span class="tag red">High</span></td><td><span class="tag red">setup.py</span></td><td><span class="tag red">Medium–High</span></td>
+        </tr>
+        <tr>
+          <td>PHP / Composer</td><td><code>composer</code></td><td>✅ composer.lock</td><td><code>composer audit</code></td>
+          <td><span class="tag yellow">Medium</span></td><td><span class="tag yellow">Scripts</span></td><td><span class="tag yellow">Medium</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Security Best Practices Flow -->
+  <h3 style="margin-bottom:1rem;">✅ Security Best Practices Checklist</h3>
+  <div class="card-grid" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <h4>🔧 Backend</h4>
+      <div class="flow">
+        <div class="flow-item"><div class="flow-dot">1</div><div class="flow-content"><strong>Use parameterized queries</strong> — never concatenate SQL strings</div></div>
+        <div class="flow-item"><div class="flow-dot">2</div><div class="flow-content"><strong>Validate &amp; sanitize</strong> all user input server-side</div></div>
+        <div class="flow-item"><div class="flow-dot">3</div><div class="flow-content"><strong>Hash passwords</strong> with bcrypt / argon2 — never MD5/SHA1</div></div>
+        <div class="flow-item"><div class="flow-dot">4</div><div class="flow-content"><strong>Rate limit</strong> authentication endpoints</div></div>
+        <div class="flow-item"><div class="flow-dot">5</div><div class="flow-content"><strong>Secrets in environment variables</strong> — never in code</div></div>
+        <div class="flow-item"><div class="flow-dot">6</div><div class="flow-content"><strong>Run as non-root</strong> in containers</div></div>
+        <div class="flow-item"><div class="flow-dot">7</div><div class="flow-content"><strong>Audit dependencies</strong> in CI/CD pipeline</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h4>🌐 Frontend</h4>
+      <div class="flow">
+        <div class="flow-item"><div class="flow-dot">1</div><div class="flow-content"><strong>Content Security Policy</strong> headers to prevent XSS</div></div>
+        <div class="flow-item"><div class="flow-dot">2</div><div class="flow-content"><strong>HTTPS only</strong> — HSTS header</div></div>
+        <div class="flow-item"><div class="flow-dot">3</div><div class="flow-content"><strong>SameSite cookies</strong> to prevent CSRF</div></div>
+        <div class="flow-item"><div class="flow-dot">4</div><div class="flow-content"><strong>Subresource Integrity (SRI)</strong> for CDN assets</div></div>
+        <div class="flow-item"><div class="flow-dot">5</div><div class="flow-content"><strong>Never store JWTs</strong> in localStorage — use HttpOnly cookies</div></div>
+        <div class="flow-item"><div class="flow-dot">6</div><div class="flow-content"><strong>Lockfile in version control</strong> for deterministic installs</div></div>
+        <div class="flow-item"><div class="flow-dot">7</div><div class="flow-content"><strong>Dependabot / Renovate</strong> for automated security updates</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Framework Security ratings -->
+  <h3 style="margin:2rem 0 1rem;">🏆 Which Stack Is Safest?</h3>
+  <div class="callout callout-good">
+    <div class="callout-icon">🥇</div>
+    <div class="callout-body">
+      <strong>For Security-Critical Applications</strong>
+      <p><strong>Rust</strong> is the gold standard for memory-safe systems. <strong>Go</strong> is the practical choice for secure cloud services with a low dependency footprint. For frontend, <strong>Astro or SvelteKit</strong> ship minimal JavaScript (smallest attack surface). Pair with <strong>HTMX</strong> on the backend for near-zero client JS.</p>
+    </div>
+  </div>
+  <div class="callout callout-warn" style="margin-top:1rem;">
+    <div class="callout-icon">⚠️</div>
+    <div class="callout-body">
+      <strong>Reducing Dependency Risk</strong>
+      <p>The fewer dependencies you have, the smaller your attack surface. <strong>Go</strong> and <strong>Rust</strong> have smaller ecosystems — which is actually a security advantage. In <strong>Node.js</strong>, a typical app pulls in 1,000+ transitive packages. Prefer pnpm + lockfile + <code>npm audit</code> + Socket.dev scanning in CI.</p>
+    </div>
+  </div>
+  <div class="callout callout-bad" style="margin-top:1rem;">
+    <div class="callout-icon">🚨</div>
+    <div class="callout-body">
+      <strong>Common Vulnerabilities to Avoid</strong>
+      <p>Top-10 OWASP vulnerabilities apply regardless of stack: injection attacks (SQL, command, template), broken authentication, insecure deserialization, using components with known vulnerabilities. Tools like <strong>Snyk</strong>, <strong>SonarQube</strong>, and <strong>CodeQL</strong> (free for open source) catch most of these automatically.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================================================
+     FOOTER
+     ================================================ -->
+<footer>
+  <p>
+    <strong>TechStack Comparisons</strong> — open source reference guide ·
+    <a href="https://github.com/chefgs/techstack-comparisons" target="_blank" rel="noopener">GitHub</a>
+  </p>
+  <p style="margin-top:.4rem;">Content is for educational purposes. Benchmarks are approximate and may vary by workload.</p>
+</footer>
+
+<button id="back-top" aria-label="Back to top">↑</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>
