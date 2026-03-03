@@ -708,6 +708,10 @@ func SecurityHeaders() gin.HandlerFunc {
       <li>Prefer packages with <strong>low transitive dependency counts</strong> — a package that pulls in 200 transitive deps is 200 separate attack vectors</li>
     </ul>
 
+    <div class="warn">
+      <p>⚠️ <strong>JS/Node.js Elevated Risk:</strong> npm is the world's largest package registry (&gt;2.5 million packages). A typical React or Next.js application installs <strong>800–1,200+ transitive packages</strong> on <code>npm install</code>. Each package runs arbitrary <code>postinstall</code> hooks. Known confirmed attacks on npm include <strong>event-stream</strong> (2018 — cryptocurrency theft), <strong>ua-parser-js</strong> (2021 — cryptominer + credential stealer), <strong>node-ipc</strong> (2022 — wiper malware), and <strong>colors.js</strong> (2022 — deliberate corruption). Additionally, <strong>prototype pollution</strong> vulnerabilities (lodash, jQuery, minimist) enable server-side RCE when user input reaches object merge operations. Treat every new npm dependency addition as a security decision, not just a convenience choice.</p>
+    </div>
+
     <h3 id="supply-chain">Supply Chain Security</h3>
     <p>Modern software supply chain attacks (SolarWinds, XZ Utils, event-stream) exploit the trust we place in third-party packages. Defending against this class of attack requires a layered approach:</p>
 
@@ -720,6 +724,20 @@ func SecurityHeaders() gin.HandlerFunc {
       <li><strong>Use SBOM</strong> — generate a Software Bill of Materials (cyclonedx, SPDX) for regulated industries</li>
       <li><strong>Signed commits and releases</strong> — use GPG-signed commits and verify release artifact signatures (SLSA framework)</li>
     </ol>
+
+    <h4>JS-Specific Vulnerability Classes</h4>
+    <p>JavaScript and Node.js applications face several vulnerability classes that are unique or disproportionately common in the JS ecosystem:</p>
+    <table class="decision-table">
+      <thead><tr><th>Vulnerability</th><th>How It Arises</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Prototype Pollution</strong></td><td>Unsanitized input passed to object merge/clone utilities (lodash, jQuery, minimist). Can lead to RCE in Node.js.</td><td>Use <code>Object.create(null)</code>, freeze prototypes, <code>npm audit</code>, upgrade affected packages.</td></tr>
+        <tr><td><strong>postinstall RCE</strong></td><td>Malicious or compromised npm packages run arbitrary shell commands at install time.</td><td>Use <code>npm ci --ignore-scripts</code> for production builds; vet packages with Socket.dev before adding.</td></tr>
+        <tr><td><strong>ReDoS</strong></td><td>Catastrophically backtracking regex in npm packages (ua-parser, moment.js) can freeze a Node.js event loop.</td><td>Use <code>safe-regex</code> / <code>vuln-regex-detector</code>; prefer maintained replacements (e.g., <code>dayjs</code> instead of <code>moment</code>).</td></tr>
+        <tr><td><strong>XSS via raw HTML APIs</strong></td><td><code>dangerouslySetInnerHTML</code> (React), <code>v-html</code> (Vue), <code>{@html}</code> (Svelte) bypass auto-escaping.</td><td>Sanitize with <code>DOMPurify</code> before use; enforce with ESLint rules; implement strict CSP.</td></tr>
+        <tr><td><strong>SSRF in SSR frameworks</strong></td><td>Next.js Server Actions / Nuxt server routes / Remix loaders that fetch user-supplied URLs without an allowlist.</td><td>Validate and allowlist all URLs server-side; never fetch arbitrary user-provided URLs.</td></tr>
+        <tr><td><strong>Dependency Confusion</strong></td><td>Attacker publishes a public npm package matching a private internal package name; npm resolves the attacker's version.</td><td>Use npm scoped packages (<code>@yourorg/package</code>), configure <code>.npmrc</code> to use only private registry for internal packages.</td></tr>
+      </tbody>
+    </table>
 
     <div class="danger">
       <p>🚨 <strong>High-risk pattern to avoid:</strong> Installing packages directly in production environments with <code>pip install</code> or <code>npm install</code> without a lockfile. Always build a deterministic artifact in CI and deploy that artifact.</p>
