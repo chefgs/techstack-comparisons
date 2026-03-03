@@ -29,6 +29,7 @@
 
     // Close mobile nav
     document.getElementById('main-nav').classList.remove('open');
+    document.getElementById('nav-toggle').setAttribute('aria-expanded', 'false');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     history.replaceState(null, '', '#' + id);
@@ -44,7 +45,9 @@
   /* ---- Mobile nav toggle ---- */
   const navToggle = document.getElementById('nav-toggle');
   navToggle.addEventListener('click', () => {
-    document.getElementById('main-nav').classList.toggle('open');
+    const nav = document.getElementById('main-nav');
+    const isOpen = nav.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   });
 
   /* ---- Inner tabs within sections ---- */

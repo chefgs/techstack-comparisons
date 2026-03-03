@@ -52,14 +52,14 @@ jobs:
         run: |
           echo "=== Checking asset references in index.html ==="
           # Verify every local href/src referenced in HTML actually exists
-          grep -oP '(?<=href="|src=")[^"]+' index.html | grep -v '^http' | grep -v '^#' | while read -r ref; do
+          while read -r ref; do
             if [ -f "$ref" ]; then
               echo "✅  $ref"
             else
               echo "❌  $ref (not found)"
               exit 1
             fi
-          done
+          done < <(grep -oP '(?<=href="|src=")[^"]+' index.html | grep -v '^http' | grep -v '^#')
           echo "=== Asset reference check passed ==="
 
       - name: Setup GitHub Pages

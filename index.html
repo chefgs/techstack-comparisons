@@ -22,7 +22,7 @@
       <span>TechStack Comparisons</span>
     </div>
 
-    <button id="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <button id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
 
     <nav id="main-nav" role="navigation">
       <button class="nav-btn active" data-target="home">🏠 Home</button>
@@ -56,7 +56,7 @@
       <span class="badge badge-sec">Security Guide</span>
     </div>
     <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;">
-      <button class="nav-btn active" data-target="backend" style="padding:.6rem 1.4rem;font-size:1rem;">🔧 Explore Backend →</button>
+      <button class="nav-btn" data-target="backend" style="padding:.6rem 1.4rem;font-size:1rem;">🔧 Explore Backend →</button>
       <button class="nav-btn" data-target="ui" style="padding:.6rem 1.4rem;font-size:1rem;">🎨 Explore UI →</button>
     </div>
   </div>
@@ -264,15 +264,15 @@
         <div class="matrix-bars">
           <div>
             <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>92%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:92%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:92%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>38%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:38%"></div></div>
+            <div class="score-bar"><div class="score-fill medium" style="width:38%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>98%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:98%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:98%"></div></div>
           </div>
         </div>
       </div>
@@ -281,15 +281,15 @@
         <div class="matrix-bars">
           <div>
             <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>85%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:85%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:85%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>42%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:42%"></div></div>
+            <div class="score-bar"><div class="score-fill medium" style="width:42%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>97%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:97%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:97%"></div></div>
           </div>
         </div>
       </div>
@@ -298,15 +298,15 @@
         <div class="matrix-bars">
           <div>
             <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>78%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:78%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:78%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>95%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:95%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:95%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>45%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:45%"></div></div>
+            <div class="score-bar"><div class="score-fill medium" style="width:45%"></div></div>
           </div>
         </div>
       </div>
@@ -315,15 +315,15 @@
         <div class="matrix-bars">
           <div>
             <div class="score-label"><span style="color:var(--clr-go)">Go</span><span>80%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:80%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:80%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-python)">Python</span><span>60%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill medium" style="width:60%"></div></div>
+            <div class="score-bar"><div class="score-fill medium" style="width:60%"></div></div>
           </div>
           <div>
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>96%</span></div>
-            <div class="score-bar" style="width:200px"><div class="score-fill high" style="width:96%"></div></div>
+            <div class="score-bar"><div class="score-fill high" style="width:96%"></div></div>
           </div>
         </div>
       </div>
@@ -967,7 +967,7 @@
           <ul style="margin-top:.5rem;">
             <li><strong>SaaS Product:</strong> Next.js + Tailwind + shadcn/ui + Prisma + PostgreSQL</li>
             <li><strong>Content / Blog:</strong> Astro + Tailwind (zero JS shipping)</li>
-            <li><strong>ML Dashboard:</strong> FastAPI (Go/Python backend) + HTMX or Streamlit</li>
+            <li><strong>ML Dashboard:</strong> FastAPI (Python backend) + HTMX or Streamlit</li>
             <li><strong>Enterprise App:</strong> Angular + NgRx + Angular Material</li>
             <li><strong>Server-first PHP:</strong> Laravel + Livewire + Alpine.js</li>
             <li><strong>Real-time App:</strong> SvelteKit + WebSockets or Remix + Turbo Streams</li>

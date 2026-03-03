@@ -93,7 +93,7 @@ code, kbd {
   white-space: nowrap;
 }
 .logo .logo-icon { font-size: 1.5rem; }
-.logo span { background: linear-gradient(90deg, var(--clr-accent), var(--clr-accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.logo span:not(.logo-icon) { background: linear-gradient(90deg, var(--clr-accent), var(--clr-accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
 /* ---- Main Nav ---- */
 #main-nav {
@@ -296,7 +296,7 @@ tbody td:first-child { color: var(--clr-text); font-weight: 600; }
 /* ---- Security score bar ---- */
 .score-bar-wrap { margin: .4rem 0 .8rem; }
 .score-label { font-size: .8rem; color: var(--clr-muted); display: flex; justify-content: space-between; margin-bottom: .2rem; }
-.score-bar { height: 8px; border-radius: 999px; background: var(--clr-border); overflow: hidden; }
+.score-bar { height: 8px; width: 100%; border-radius: 999px; background: var(--clr-border); overflow: hidden; }
 .score-fill { height: 100%; border-radius: 999px; transition: width .8s ease; }
 .score-fill.high   { background: linear-gradient(90deg, var(--clr-accent2), #00b894); }
 .score-fill.medium { background: linear-gradient(90deg, var(--clr-accent4), #f39c12); }
