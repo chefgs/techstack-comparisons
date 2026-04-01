@@ -61,8 +61,11 @@ techstack-comparisons/
 ├── js/
 │   └── main.js                 # Tab navigation, score-bar animations, hash routing
 ├── .github/
-│   └── workflows/
-│       └── deploy.yml          # GitHub Actions — CI validation + GitHub Pages deployment
+│   ├── workflows/
+│   │   └── deploy.yml          # GitHub Actions — CI validation + GitHub Pages deployment
+│   └── PULL_REQUEST_TEMPLATE.md # PR checklist template
+├── CONTRIBUTING.md             # Contribution guide — agent workflow, sample prompts, test mandate
+├── LICENSE                     # MIT License
 └── README.md
 ```
 
@@ -151,40 +154,22 @@ If either check fails, the deployment is blocked and the workflow exits with a n
 
 This repo is designed to grow — pull requests adding new tech stack comparisons are very welcome!
 
-### Adding a new comparison
+Please read **[CONTRIBUTING.md](CONTRIBUTING.md)** for the full contribution guide, including:
 
-1. Fork the repository and create a branch (`git checkout -b feat/add-bun-comparison`)
-2. Edit `index.html` — add a new `<section>` or extend an existing one
-3. Add corresponding styles in `css/styles.css` if needed
-4. Open a Pull Request — the CI workflow will validate your changes automatically
+- 🤖 **Agent-based development workflow** — recommended AI-agent tools and step-by-step process
+- 💬 **Sample prompts** for adding comparisons, docs, blog posts, bug fixes, and CI checks
+- ✅ **Mandatory pre-PR checklist** — automated validation and browser testing steps that must pass before opening a PR
 
-### Adding documentation
+### Quick start
 
-1. Edit `docs.html` — add new sections or expand existing topics
-2. Follow the existing section structure (h2 for major sections, h3 for subsections)
-3. Use the established CSS classes (`.note`, `.warn`, `.danger`, `.decision-table`, `.step-list`)
-
-### Adding blog posts
-
-1. Edit `blog.html` — add a new article `<div>` following the existing article template
-2. Add a card for it in the blog index (`#blog-index`) post list
-3. Add a sidebar link in the "All Articles" widget
-4. Wire up the `showArticle` / `showIndex` navigation in the article's nav footer
-
-### Suggested future additions
-
-- [ ] Bun vs Node.js vs Deno runtime comparison
-- [ ] Database comparisons (PostgreSQL vs MySQL vs SQLite vs MongoDB)
-- [ ] Container & orchestration (Docker vs Podman, Kubernetes vs Nomad)
-- [ ] Cloud provider comparison (AWS vs GCP vs Azure)
-- [ ] Mobile frameworks (React Native vs Flutter vs Expo)
-- [ ] Testing framework comparisons
-- [ ] Blog: Choosing a database for enterprise applications
-- [ ] Docs: Kubernetes deployment patterns for polyglot microservices
+1. Fork the repository and create a feature branch (`git checkout -b feat/add-bun-comparison`)
+2. Use an AI agent with the [sample prompts](CONTRIBUTING.md#sample-prompts-for-code-development) from CONTRIBUTING.md
+3. Run the [mandatory validation checks](CONTRIBUTING.md#mandatory-test-run-before-raising-a-pr) locally
+4. Open a Pull Request — the CI workflow validates your changes automatically
 
 ---
 
 ## 📄 License
 
-MIT — free to use, modify, and share.
+MIT — see [LICENSE](LICENSE) for the full text.
 
