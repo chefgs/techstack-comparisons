@@ -19,6 +19,7 @@
   --clr-go:        #00add8;
   --clr-python:    #ffd43b;
   --clr-rust:      #ce422b;
+  --clr-java:      #f89820;
   --radius:        12px;
   --shadow:        0 4px 24px rgba(0,0,0,.4);
   --transition:    .25s ease;
@@ -176,6 +177,7 @@ code, kbd {
 .badge-go     { color: var(--clr-go); }
 .badge-python { color: var(--clr-python); }
 .badge-rust   { color: var(--clr-rust); }
+.badge-java   { color: var(--clr-java); }
 .badge-js     { color: var(--clr-accent4); }
 .badge-ui     { color: var(--clr-accent2); }
 .badge-sec    { color: var(--clr-accent3); }
@@ -241,6 +243,7 @@ code, kbd {
 .card.go-card    { border-top: 3px solid var(--clr-go); }
 .card.python-card { border-top: 3px solid var(--clr-python); }
 .card.rust-card  { border-top: 3px solid var(--clr-rust); }
+.card.java-card  { border-top: 3px solid var(--clr-java); }
 .card.js-card    { border-top: 3px solid var(--clr-accent4); }
 .card.ui-card    { border-top: 3px solid var(--clr-accent2); }
 .card.sec-card   { border-top: 3px solid var(--clr-accent3); }

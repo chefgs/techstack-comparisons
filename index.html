@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TechStack Comparisons — Go · Python · Rust · UI Frameworks</title>
-  <meta name="description" content="Comprehensive comparisons of backend technologies (Go, Python, Rust) and UI frameworks (React, Next.js, Vue, Nuxt.js, Angular, Svelte, HTMX, Laravel, and more) with security and use-case guidance." />
+  <title>TechStack Comparisons — Go · Python · Rust · Java · UI Frameworks</title>
+  <meta name="description" content="Comprehensive comparisons of backend technologies (Go, Python, Rust, Java) and UI frameworks (React, Next.js, Vue, Nuxt.js, Angular, Svelte, HTMX, Laravel, and more) with security and use-case guidance." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -50,6 +50,7 @@
       <span class="badge badge-go">Go</span>
       <span class="badge badge-python">Python</span>
       <span class="badge badge-rust">Rust</span>
+      <span class="badge badge-java">Java</span>
       <span class="badge badge-js">React</span>
       <span class="badge badge-js">Next.js</span>
       <span class="badge badge-js">Vue</span>
@@ -75,8 +76,8 @@
 <section id="backend" class="section">
   <div class="section-header">
     <div class="section-label">Backend Technologies</div>
-    <h2>Go vs Python vs Rust</h2>
-    <p>A comprehensive comparison of three modern backend languages — their strengths, trade-offs, and the projects where each one shines.</p>
+    <h2>Go vs Python vs Rust vs Java</h2>
+    <p>A comprehensive comparison of four modern backend languages — their strengths, trade-offs, and the projects where each one shines.</p>
   </div>
 
   <!-- Language Cards -->
@@ -169,6 +170,35 @@
         <span class="tag">Embedded</span>
       </div>
     </div>
+
+    <!-- Java -->
+    <div class="card java-card">
+      <div class="card-icon">☕</div>
+      <h3 style="color:var(--clr-java)">Java</h3>
+      <p>Battle-tested, enterprise-grade language with a 30-year ecosystem. JVM-based, statically typed, with robust frameworks for large-scale systems.</p>
+      <h4>Strengths</h4>
+      <ul>
+        <li>Massive enterprise ecosystem — Spring, Quarkus, Micronaut</li>
+        <li>Strong type system with mature tooling (Maven, Gradle)</li>
+        <li>Excellent JVM performance with JIT compilation</li>
+        <li>Dominant in banking, fintech, and enterprise software</li>
+        <li>Rich standard library and battle-tested frameworks</li>
+        <li>GraalVM native image for cloud-native deployments</li>
+      </ul>
+      <h4>Weaknesses</h4>
+      <ul>
+        <li>Verbose boilerplate (though modern Java/Lombok help)</li>
+        <li>JVM startup time higher than Go/Rust (without GraalVM)</li>
+        <li>Higher memory footprint than Go or Rust</li>
+        <li>Steep learning curve for Spring ecosystem</li>
+      </ul>
+      <div class="tag-row" style="margin-top:.75rem;">
+        <span class="tag" style="color:var(--clr-java)">Enterprise</span>
+        <span class="tag green">Fintech</span>
+        <span class="tag blue">Microservices</span>
+        <span class="tag">Spring Boot</span>
+      </div>
+    </div>
   </div>
 
   <!-- Comparison Table -->
@@ -181,25 +211,26 @@
           <th style="color:var(--clr-go)">🐹 Go</th>
           <th style="color:var(--clr-python)">🐍 Python</th>
           <th style="color:var(--clr-rust)">🦀 Rust</th>
+          <th style="color:var(--clr-java)">☕ Java</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Runtime Performance</td><td><span class="tag blue">Very Fast</span></td><td><span class="tag yellow">Moderate</span></td><td><span class="tag green">Fastest</span></td></tr>
-        <tr><td>Startup Time</td><td><span class="tag blue">~1ms</span></td><td><span class="tag yellow">~50–200ms</span></td><td><span class="tag green">~0.5ms</span></td></tr>
-        <tr><td>Memory Safety</td><td><span class="tag yellow">GC managed</span></td><td><span class="tag yellow">GC managed</span></td><td><span class="tag green">Compile-time</span></td></tr>
-        <tr><td>Concurrency Model</td><td><span class="tag blue">Goroutines / CSP</span></td><td><span class="tag yellow">asyncio / threads</span></td><td><span class="tag green">async/await + threads</span></td></tr>
-        <tr><td>Learning Curve</td><td><span class="tag green">Easy–Medium</span></td><td><span class="tag green">Easy</span></td><td><span class="tag red">Hard</span></td></tr>
-        <tr><td>Ecosystem Maturity</td><td><span class="tag blue">Good</span></td><td><span class="tag green">Excellent</span></td><td><span class="tag yellow">Growing</span></td></tr>
-        <tr><td>Docker Image Size</td><td><span class="tag blue">~5–15 MB</span></td><td><span class="tag yellow">~100–400 MB</span></td><td><span class="tag blue">~5–15 MB</span></td></tr>
-        <tr><td>Build to Binary</td><td><span class="tag blue">Single binary</span></td><td><span class="tag yellow">Interpreter needed</span></td><td><span class="tag blue">Single binary</span></td></tr>
-        <tr><td>Type Safety</td><td><span class="tag blue">Static</span></td><td><span class="tag yellow">Dynamic (+ hints)</span></td><td><span class="tag green">Strong static</span></td></tr>
-        <tr><td>Error Handling</td><td><span class="tag yellow">Explicit, verbose</span></td><td><span class="tag yellow">Exceptions</span></td><td><span class="tag green">Result&lt;T,E&gt; types</span></td></tr>
-        <tr><td>WebAssembly Support</td><td><span class="tag yellow">Limited</span></td><td><span class="tag yellow">Pyodide (limited)</span></td><td><span class="tag green">First-class</span></td></tr>
-        <tr><td>AI / ML Ecosystem</td><td><span class="tag yellow">Limited</span></td><td><span class="tag green">Best-in-class</span></td><td><span class="tag yellow">Growing</span></td></tr>
-        <tr><td>Cloud-Native Fit</td><td><span class="tag green">Excellent</span></td><td><span class="tag blue">Good</span></td><td><span class="tag blue">Good</span></td></tr>
-        <tr><td>Dev Velocity (CRUD)</td><td><span class="tag blue">Fast</span></td><td><span class="tag green">Fastest</span></td><td><span class="tag yellow">Slow</span></td></tr>
-        <tr><td>Security Profile</td><td><span class="tag blue">Good</span></td><td><span class="tag yellow">Moderate</span></td><td><span class="tag green">Excellent</span></td></tr>
-        <tr><td>Popular Frameworks</td><td>Gin, Echo, Fiber, Chi</td><td>FastAPI, Django, Flask</td><td>Axum, Actix-web, Rocket</td></tr>
+        <tr><td>Runtime Performance</td><td><span class="tag blue">Very Fast</span></td><td><span class="tag yellow">Moderate</span></td><td><span class="tag green">Fastest</span></td><td><span class="tag blue">Fast (JIT)</span></td></tr>
+        <tr><td>Startup Time</td><td><span class="tag blue">~1ms</span></td><td><span class="tag yellow">~50–200ms</span></td><td><span class="tag green">~0.5ms</span></td><td><span class="tag yellow">~200–500ms (JVM) / ~50ms (native)</span></td></tr>
+        <tr><td>Memory Safety</td><td><span class="tag yellow">GC managed</span></td><td><span class="tag yellow">GC managed</span></td><td><span class="tag green">Compile-time</span></td><td><span class="tag yellow">GC managed</span></td></tr>
+        <tr><td>Concurrency Model</td><td><span class="tag blue">Goroutines / CSP</span></td><td><span class="tag yellow">asyncio / threads</span></td><td><span class="tag green">async/await + threads</span></td><td><span class="tag blue">Virtual Threads (Java 21+)</span></td></tr>
+        <tr><td>Learning Curve</td><td><span class="tag green">Easy–Medium</span></td><td><span class="tag green">Easy</span></td><td><span class="tag red">Hard</span></td><td><span class="tag yellow">Medium–Hard</span></td></tr>
+        <tr><td>Ecosystem Maturity</td><td><span class="tag blue">Good</span></td><td><span class="tag green">Excellent</span></td><td><span class="tag yellow">Growing</span></td><td><span class="tag green">Excellent</span></td></tr>
+        <tr><td>Docker Image Size</td><td><span class="tag blue">~5–15 MB</span></td><td><span class="tag yellow">~100–400 MB</span></td><td><span class="tag blue">~5–15 MB</span></td><td><span class="tag yellow">~150–400 MB (JVM) / ~50 MB (native)</span></td></tr>
+        <tr><td>Build to Binary</td><td><span class="tag blue">Single binary</span></td><td><span class="tag yellow">Interpreter needed</span></td><td><span class="tag blue">Single binary</span></td><td><span class="tag yellow">JVM needed (or GraalVM native)</span></td></tr>
+        <tr><td>Type Safety</td><td><span class="tag blue">Static</span></td><td><span class="tag yellow">Dynamic (+ hints)</span></td><td><span class="tag green">Strong static</span></td><td><span class="tag green">Strong static</span></td></tr>
+        <tr><td>Error Handling</td><td><span class="tag yellow">Explicit, verbose</span></td><td><span class="tag yellow">Exceptions</span></td><td><span class="tag green">Result&lt;T,E&gt; types</span></td><td><span class="tag yellow">Checked exceptions</span></td></tr>
+        <tr><td>WebAssembly Support</td><td><span class="tag yellow">Limited</span></td><td><span class="tag yellow">Pyodide (limited)</span></td><td><span class="tag green">First-class</span></td><td><span class="tag yellow">TeaVM / CheerpJ (limited)</span></td></tr>
+        <tr><td>AI / ML Ecosystem</td><td><span class="tag yellow">Limited</span></td><td><span class="tag green">Best-in-class</span></td><td><span class="tag yellow">Growing</span></td><td><span class="tag yellow">DJL, Deeplearning4j</span></td></tr>
+        <tr><td>Cloud-Native Fit</td><td><span class="tag green">Excellent</span></td><td><span class="tag blue">Good</span></td><td><span class="tag blue">Good</span></td><td><span class="tag blue">Good (Quarkus/Micronaut)</span></td></tr>
+        <tr><td>Dev Velocity (CRUD)</td><td><span class="tag blue">Fast</span></td><td><span class="tag green">Fastest</span></td><td><span class="tag yellow">Slow</span></td><td><span class="tag blue">Fast (Spring Boot)</span></td></tr>
+        <tr><td>Security Profile</td><td><span class="tag blue">Good</span></td><td><span class="tag yellow">Moderate</span></td><td><span class="tag green">Excellent</span></td><td><span class="tag blue">Good</span></td></tr>
+        <tr><td>Popular Frameworks</td><td>Gin, Echo, Fiber, Chi</td><td>FastAPI, Django, Flask</td><td>Axum, Actix-web, Rocket</td><td>Spring Boot, Quarkus, Micronaut</td></tr>
       </tbody>
     </table>
   </div>
@@ -258,6 +289,23 @@
         <p>Cloudflare Workers (WASM), Firefox (Mozilla), Discord (voice server), Figma (WASM plugin runtime)</p>
       </div>
     </div>
+
+    <div class="card java-card">
+      <div class="card-icon">☕</div>
+      <h3 style="color:var(--clr-java)">Choose Java when…</h3>
+      <ul>
+        <li>Building large-scale <strong>enterprise applications</strong> requiring stability</li>
+        <li>Working in <strong>banking, fintech, or regulated industries</strong></li>
+        <li>Need <strong>mature microservices</strong> with Spring Boot or Quarkus</li>
+        <li>Team has strong <strong>Java/JVM expertise</strong> and existing codebase</li>
+        <li>Requiring <strong>long-term LTS support</strong> and vendor backing</li>
+        <li>Building <strong>event-driven systems</strong> with Kafka integration</li>
+      </ul>
+      <div class="recommend-box" style="margin-top:1rem;">
+        <h4>🏢 Real-world examples</h4>
+        <p>LinkedIn (backend services), Uber (trip processing), Netflix (API gateway), Amazon (core services), Airbnb</p>
+      </div>
+    </div>
   </div>
 
   <!-- Performance benchmarks visual -->
@@ -281,6 +329,10 @@
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>98%</span></div>
             <div class="score-bar"><div class="score-fill high" style="width:98%"></div></div>
           </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-java)">Java</span><span>78%</span></div>
+            <div class="score-bar"><div class="score-fill high" style="width:78%"></div></div>
+          </div>
         </div>
       </div>
       <div class="matrix-row">
@@ -297,6 +349,10 @@
           <div>
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>97%</span></div>
             <div class="score-bar"><div class="score-fill high" style="width:97%"></div></div>
+          </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-java)">Java</span><span>52%</span></div>
+            <div class="score-bar"><div class="score-fill medium" style="width:52%"></div></div>
           </div>
         </div>
       </div>
@@ -315,6 +371,10 @@
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>45%</span></div>
             <div class="score-bar"><div class="score-fill medium" style="width:45%"></div></div>
           </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-java)">Java</span><span>70%</span></div>
+            <div class="score-bar"><div class="score-fill high" style="width:70%"></div></div>
+          </div>
         </div>
       </div>
       <div class="matrix-row">
@@ -332,6 +392,10 @@
             <div class="score-label"><span style="color:var(--clr-rust)">Rust</span><span>96%</span></div>
             <div class="score-bar"><div class="score-fill high" style="width:96%"></div></div>
           </div>
+          <div>
+            <div class="score-label"><span style="color:var(--clr-java)">Java</span><span>82%</span></div>
+            <div class="score-bar"><div class="score-fill high" style="width:82%"></div></div>
+          </div>
         </div>
       </div>
     </div>
@@ -342,7 +406,7 @@
     <div class="callout-icon">💡</div>
     <div class="callout-body">
       <strong>Quick Decision Guide</strong>
-      <p>Shipping an MVP or data-heavy product? Start with <strong>Python</strong>. Building cloud infrastructure, APIs, or DevOps tools? <strong>Go</strong> is the sweet spot. Writing a cryptographic library, game engine, or WebAssembly module? <strong>Rust</strong> is worth the investment.</p>
+      <p>Shipping an MVP or data-heavy product? Start with <strong>Python</strong>. Building cloud infrastructure, APIs, or DevOps tools? <strong>Go</strong> is the sweet spot. Writing a cryptographic library, game engine, or WebAssembly module? <strong>Rust</strong> is worth the investment. Running a large enterprise with Java expertise or regulated-industry requirements? <strong>Java</strong> (Spring Boot / Quarkus) is the proven choice.</p>
     </div>
   </div>
 </section>
@@ -1553,6 +1617,32 @@
       </ul>
       <div class="tag-row"><span class="tag yellow">Typosquatting Risk</span><span class="tag">Bandit</span></div>
     </div>
+
+    <div class="card java-card">
+      <div class="card-icon">☕</div>
+      <h3 style="color:var(--clr-java)">Java — Good Security</h3>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Memory Safety</span><span>75%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:75%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Type Safety</span><span>85%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:85%"></div></div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="score-label"><span>Dependency Safety</span><span>72%</span></div>
+        <div class="score-bar"><div class="score-fill high" style="width:72%"></div></div>
+      </div>
+      <ul style="margin-top:.75rem;">
+        <li>JVM sandbox provides memory isolation</li>
+        <li>Strong static typing reduces runtime errors</li>
+        <li><code>mvn dependency:check</code> and OWASP dependency-check</li>
+        <li>Spring Security for robust auth/authz patterns</li>
+        <li>Log4Shell (Log4j) was a high-profile Java CVE — keep deps updated</li>
+        <li>SpotBugs + FindSecBugs for SAST scanning</li>
+      </ul>
+      <div class="tag-row"><span class="tag blue">JVM Safe</span><span class="tag green">Spring Security</span><span class="tag yellow">Log4j Risk</span></div>
+    </div>
   </div>
 
   <!-- Frontend Security -->
@@ -1667,6 +1757,10 @@
           <td>PHP / Composer</td><td><code>composer</code></td><td>✅ composer.lock</td><td><code>composer audit</code></td>
           <td><span class="tag yellow">Medium</span></td><td><span class="tag yellow">Scripts</span></td><td><span class="tag yellow">Medium</span></td>
         </tr>
+        <tr>
+          <td>Java / Maven</td><td><code>mvn / gradle</code></td><td>✅ pom.xml / gradle.lock</td><td><code>OWASP dep-check</code></td>
+          <td><span class="tag green">Low</span></td><td><span class="tag green">No</span></td><td><span class="tag yellow">Medium (Log4j class)</span></td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -1706,7 +1800,7 @@
     <div class="callout-icon">🥇</div>
     <div class="callout-body">
       <strong>For Security-Critical Applications</strong>
-      <p><strong>Rust</strong> is the gold standard for memory-safe systems. <strong>Go</strong> is the practical choice for secure cloud services with a low dependency footprint. For frontend, <strong>Astro or SvelteKit</strong> ship minimal JavaScript (smallest attack surface). Pair with <strong>HTMX</strong> on the backend for near-zero client JS.</p>
+      <p><strong>Rust</strong> is the gold standard for memory-safe systems. <strong>Go</strong> is the practical choice for secure cloud services with a low dependency footprint. <strong>Java</strong> (with Spring Security) is the enterprise standard for regulated industries. For frontend, <strong>Astro or SvelteKit</strong> ship minimal JavaScript (smallest attack surface). Pair with <strong>HTMX</strong> on the backend for near-zero client JS.</p>
     </div>
   </div>
   <div class="callout callout-warn" style="margin-top:1rem;">
