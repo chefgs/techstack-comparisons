@@ -23,7 +23,7 @@
 
 | Section | Topics Covered |
 |---|---|
-| 🔧 **Backend** | Go vs Python vs Rust — performance benchmarks, concurrency models, security profiles, and use-case recommendations |
+| 🔧 **Backend** | Go vs Python vs Rust vs Java — performance benchmarks, concurrency models, security profiles, and use-case recommendations |
 | 🎨 **UI Frameworks** | React, Vue, Angular, Svelte, Next.js, Nuxt, Astro, HTMX, Alpine.js, Laravel/Blade, Django templates, Streamlit, Dash, Gradio, Reflex, NiceGUI |
 | ✨ **Advanced UI/UX** | Performance (code splitting, caching, virtual lists), animations (Framer Motion, GSAP, View Transitions), real-time (WebSockets, SSE), accessibility (WCAG 2.2, ARIA), design systems, architecture patterns (Islands, RSC, PWA, Edge) |
 | 🔒 **Security** | Memory safety scores, dependency ecosystem risk, XSS/CSRF prevention, SAST/DAST tooling, supply-chain security checklist |
@@ -32,7 +32,7 @@
 
 | Section | Topics Covered |
 |---|---|
-| 🔧 **Backend Deep Dive** | Go/Python/Rust enterprise use cases, framework selection, production checklists, decision matrix |
+| 🔧 **Backend Deep Dive** | Go/Python/Rust/Java enterprise use cases, framework selection, production checklists, decision matrix |
 | 🎨 **UI Architecture** | Rendering strategies (SSR/SSG/ISR/Edge/Islands/RSC), state management guide, enterprise framework selection |
 | 🔒 **Security Hardening** | Secure backend/frontend patterns, supply chain security (7-layer defence), compliance frameworks (SOC 2, HIPAA, PCI DSS, FedRAMP) |
 | 🏛️ **Architecture Patterns** | Microservices, monolith vs microservices decision guide, event-driven architecture, edge computing |
@@ -42,7 +42,8 @@
 
 | Article | Summary |
 |---|---|
-| **Choosing Your Enterprise Backend Language** | Go vs Python vs Rust decision framework grounded in production trade-offs |
+| **Choosing Your Enterprise Backend Language** | Go vs Python vs Rust vs Java decision framework grounded in production trade-offs |
+| **Java in the Modern Enterprise** | Spring Boot, Quarkus, GraalVM native images, and the JVM Renaissance for cloud-native workloads |
 | **Enterprise Frontend Architecture** | React, Angular, Astro — rendering strategies, state management, design systems |
 | **Supply Chain Security** | XZ Utils attack anatomy, ecosystem risk profiles, 7-layer defence stack |
 | **Backend Performance at Scale** | Why benchmarks mislead, real-world RPS figures, practical optimization checklist |
