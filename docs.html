@@ -128,6 +128,14 @@
     .decision-table th { background: var(--clr-surface); font-weight: 600; }
     .decision-table td { color: var(--clr-muted); }
     .decision-table td strong { color: var(--clr-text); }
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius);
+      border: 1px solid var(--clr-border);
+      margin: 1rem 0;
+    }
+    .table-scroll .decision-table { margin: 0; border: none; }
     .step-list { counter-reset: step; list-style: none; padding: 0; margin: 1rem 0; }
     .step-list li {
       counter-increment: step;
@@ -185,6 +193,7 @@
     </nav>
   </div>
 </header>
+<div id="nav-overlay" aria-hidden="true"></div>
 
 <div style="background:linear-gradient(135deg,rgba(108,99,255,.15),rgba(0,212,170,.08));border-bottom:1px solid var(--clr-border);padding:2.5rem 1.5rem 2rem;">
   <div style="max-width:1280px;margin:0 auto;">
@@ -1019,10 +1028,38 @@ CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "808
   'use strict';
   // Mobile nav toggle
   const navToggle = document.getElementById('nav-toggle');
+  const mainNav   = document.getElementById('main-nav');
+  const navOverlay = document.getElementById('nav-overlay');
+
+  function openMobileNav() {
+    mainNav.classList.add('open');
+    if (navOverlay) navOverlay.classList.add('open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileNav() {
+    mainNav.classList.remove('open');
+    if (navOverlay) navOverlay.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
   navToggle && navToggle.addEventListener('click', () => {
-    const nav = document.getElementById('main-nav');
-    const isOpen = nav.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (mainNav.classList.contains('open')) {
+      closeMobileNav();
+    } else {
+      openMobileNav();
+    }
+  });
+
+  if (navOverlay) navOverlay.addEventListener('click', closeMobileNav);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mainNav.classList.contains('open')) {
+      closeMobileNav();
+      navToggle.focus();
+    }
   });
 
   // Back to top
@@ -1046,9 +1083,22 @@ CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "808
   }, { rootMargin: '-10% 0px -85% 0px' });
   headings.forEach(h => observer.observe(h));
 
-  // Show mobile TOC on narrow screens
+  // Show mobile TOC on narrow screens, update on resize
   const mobileToc = document.getElementById('mobile-toc');
-  if (mobileToc && window.innerWidth < 900) mobileToc.style.display = 'block';
+  function updateMobileToc() {
+    if (mobileToc) mobileToc.style.display = window.innerWidth < 900 ? 'block' : 'none';
+  }
+  updateMobileToc();
+  window.addEventListener('resize', updateMobileToc);
+
+  // Wrap decision-tables in a scroll container for horizontal overflow on mobile
+  document.querySelectorAll('.decision-table').forEach(function(table) {
+    if (table.parentElement.classList.contains('table-scroll')) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'table-scroll';
+    table.parentNode.insertBefore(wrap, table);
+    wrap.appendChild(table);
+  });
 })();
 </script>
 </body>
