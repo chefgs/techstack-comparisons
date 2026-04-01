@@ -135,11 +135,18 @@ done
 echo "✅ Required files present"
 
 # Check asset references in index.html resolve to real files
-grep -oP '(?<=href="|src=")[^"]+' index.html \
-  | grep -v '^http' \
-  | while read asset; do
-      [ -f "$asset" ] || echo "❌ Missing asset: $asset"
-    done
+missing_assets=0
+while read -r asset; do
+  if [ ! -f "$asset" ]; then
+    echo "❌ Missing asset: $asset"
+    missing_assets=1
+  fi
+done < <(grep -oP '(?<=href="|src=")[^"]+' index.html | grep -v '^http')
+
+if [ "$missing_assets" -ne 0 ]; then
+  echo "❌ Asset reference check failed"
+  exit 1
+fi
 echo "✅ Asset references checked"
 ```
 
