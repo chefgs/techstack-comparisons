@@ -4,7 +4,8 @@
 
 [![Deploy to GitHub Pages](https://github.com/chefgs/techstack-comparisons/actions/workflows/deploy.yml/badge.svg)](https://github.com/chefgs/techstack-comparisons/actions/workflows/deploy.yml)
 
-🌐 **Live Site:** [https://chefgs.github.io/techstack-comparisons](https://chefgs.github.io/techstack-comparisons)
+🌐 **Live Site:** <a href="https://chefgs.github.io/techstack-comparisons" target="_blank" rel="noopener noreferrer">[Tech Stack Comparison]</a>
+
 
 > **Forking this repo?** Update the badge URL and live site link above to use your GitHub username instead of `chefgs`.
 
