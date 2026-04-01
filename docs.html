@@ -873,7 +873,7 @@ public class SecurityConfig {
         <tr><td><strong>Transitive CVEs (Log4Shell class)</strong></td><td>Critical CVE in a transitive Maven/Gradle dependency that is not in your direct pom.xml. Teams may be unaware.</td><td>Run OWASP Dependency-Check or Snyk on every build. Use <code>mvn dependency:tree</code> to audit the full transitive graph.</td></tr>
         <tr><td><strong>Java Deserialization RCE</strong></td><td>Untrusted data passed to Java's <code>ObjectInputStream</code> can trigger gadget chains (Apache Commons, Spring, Hibernate).</td><td>Never deserialize untrusted data with Java serialization. Use safe formats (JSON/Protobuf) with schema validation.</td></tr>
         <tr><td><strong>Spring Security Misconfiguration</strong></td><td>Incorrectly configured CSRF protection, overly permissive CORS, or disabled HTTPS can expose endpoints.</td><td>Enable Spring Security defaults; use <code>@EnableWebSecurity</code>; test with OWASP ZAP.</td></tr>
-        <tr><td><strong>JNDI Injection (Log4Shell pattern)</strong></td><td>User-controlled input logged through Log4j 2.x triggers remote code execution via JNDI lookup.</td><td>Keep Log4j updated (≥ 2.17.1); disable JNDI lookup with <code>log4j2.formatMsgNoLookups=true</code> for older versions.</td></tr>
+        <tr><td><strong>JNDI Injection (Log4Shell pattern)</strong></td><td>User-controlled input logged through Log4j 2.x triggers remote code execution via JNDI lookup.</td><td>Keep Log4j updated to the latest stable version; disable JNDI lookup with <code>log4j2.formatMsgNoLookups=true</code> for older versions.</td></tr>
       </tbody>
     </table>
 
