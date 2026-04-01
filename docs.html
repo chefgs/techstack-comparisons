@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Enterprise Tech Stack Documentation — TechStack Comparisons</title>
-  <meta name="description" content="In-depth enterprise documentation covering backend languages (Go, Python, Rust), UI frameworks, security hardening, architecture patterns, and decision frameworks for production systems." />
+  <meta name="description" content="In-depth enterprise documentation covering backend languages (Go, Python, Rust, Java), UI frameworks, security hardening, architecture patterns, and decision frameworks for production systems." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
@@ -214,6 +214,7 @@
       <a href="#go-enterprise">→ Go at Enterprise Scale</a>
       <a href="#python-enterprise">→ Python in Production</a>
       <a href="#rust-enterprise">→ Rust for Critical Systems</a>
+      <a href="#java-enterprise">→ Java in the Enterprise</a>
       <a href="#backend-decision">→ Decision Framework</a>
 
       <a href="#ui-guide" class="section-link">UI Architecture</a>
@@ -274,7 +275,7 @@
     <!-- =================== BACKEND =================== -->
     <h2 id="backend-guide">🔧 Backend Technology Deep Dive</h2>
     <p>
-      Enterprise backends must satisfy stringent requirements around throughput, reliability, maintainability, and total cost of ownership. The three primary languages evaluated here — <strong>Go</strong>, <strong>Python</strong>, and <strong>Rust</strong> — each occupy distinct niches in modern backend engineering.
+      Enterprise backends must satisfy stringent requirements around throughput, reliability, maintainability, and total cost of ownership. The four primary languages evaluated here — <strong>Go</strong>, <strong>Python</strong>, <strong>Rust</strong>, and <strong>Java</strong> — each occupy distinct niches in modern backend engineering.
     </p>
 
     <h3 id="go-enterprise">Go at Enterprise Scale</h3>
@@ -436,6 +437,91 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }</code></pre>
       <li>Consider <strong>Rust + Python FFI</strong> (via PyO3) for incrementally migrating performance-critical Python code</li>
     </ul>
 
+    <h3 id="java-enterprise">Java in the Enterprise</h3>
+    <p>
+      Java has been the foundation of enterprise software development for over 30 years. With Java 21 LTS virtual threads (Project Loom), records, sealed classes, and GraalVM native compilation, the JVM ecosystem has reinvented itself for cloud-native deployments while maintaining backward compatibility with existing enterprise codebases.
+    </p>
+
+    <h4>When Java is the right choice</h4>
+    <ul>
+      <li>You have a <strong>large existing Java/JVM codebase</strong> — migration costs to another language are rarely justified</li>
+      <li>Working in <strong>regulated industries</strong> (banking, healthcare, insurance) where Java compliance tooling and audit trails are well-established</li>
+      <li>Your team has deep <strong>Spring Boot or Jakarta EE</strong> expertise</li>
+      <li>You need rich <strong>enterprise integrations</strong> — Spring Data, Spring Batch, Spring Integration, JMS, JDBC cover almost every enterprise system</li>
+      <li>Hiring from a <strong>large talent pool</strong> — Java consistently ranks #1–2 in developer availability</li>
+    </ul>
+
+    <h4>Enterprise framework selection (Java)</h4>
+    <div class="comparison-grid">
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-java)">Spring Boot 3</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">The de-facto enterprise Java standard. Full ecosystem: Security, Data JPA, Cloud, Actuator, Batch. Requires Java 17+.</p>
+        <div class="badge-section">
+          <span class="tag" style="color:var(--clr-java)">Enterprise Standard</span>
+          <span class="tag">~30–50K RPS</span>
+        </div>
+      </div>
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-java)">Quarkus</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">Cloud-native Java framework. GraalVM native images achieve ~10ms startup, ~15 MB RAM — competitive with Go.</p>
+        <div class="badge-section">
+          <span class="tag green">Fast</span>
+          <span class="tag">~50K+ RPS native</span>
+        </div>
+      </div>
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-java)">Micronaut</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">Compile-time DI (no reflection). Excellent for serverless and FaaS. Small footprint, fast startup without GraalVM.</p>
+        <div class="badge-section">
+          <span class="tag blue">Serverless</span>
+          <span class="tag">Low overhead</span>
+        </div>
+      </div>
+      <div class="comparison-cell">
+        <h4 style="color:var(--clr-java)">Vert.x</h4>
+        <p style="font-size:.85rem;margin-top:.25rem;">Reactive, event-driven toolkit. Excellent for I/O-bound services and real-time applications requiring reactive streams.</p>
+        <div class="badge-section">
+          <span class="tag blue">Reactive</span>
+          <span class="tag">High throughput</span>
+        </div>
+      </div>
+    </div>
+
+    <h4>Java 21 Virtual Threads production checklist</h4>
+    <ul>
+      <li>Enable virtual threads in Spring Boot 3.2+: <code>spring.threads.virtual.enabled=true</code></li>
+      <li>Avoid <code>synchronized</code> blocks holding virtual threads on pinned carrier threads — use <code>ReentrantLock</code> instead</li>
+      <li>Remove thread pool sizing configurations — virtual threads scale automatically</li>
+      <li>Use <code>-Djdk.tracePinnedThreads=full</code> during testing to detect pinning issues</li>
+      <li>Validate that JDBC drivers and connection pools support virtual threads (HikariCP 5.1+ does)</li>
+    </ul>
+
+    <h4>Java security checklist</h4>
+    <ul>
+      <li>Run <strong>OWASP Dependency-Check</strong> or Snyk in CI on every build — Log4Shell demonstrated that transitive CVEs can be critical</li>
+      <li>Use <strong>Spring Security</strong> for authentication/authorization — never implement JWT validation manually</li>
+      <li>Add <strong>SpotBugs + FindSecBugs</strong> for SAST scanning (SQL injection, XSS, path traversal detection)</li>
+      <li>Pin base Docker images (<code>eclipse-temurin:21-jre</code>) and rebuild regularly</li>
+      <li>Use <strong>parameterized queries</strong> or Spring Data JPA named parameters — never string-concatenate SQL</li>
+      <li>Enable <strong>Dependabot</strong> on Maven/Gradle dependency files for automated patch PRs</li>
+    </ul>
+
+    <h4>Java production deployment patterns</h4>
+    <pre><code># Multi-stage Dockerfile for Spring Boot with GraalVM native
+FROM ghcr.io/graalvm/native-image:21 AS builder
+WORKDIR /app
+COPY . .
+RUN ./mvnw -Pnative native:compile -DskipTests
+
+FROM gcr.io/distroless/base-debian12
+COPY --from=builder /app/target/myservice /myservice
+EXPOSE 8080
+ENTRYPOINT ["/myservice"]</code></pre>
+
+    <div class="note">
+      <p>📌 <strong>Java vs Go for new services:</strong> If your team has no existing Java expertise, Go is simpler to onboard and produces smaller, faster-starting containers. If your team has strong Spring experience or you're integrating with an existing JVM codebase, Java (Spring Boot or Quarkus) is the rational choice.</p>
+    </div>
+
     <h3 id="backend-decision">Backend Decision Framework</h3>
     <p>Use this decision matrix when evaluating backend language choices for new services or platform migrations:</p>
 
@@ -446,6 +532,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }</code></pre>
           <th>Go ✅</th>
           <th>Python ✅</th>
           <th>Rust ✅</th>
+          <th>Java ✅</th>
         </tr>
       </thead>
       <tbody>
@@ -454,48 +541,70 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }</code></pre>
           <td>Secondary choice</td>
           <td>❌ Not recommended</td>
           <td><strong>Primary choice</strong></td>
+          <td>Quarkus native: good</td>
         </tr>
         <tr>
           <td>Building cloud infrastructure / DevOps tooling</td>
           <td><strong>Primary choice</strong></td>
           <td>Secondary choice (scripts)</td>
           <td>Tertiary choice</td>
+          <td>Not typical</td>
         </tr>
         <tr>
           <td>AI/ML model serving or data pipelines</td>
           <td>❌ Poor ecosystem</td>
           <td><strong>Primary choice</strong></td>
           <td>Emerging (Candle, Burn)</td>
+          <td>DJL (limited)</td>
         </tr>
         <tr>
           <td>Memory-safe systems / crypto / firmware</td>
           <td>Secondary choice</td>
           <td>❌ Not suitable</td>
           <td><strong>Primary choice</strong></td>
+          <td>Secondary choice</td>
         </tr>
         <tr>
           <td>CRUD REST APIs with moderate traffic</td>
           <td><strong>Primary choice</strong></td>
           <td>Good choice</td>
           <td>Over-engineered</td>
+          <td><strong>Excellent (Spring Boot)</strong></td>
         </tr>
         <tr>
           <td>Rapid prototyping / MVP</td>
           <td>Acceptable</td>
           <td><strong>Primary choice</strong></td>
           <td>❌ Too slow</td>
+          <td>Acceptable</td>
         </tr>
         <tr>
           <td>Team unfamiliar with systems programming</td>
           <td><strong>Easiest on-ramp</strong></td>
           <td>Easy</td>
           <td>❌ Steep curve</td>
+          <td>Medium curve</td>
         </tr>
         <tr>
           <td>WebAssembly targets</td>
           <td>Limited</td>
           <td>Pyodide (limited)</td>
           <td><strong>Best support</strong></td>
+          <td>TeaVM (limited)</td>
+        </tr>
+        <tr>
+          <td>Regulated / enterprise integration workloads</td>
+          <td>Good choice</td>
+          <td>Acceptable</td>
+          <td>Niche</td>
+          <td><strong>Primary choice</strong></td>
+        </tr>
+        <tr>
+          <td>Existing large JVM codebase</td>
+          <td>❌ Migration cost</td>
+          <td>❌ Migration cost</td>
+          <td>❌ Migration cost</td>
+          <td><strong>Natural choice</strong></td>
         </tr>
       </tbody>
     </table>
@@ -688,6 +797,29 @@ func SecurityHeaders() gin.HandlerFunc {
     }
 }</code></pre>
 
+    <pre><code>// Example: Spring Security (Java) — Security configuration
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .headers(headers -> headers
+                .frameOptions(frame -> frame.deny())
+                .contentTypeOptions(Customizer.withDefaults())
+                .httpStrictTransportSecurity(hsts -> hsts
+                    .maxAgeInSeconds(63072000).includeSubDomains(true)))
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .httpBasic(Customizer.withDefaults())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/public/**").permitAll()
+                .anyRequest().authenticated());
+        return http.build();
+    }
+}</code></pre>
+
     <h3 id="secure-frontend">Secure Frontend Patterns</h3>
 
     <h4>XSS Prevention</h4>
@@ -722,17 +854,29 @@ func SecurityHeaders() gin.HandlerFunc {
     </div>
 
     <h3 id="supply-chain">Supply Chain Security</h3>
-    <p>Modern software supply chain attacks (SolarWinds, XZ Utils, event-stream) exploit the trust we place in third-party packages. Defending against this class of attack requires a layered approach:</p>
+    <p>Modern software supply chain attacks (SolarWinds, XZ Utils, event-stream, Log4Shell) exploit the trust we place in third-party packages. Defending against this class of attack requires a layered approach:</p>
 
     <ol class="step-list">
-      <li><strong>Lock all dependency versions</strong> — never use ranges (<code>^</code>, <code>~</code>) without lockfiles committed to version control</li>
-      <li><strong>Verify checksums</strong> — Go modules use <code>go.sum</code>, Cargo uses <code>Cargo.lock</code>, npm uses <code>package-lock.json</code></li>
-      <li><strong>Scan in CI</strong> — run <code>govulncheck</code>, <code>cargo audit</code>, or <code>npm audit</code> on every pull request</li>
+      <li><strong>Lock all dependency versions</strong> — never use ranges (<code>^</code>, <code>~</code>) without lockfiles committed to version control; for Maven/Gradle use dependency-locking or BOM imports to pin transitive versions</li>
+      <li><strong>Verify integrity with checksums</strong> — Go uses <code>go.sum</code>; Cargo uses <code>Cargo.lock</code>; npm/pnpm use <code>package-lock.json</code> / <code>pnpm-lock.yaml</code>; Gradle supports dependency verification metadata (<code>gradle/verification-metadata.xml</code>); Maven uses checksums from the central repository plus the Maven Enforcer plugin to prevent version range resolution</li>
+      <li><strong>Scan in CI</strong> — run <code>govulncheck</code>, <code>cargo audit</code>, <code>npm audit</code>, or <strong>OWASP Dependency-Check</strong> (Java/Maven: <code>mvn org.owasp:dependency-check-maven:check</code>) on every pull request</li>
       <li><strong>Monitor for new CVEs</strong> — subscribe to GitHub Security Advisories for your key dependencies</li>
       <li><strong>Review postinstall hooks</strong> — scrutinize any npm package with <code>postinstall</code> scripts before adopting</li>
       <li><strong>Use SBOM</strong> — generate a Software Bill of Materials (cyclonedx, SPDX) for regulated industries</li>
       <li><strong>Signed commits and releases</strong> — use GPG-signed commits and verify release artifact signatures (SLSA framework)</li>
     </ol>
+
+    <h4>Java-Specific Supply Chain Risks</h4>
+    <p>The Log4Shell vulnerability (CVE-2021-44228, CVSS 10.0, December 2021) demonstrated that Java's transitive dependency graph carries critical risk. Log4j was a transitive dependency of hundreds of frameworks, and most teams did not know they were using it:</p>
+    <table class="decision-table">
+      <thead><tr><th>Vulnerability Class</th><th>How It Arises</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Transitive CVEs (Log4Shell class)</strong></td><td>Critical CVE in a transitive Maven/Gradle dependency that is not in your direct pom.xml. Teams may be unaware.</td><td>Run OWASP Dependency-Check or Snyk on every build. Use <code>mvn dependency:tree</code> to audit the full transitive graph.</td></tr>
+        <tr><td><strong>Java Deserialization RCE</strong></td><td>Untrusted data passed to Java's <code>ObjectInputStream</code> can trigger gadget chains (Apache Commons, Spring, Hibernate).</td><td>Never deserialize untrusted data with Java serialization. Use safe formats (JSON/Protobuf) with schema validation.</td></tr>
+        <tr><td><strong>Spring Security Misconfiguration</strong></td><td>Incorrectly configured CSRF protection, overly permissive CORS, or disabled HTTPS can expose endpoints.</td><td>Enable Spring Security defaults; use <code>@EnableWebSecurity</code>; test with OWASP ZAP.</td></tr>
+        <tr><td><strong>JNDI Injection (Log4Shell pattern)</strong></td><td>User-controlled input logged through Log4j 2.x triggers remote code execution via JNDI lookup.</td><td>Keep Log4j updated to the latest stable version; disable JNDI lookup with <code>log4j2.formatMsgNoLookups=true</code> for older versions.</td></tr>
+      </tbody>
+    </table>
 
     <h4>JS-Specific Vulnerability Classes</h4>
     <p>JavaScript and Node.js applications face several vulnerability classes that are unique or disproportionately common in the JS ecosystem:</p>
@@ -786,7 +930,7 @@ func SecurityHeaders() gin.HandlerFunc {
         <tr>
           <td><strong>FedRAMP</strong></td>
           <td>FIPS 140-2 crypto, least privilege, continuous monitoring</td>
-          <td>Go's <code>crypto/tls</code> supports FIPS-compliant cipher suites; Rust is FIPS-approachable</td>
+          <td>Go's <code>crypto/tls</code> supports FIPS-compliant cipher suites; Rust is FIPS-approachable; Java with Bouncy Castle FIPS provider</td>
         </tr>
       </tbody>
     </table>
@@ -811,6 +955,15 @@ func SecurityHeaders() gin.HandlerFunc {
       <li><strong>gRPC</strong> — <code>google.golang.org/grpc</code> for typed inter-service RPC</li>
       <li><strong>Connect-Go</strong> — modern gRPC-compatible RPC framework (recommended over raw gRPC in 2024)</li>
       <li><strong>NATS</strong> — lightweight pub/sub messaging written in Go, used by Kubernetes ecosystem</li>
+    </ul>
+
+    <h4>Java-native microservice tooling</h4>
+    <ul>
+      <li><strong>Spring Cloud Gateway</strong> — API gateway with rate limiting, circuit breaking, and path rewriting</li>
+      <li><strong>Spring Kafka / Quarkus Messaging</strong> — Apache Kafka integration for event-driven microservices</li>
+      <li><strong>Resilience4j</strong> — circuit breakers, rate limiters, retry policies, and bulkheads for fault tolerance</li>
+      <li><strong>Spring Cloud LoadBalancer</strong> — client-side load balancing for service-to-service calls</li>
+      <li><strong>Micrometer + OpenTelemetry</strong> — metrics, tracing, and structured logging with Prometheus/Grafana compatibility</li>
     </ul>
 
     <h3 id="monolith-vs-micro">Monolith vs Microservices Decision</h3>
