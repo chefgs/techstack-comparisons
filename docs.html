@@ -857,9 +857,9 @@ public class SecurityConfig {
     <p>Modern software supply chain attacks (SolarWinds, XZ Utils, event-stream, Log4Shell) exploit the trust we place in third-party packages. Defending against this class of attack requires a layered approach:</p>
 
     <ol class="step-list">
-      <li><strong>Lock all dependency versions</strong> — never use ranges (<code>^</code>, <code>~</code>) without lockfiles committed to version control</li>
-      <li><strong>Verify checksums</strong> — Go modules use <code>go.sum</code>, Cargo uses <code>Cargo.lock</code>, npm uses <code>package-lock.json</code>, Maven uses <code>pom.xml</code> with version pinning</li>
-      <li><strong>Scan in CI</strong> — run <code>govulncheck</code>, <code>cargo audit</code>, <code>npm audit</code>, or <strong>OWASP Dependency-Check</strong> (Java/Maven) on every pull request</li>
+      <li><strong>Lock all dependency versions</strong> — never use ranges (<code>^</code>, <code>~</code>) without lockfiles committed to version control; for Maven/Gradle use dependency-locking or BOM imports to pin transitive versions</li>
+      <li><strong>Verify integrity with checksums</strong> — Go uses <code>go.sum</code>; Cargo uses <code>Cargo.lock</code>; npm/pnpm use <code>package-lock.json</code> / <code>pnpm-lock.yaml</code>; Gradle supports dependency verification metadata (<code>gradle/verification-metadata.xml</code>); Maven uses checksums from the central repository plus the Maven Enforcer plugin to prevent version range resolution</li>
+      <li><strong>Scan in CI</strong> — run <code>govulncheck</code>, <code>cargo audit</code>, <code>npm audit</code>, or <strong>OWASP Dependency-Check</strong> (Java/Maven: <code>mvn org.owasp:dependency-check-maven:check</code>) on every pull request</li>
       <li><strong>Monitor for new CVEs</strong> — subscribe to GitHub Security Advisories for your key dependencies</li>
       <li><strong>Review postinstall hooks</strong> — scrutinize any npm package with <code>postinstall</code> scripts before adopting</li>
       <li><strong>Use SBOM</strong> — generate a Software Bill of Materials (cyclonedx, SPDX) for regulated industries</li>
