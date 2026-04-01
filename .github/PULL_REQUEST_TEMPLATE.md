@@ -1,10 +1,3 @@
----
-name: Pull Request
-about: Propose a change to TechStack Comparisons
-labels: ''
-assignees: ''
----
-
 ## Summary
 
 <!-- A short, one-sentence description of what this PR does. -->
