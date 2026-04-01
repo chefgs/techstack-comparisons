@@ -50,7 +50,7 @@ If yes, paste the key prompt(s) you used:
 
 ## Mandatory pre-PR checklist
 
-> All items must be checked before requesting a review. See [CONTRIBUTING.md](../CONTRIBUTING.md) for details.
+> All items must be checked before requesting a review. See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ### Automated validation
 
