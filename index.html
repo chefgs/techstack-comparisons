@@ -1634,9 +1634,9 @@
         <div class="score-bar"><div class="score-fill high" style="width:72%"></div></div>
       </div>
       <ul style="margin-top:.75rem;">
-        <li>JVM sandbox provides memory isolation</li>
+        <li>Managed runtime with automatic memory safety (no raw pointers)</li>
         <li>Strong static typing reduces runtime errors</li>
-        <li><code>mvn dependency:check</code> and OWASP dependency-check</li>
+        <li>OWASP Dependency-Check (<code>mvn org.owasp:dependency-check-maven:check</code>, <code>./gradlew dependencyCheckAnalyze</code>)</li>
         <li>Spring Security for robust auth/authz patterns</li>
         <li>Log4Shell (Log4j) was a high-profile Java CVE — keep deps updated</li>
         <li>SpotBugs + FindSecBugs for SAST scanning</li>
