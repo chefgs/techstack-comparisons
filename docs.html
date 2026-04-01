@@ -1062,6 +1062,13 @@ CMD ["uv", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "808
     }
   });
 
+  // Close nav when resizing into desktop layout to avoid stuck scroll lock
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && mainNav.classList.contains('open')) {
+      closeMobileNav();
+    }
+  });
+
   // Back to top
   const backTop = document.getElementById('back-top');
   window.addEventListener('scroll', () => {

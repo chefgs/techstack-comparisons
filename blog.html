@@ -969,6 +969,13 @@ jobs:
     }
   });
 
+  // Close nav when resizing into desktop layout to avoid stuck scroll lock
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768 && mainNav.classList.contains('open')) {
+      closeMobileNav();
+    }
+  });
+
   // Back to top
   var backTop = document.getElementById('back-top');
   window.addEventListener('scroll', function() {

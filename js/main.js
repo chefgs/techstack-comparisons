@@ -81,6 +81,13 @@
     }
   });
 
+  // Close nav when resizing into desktop layout to avoid stuck scroll lock
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && mainNav.classList.contains('open')) {
+      closeMobileNav();
+    }
+  });
+
   /* ---- Inner tabs within sections ---- */
   document.querySelectorAll('.inner-tabs').forEach(tabBar => {
     tabBar.querySelectorAll('.inner-tab').forEach(tab => {
