@@ -28,8 +28,7 @@
     }
 
     // Close mobile nav
-    document.getElementById('main-nav').classList.remove('open');
-    document.getElementById('nav-toggle').setAttribute('aria-expanded', 'false');
+    closeMobileNav();
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     history.replaceState(null, '', '#' + id);
@@ -38,16 +37,55 @@
   navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       const target = btn.dataset.target;
-      showSection(target);
+      if (target) showSection(target);
     });
   });
 
   /* ---- Mobile nav toggle ---- */
   const navToggle = document.getElementById('nav-toggle');
+  const mainNav   = document.getElementById('main-nav');
+  const overlay   = document.getElementById('nav-overlay');
+
+  function openMobileNav() {
+    mainNav.classList.add('open');
+    if (overlay) overlay.classList.add('open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileNav() {
+    mainNav.classList.remove('open');
+    if (overlay) overlay.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
   navToggle.addEventListener('click', () => {
-    const nav = document.getElementById('main-nav');
-    const isOpen = nav.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (mainNav.classList.contains('open')) {
+      closeMobileNav();
+    } else {
+      openMobileNav();
+    }
+  });
+
+  // Close nav when clicking the overlay
+  if (overlay) {
+    overlay.addEventListener('click', closeMobileNav);
+  }
+
+  // Close nav on ESC key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mainNav.classList.contains('open')) {
+      closeMobileNav();
+      navToggle.focus();
+    }
+  });
+
+  // Close nav when resizing into desktop layout to avoid stuck scroll lock
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && mainNav.classList.contains('open')) {
+      closeMobileNav();
+    }
   });
 
   /* ---- Inner tabs within sections ---- */

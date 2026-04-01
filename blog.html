@@ -155,6 +155,8 @@
     .article-nav {
       display: flex;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .75rem;
       padding-top: 2rem;
       border-top: 1px solid var(--clr-border);
       margin-top: 3rem;
@@ -184,6 +186,7 @@
     </nav>
   </div>
 </header>
+<div id="nav-overlay" aria-hidden="true"></div>
 
 <!-- ================================================
      BLOG HERO
@@ -932,10 +935,45 @@ jobs:
 
   // Mobile nav toggle
   var navToggle = document.getElementById('nav-toggle');
+  var mainNav   = document.getElementById('main-nav');
+  var navOverlay = document.getElementById('nav-overlay');
+
+  function openMobileNav() {
+    mainNav.classList.add('open');
+    if (navOverlay) navOverlay.classList.add('open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileNav() {
+    mainNav.classList.remove('open');
+    if (navOverlay) navOverlay.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
   navToggle && navToggle.addEventListener('click', function() {
-    var nav = document.getElementById('main-nav');
-    var isOpen = nav.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (mainNav.classList.contains('open')) {
+      closeMobileNav();
+    } else {
+      openMobileNav();
+    }
+  });
+
+  if (navOverlay) navOverlay.addEventListener('click', closeMobileNav);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mainNav.classList.contains('open')) {
+      closeMobileNav();
+      navToggle.focus();
+    }
+  });
+
+  // Close nav when resizing into desktop layout to avoid stuck scroll lock
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768 && mainNav.classList.contains('open')) {
+      closeMobileNav();
+    }
   });
 
   // Back to top
